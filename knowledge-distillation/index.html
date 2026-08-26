@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cross-Architecture Knowledge Distillation — Yen-Teng Chang</title>
+  <meta name="description" content="Cross-architecture knowledge distillation for on-device defect detection: an architecture-agnostic dual-path framework transferring from heterogeneous teachers into a compact student. Master's thesis research, National Taiwan University.">
+  <link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+<main>
+  <nav class="top"><a href="/">Yen-Teng Chang</a> / Projects</nav>
+
+  <h1>Cross-Architecture Knowledge Distillation for On-Device Defect Detection</h1>
+  <p class="context">Master's thesis research, National Taiwan University · 2024–2026</p>
+
+  <ul>
+    <li>Identified the architecture dependence of conventional distillation and designed an architecture-agnostic dual-path framework using detection-head alignment and cross-architecture pseudo-label supervision.</li>
+    <li>Implemented the framework through direct YOLO11 source-code modification, combining YOLO11-L and RT-DETR-L teachers with mask-based foreground weighting while preserving the 2.6 M-parameter YOLO11n student.</li>
+    <li>Improved mAP50-95 by +0.026, versus +0.008 for the architecture-matched baseline; evaluated distillation strength, foreground weighting, and teacher architectures through controlled experiments.</li>
+    <li>Validated knowledge-transfer effects using five-seed statistical tests and shuffled-teacher controls, then deployed the student via Core ML at ~430 FPS on Apple M2 with no added inference cost.</li>
+  </ul>
+
+  <h2>Related</h2>
+  <p>M.S. thesis, <em>A Spatial Computing and Edge AI Framework for Automated Indoor Defect Inspection</em>, National Taiwan University, 2026 — see <a href="/publications/">Publications and Presentations</a>.</p>
+
+  <p class="note">Result figures and experiment details will be added to this page.</p>
+
+  <footer><a href="/">← Home</a></footer>
+</main>
+</body>
+</html>

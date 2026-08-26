@@ -1,0 +1,113 @@
+/* Yen-Teng Chang — minimal site stylesheet (placeholder phase) */
+:root {
+  --bg: #ffffff;
+  --fg: #1a1a1a;
+  --muted: #5c5c5c;
+  --line: #e4e4e4;
+  --accent: #1f4e79;
+  --card: #f7f7f7;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #111213;
+    --fg: #ececec;
+    --muted: #a3a3a3;
+    --line: #2a2b2d;
+    --accent: #8fb8e0;
+    --card: #1a1b1d;
+  }
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  font-size: 17px;
+  line-height: 1.6;
+}
+main {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 48px 20px 64px;
+}
+header.site {
+  margin-bottom: 40px;
+}
+header.site .name {
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin: 0 0 6px;
+}
+header.site .tagline {
+  font-size: 1.15rem;
+  margin: 0 0 14px;
+}
+header.site .meta {
+  color: var(--muted);
+  font-size: 0.95rem;
+  margin: 0;
+}
+nav.top {
+  font-size: 0.95rem;
+  color: var(--muted);
+  margin-bottom: 32px;
+}
+nav.top a { color: var(--muted); }
+h1 {
+  font-size: 1.6rem;
+  line-height: 1.25;
+  margin: 0 0 6px;
+}
+h2 {
+  font-size: 1.15rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  margin: 40px 0 14px;
+}
+p { margin: 0 0 14px; }
+p.context {
+  color: var(--muted);
+  margin-bottom: 24px;
+}
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+ul { padding-left: 1.2em; margin: 0 0 16px; }
+li { margin-bottom: 10px; }
+.projects { display: grid; gap: 14px; }
+.card {
+  display: block;
+  padding: 16px 18px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--card);
+  color: var(--fg);
+}
+.card:hover { text-decoration: none; border-color: var(--accent); }
+.card .title { font-weight: 600; display: block; margin-bottom: 4px; }
+.card .desc { color: var(--muted); font-size: 0.95rem; display: block; }
+.card .more { color: var(--accent); font-size: 0.9rem; display: block; margin-top: 6px; }
+.note {
+  color: var(--muted);
+  font-size: 0.9rem;
+  border-top: 1px solid var(--line);
+  padding-top: 14px;
+  margin-top: 40px;
+}
+footer {
+  color: var(--muted);
+  font-size: 0.9rem;
+  margin-top: 48px;
+  border-top: 1px solid var(--line);
+  padding-top: 16px;
+}
+.pub { margin-bottom: 18px; }
+.pub .venue { color: var(--muted); }
+@media (max-width: 480px) {
+  body { font-size: 16px; }
+  main { padding: 32px 16px 48px; }
+  header.site .name { font-size: 1.7rem; }
+}
