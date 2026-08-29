@@ -5,19 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Yen-Teng Chang — structural engineering, computer vision, edge AI, spatial computing, and engineering systems integration.">
   <title>Yen-Teng Chang | Research Engineer</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&amp;family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&amp;display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/assets/wireframe.css">
 </head>
 <body>
   <a class="skip-link" href="#main-content">Skip to content</a>
 
   <header class="site-header">
-    <a class="brand" href="#top" aria-label="Yen-Teng Chang, home">
-      <span class="brand-mark" aria-hidden="true">YT</span>
-      <span>Yen-Teng Chang</span>
-    </a>
+    <a class="site-name" href="#top">Yen-Teng Chang</a>
 
     <nav class="desktop-nav" aria-label="Primary navigation">
       <a href="#projects">Projects</a>
@@ -28,8 +22,8 @@
     </nav>
 
     <div class="header-actions">
-      <a href="#cv">CV ↗</a>
-      <a href="#contact">Contact</a>
+      <a href="#cv">CV</a>
+      <a class="button button-small" href="#contact">Contact</a>
     </div>
 
     <details class="mobile-menu">
@@ -47,352 +41,178 @@
   </header>
 
   <main id="main-content">
-    <section class="hero page-grid" id="top" aria-labelledby="hero-title">
-      <div class="hero-ruler">
-        <span>PORTFOLIO / 2026</span>
-        <span>TAIPEI · 25.0330° N / 121.5654° E</span>
-      </div>
-
+    <section class="hero section-shell" id="top" aria-labelledby="hero-title">
       <div class="hero-copy">
-        <p class="hero-name">Yen-Teng Chang</p>
-        <h1 id="hero-title">Engineering intelligence <em>for structures.</em></h1>
+        <p class="eyebrow">Structural Engineering × AI × Systems Integration</p>
+        <h1 id="hero-title">Engineering intelligence for structures—from research questions to field decisions.</h1>
         <p class="profile-copy">I work across structural engineering, computer vision, edge AI, and spatial computing. I formulate engineering problems, develop and validate computational methods, and carry research through field testing, system integration, and technical communication.</p>
-        <div class="action-row">
-          <a class="action-link action-link-primary" href="#projects">View selected work <span aria-hidden="true">↓</span></a>
-          <a class="action-link" href="#cv">Curriculum vitae <span aria-hidden="true">↗</span></a>
+        <div class="button-row">
+          <a class="button" href="#projects">View projects</a>
+          <a class="button button-secondary" href="#cv">View CV</a>
         </div>
       </div>
-
-      <div class="hero-instrument" role="img" aria-label="Conceptual map connecting research formulation, computational methods, validation, and field execution">
-        <div class="instrument-grid" aria-hidden="true"></div>
-        <div class="instrument-axis axis-x" aria-hidden="true"></div>
-        <div class="instrument-axis axis-y" aria-hidden="true"></div>
-        <div class="instrument-ring ring-outer" aria-hidden="true"></div>
-        <div class="instrument-ring ring-inner" aria-hidden="true"></div>
-        <div class="instrument-core">
-          <span>FORMULATE</span>
-          <strong>ENGINEERING<br>INTELLIGENCE</strong>
-          <span>VALIDATE / DELIVER</span>
-        </div>
-        <span class="instrument-label label-north">COMPUTATIONAL METHODS</span>
-        <span class="instrument-label label-east">FIELD SYSTEMS</span>
-        <span class="instrument-label label-south">CRITICAL VALIDATION</span>
-        <span class="instrument-label label-west">STRUCTURAL EVIDENCE</span>
-        <span class="instrument-coordinate coordinate-a">X 042.17</span>
-        <span class="instrument-coordinate coordinate-b">Y 118.04</span>
-      </div>
-
-      <div class="hero-index" aria-label="Research domains">
-        <span><b>01</b> Structural engineering</span>
-        <span><b>02</b> Computer vision &amp; edge AI</span>
-        <span><b>03</b> Spatial computing</span>
-        <span><b>04</b> Systems integration</span>
+      <div class="wireframe-visual hero-visual" role="img" aria-label="Opening visual placeholder">
+        <span>Opening visual</span>
+        <small>Direction to be confirmed</small>
       </div>
     </section>
 
-    <section class="editorial-section page-grid" id="research" aria-labelledby="research-title">
-      <header class="section-intro">
-        <p class="section-code">R / RESEARCH</p>
-        <div>
-          <h2 id="research-title">From questions to engineering evidence.</h2>
-          <p>Research interests are expressed as a connected working process—not as a wall of keywords.</p>
-        </div>
-      </header>
-
-      <ol class="research-list">
-        <li>
-          <span class="item-no">R.01</span>
-          <h3>Structural engineering</h3>
-          <p>Engineering problems, physical context, validation, and field constraints.</p>
-        </li>
-        <li>
-          <span class="item-no">R.02</span>
-          <h3>Computer vision &amp; edge AI</h3>
-          <p>Detection, segmentation, efficient learning, and on-device inference.</p>
-        </li>
-        <li>
-          <span class="item-no">R.03</span>
-          <h3>Spatial computing</h3>
-          <p>Geometry-aware observations, shared coordinates, and visual outputs.</p>
-        </li>
-        <li>
-          <span class="item-no">R.04</span>
-          <h3>Engineering systems integration</h3>
-          <p>From computational methods to traceable workflows and usable systems.</p>
-        </li>
-      </ol>
-    </section>
-
-    <section class="project-index page-grid" id="projects" aria-labelledby="projects-title">
-      <header class="index-heading">
-        <p class="section-code">P / PROJECT INDEX</p>
-        <h2 id="projects-title">Selected systems and research.</h2>
-        <p>Read in sequence or move directly to any project chapter and technical page.</p>
-      </header>
-
-      <div class="featured-index" aria-label="Featured projects">
-        <a href="#auto-inspector">
-          <span class="index-no">01</span>
-          <span class="index-title"><strong>Auto Inspector</strong><small>Field inspection · spatial computing · on-device system</small></span>
-          <span class="index-action">Open chapter ↓</span>
-        </a>
-        <a href="#knowledge-distillation">
-          <span class="index-no">02</span>
-          <span class="index-title"><strong>Knowledge Distillation</strong><small>Efficient learning · controlled experiments · edge AI</small></span>
-          <span class="index-action">Open chapter ↓</span>
-        </a>
-        <a href="#crack-monitoring">
-          <span class="index-no">03</span>
-          <span class="index-title"><strong>Crack Monitoring</strong><small>Physical measurement · multi-camera system · event records</small></span>
-          <span class="index-action">Open chapter ↓</span>
-        </a>
-        <a href="#lud">
-          <span class="index-no">04</span>
-          <span class="index-title"><strong>LUD Inspection</strong><small>Field evidence · assessment workflow · human review</small></span>
-          <span class="index-action">Open chapter ↓</span>
-        </a>
+    <section class="section-shell" id="research" aria-labelledby="research-title">
+      <div class="section-heading">
+        <p class="eyebrow">Research</p>
+        <h2 id="research-title">Research focus</h2>
       </div>
-
-      <nav class="outcome-index" aria-label="Additional projects and outcomes">
-        <a href="/publications/"><span>Publications &amp; presentations</span><small>Research output ↗</small></a>
-        <a href="#experience"><span>Engineering experience</span><small>Background ↓</small></a>
-        <a href="#recognition"><span>Recognition &amp; credentials</span><small>Evidence ↓</small></a>
-        <a href="#capabilities"><span>Capabilities</span><small>Index ↓</small></a>
-      </nav>
+      <div class="focus-grid">
+        <article>Structural engineering</article>
+        <article>Computer vision &amp; edge AI</article>
+        <article>Spatial computing</article>
+        <article>Engineering systems integration</article>
+      </div>
     </section>
 
-    <section class="project-field" aria-label="Featured project chapters">
-      <article class="project-chapter auto-chapter page-grid" id="auto-inspector">
-        <header class="project-header">
-          <p class="project-code">PROJECT / 01</p>
-          <div>
-            <p class="project-domain">SPATIAL INSPECTION SYSTEM</p>
-            <h2>Auto Inspector</h2>
-          </div>
-          <div class="project-summary">
-            <p>Field observations become coordinate-aware inspection records and engineering outputs.</p>
-            <a class="technical-link" href="/auto-inspector/">Technical details ↗</a>
-          </div>
-        </header>
+    <section class="section-shell gallery-section" id="projects" aria-labelledby="projects-title">
+      <div class="section-heading">
+        <p class="eyebrow">Explore</p>
+        <h2 id="projects-title">Projects &amp; outcomes</h2>
+        <p>Jump directly to a Home chapter or open a technical page.</p>
+      </div>
+      <div class="project-gallery" aria-label="Projects and outcomes overview">
+        <a class="gallery-card gallery-card-primary" href="#auto-inspector"><span>Auto Inspector</span><small>Home chapter</small></a>
+        <a class="gallery-card gallery-card-primary" href="#knowledge-distillation"><span>Knowledge Distillation</span><small>Home chapter</small></a>
+        <a class="gallery-card gallery-card-primary" href="#crack-monitoring"><span>Crack Monitoring</span><small>Home chapter</small></a>
+        <a class="gallery-card gallery-card-primary" href="#lud"><span>LUD Inspection</span><small>Home chapter</small></a>
+        <a class="gallery-card" href="/publications/"><span>Publications &amp; presentations</span><small>Full list</small></a>
+        <a class="gallery-card" href="#experience"><span>Engineering experience</span><small>Home section</small></a>
+        <a class="gallery-card" href="#recognition"><span>Recognition &amp; credentials</span><small>Home section</small></a>
+        <a class="gallery-card" href="#capabilities"><span>Capabilities</span><small>Home section</small></a>
+      </div>
+    </section>
 
-        <div class="technical-stage auto-stage" role="img" aria-label="Conceptual Auto Inspector spatial workflow study">
-          <div class="stage-grid" aria-hidden="true"></div>
-          <div class="device-frame" aria-hidden="true">
-            <div class="device-bar"><span></span><span>AUTO INSPECTOR / FIELD</span></div>
-            <div class="device-viewport">
-              <span class="wall-plane plane-a"></span>
-              <span class="wall-plane plane-b"></span>
-              <span class="defect-marker marker-a">D-014</span>
-              <span class="defect-marker marker-b">D-027</span>
-            </div>
-          </div>
-          <div class="scan-plane" aria-hidden="true"><span>X</span><span>Y</span><span>Z</span></div>
-          <span class="stage-note note-a">FIELD CAPTURE</span>
-          <span class="stage-note note-b">SHARED 3D COORDINATES</span>
-          <span class="stage-note note-c">ENGINEERING OUTPUT</span>
+    <section class="project-sequence" aria-label="Featured project chapters">
+      <article class="project-chapter" id="auto-inspector">
+        <div class="project-intro">
+          <p class="eyebrow">Featured project</p>
+          <h2>Auto Inspector</h2>
+          <p>Project introduction and high-level story.</p>
+          <a class="button" href="/auto-inspector/">Technical details</a>
         </div>
-
-        <div class="project-facts" aria-label="Auto Inspector key facts">
-          <span>FULLY ON-DEVICE</span>
-          <span>85% LESS INSPECTION TIME</span>
-          <span>&lt;1.5% GEOMETRIC ERROR</span>
+        <div class="wireframe-visual project-visual" role="img" aria-label="Auto Inspector visual storytelling placeholder">
+          <span>Auto Inspector visual storytelling area</span>
+          <small>Storyboard to be discussed</small>
         </div>
       </article>
 
-      <article class="project-chapter kd-chapter page-grid" id="knowledge-distillation">
-        <header class="project-header project-header-centered">
-          <p class="project-code">PROJECT / 02</p>
-          <div>
-            <p class="project-domain">EFFICIENT LEARNING</p>
-            <h2>Cross-Architecture<br>Knowledge Distillation</h2>
-          </div>
-          <div class="project-summary">
-            <p>Controlled knowledge transfer into a compact student without changing its inference architecture.</p>
-            <a class="technical-link" href="/knowledge-distillation/">Technical details ↗</a>
-          </div>
-        </header>
-
-        <div class="technical-stage model-stage" role="img" aria-label="Conceptual cross-architecture knowledge distillation study">
-          <div class="model-column teacher-column">
-            <span class="model-label">TEACHER / A</span>
-            <div class="model-block block-wide">Architecture A</div>
-            <span class="signal-line signal-cyan"></span>
-            <small>PSEUDO-LABEL PATH</small>
-          </div>
-          <div class="model-transfer" aria-hidden="true">
-            <span></span><span></span><span></span><span></span><span></span>
-          </div>
-          <div class="model-column student-column">
-            <span class="model-label">STUDENT</span>
-            <div class="model-block block-student"><strong>2.6M</strong><small>PARAMETERS</small></div>
-            <span class="metric-readout">+0.026 mAP50–95</span>
-          </div>
-          <div class="model-transfer reverse" aria-hidden="true">
-            <span></span><span></span><span></span><span></span><span></span>
-          </div>
-          <div class="model-column teacher-column">
-            <span class="model-label">TEACHER / B</span>
-            <div class="model-block block-tall">Architecture B</div>
-            <span class="signal-line signal-amber"></span>
-            <small>HEAD-ALIGNMENT PATH</small>
-          </div>
+      <article class="project-chapter" id="knowledge-distillation">
+        <div class="project-intro">
+          <p class="eyebrow">Featured project</p>
+          <h2>Cross-Architecture Knowledge Distillation</h2>
+          <p>Project introduction and high-level story.</p>
+          <a class="button" href="/knowledge-distillation/">Technical details</a>
+        </div>
+        <div class="wireframe-visual project-visual" role="img" aria-label="Knowledge Distillation visual storytelling placeholder">
+          <span>Knowledge Distillation visual storytelling area</span>
+          <small>Storyboard to be discussed</small>
         </div>
       </article>
 
-      <article class="project-chapter crack-chapter page-grid" id="crack-monitoring">
-        <div class="crack-intro">
-          <p class="project-code">PROJECT / 03</p>
-          <p class="project-domain">MULTI-CAMERA MEASUREMENT SYSTEM</p>
+      <article class="project-chapter" id="crack-monitoring">
+        <div class="project-intro">
+          <p class="eyebrow">Featured project</p>
           <h2>Crack Monitoring System</h2>
           <p>A multi-camera Windows system that converts continuous crack imagery into physically calibrated measurements and event-linked records.</p>
-          <p class="role-line">Sole Developer · Sanlien Technology Corp. · Sep 2025–Jan 2026</p>
-          <a class="technical-link" href="/crack-monitoring/">Technical details ↗</a>
+          <a class="button" href="/crack-monitoring/">Technical details</a>
         </div>
-
-        <div class="monitor-window" role="img" aria-label="Contained Crack Monitoring system overview study">
-          <div class="monitor-bar">
-            <span>CRACK MONITORING / SYSTEM OVERVIEW</span>
-            <span class="system-state">SYSTEM ONLINE</span>
-          </div>
-          <div class="camera-wall">
-            <div class="camera-feed"><span>CAM / 01</span><i class="crack-trace trace-a"></i></div>
-            <div class="camera-feed active"><span>CAM / 02</span><i class="crack-trace trace-b"></i><b>CALIBRATED</b></div>
-            <div class="camera-feed"><span>CAM / 03</span><i class="crack-trace trace-c"></i></div>
-            <div class="camera-feed"><span>CAM / 04</span><i class="crack-trace trace-d"></i></div>
-          </div>
-          <div class="monitor-readout">
-            <span><small>STREAMS</small><strong>04</strong></span>
-            <span><small>MEASUREMENT</small><strong>PHYSICAL</strong></span>
-            <span><small>EVENT STATE</small><strong>LISTENING</strong></span>
-          </div>
-          <p class="visual-caption">Interface reconstruction / conceptual motion study</p>
+        <div class="wireframe-visual project-visual" role="img" aria-label="Crack Monitoring system visualization placeholder">
+          <span>Contained system visualization</span>
+          <small>System overview → multi-camera → measurement → event record</small>
         </div>
       </article>
 
-      <article class="project-chapter lud-chapter page-grid" id="lud">
-        <header class="project-header">
-          <p class="project-code">PROJECT / 04</p>
-          <div>
-            <p class="project-domain">ENGINEERING ASSESSMENT WORKFLOW</p>
-            <h2>Lock-Up Device<br>Intelligent Inspection</h2>
-          </div>
-          <div class="project-summary">
-            <p>Field evidence moves through geometry, standards, validation, and engineer review.</p>
-            <a class="technical-link" href="/lud-inspection/">Technical details ↗</a>
-          </div>
-        </header>
-
-        <div class="technical-stage lud-stage" role="img" aria-label="Conceptual LUD engineering assessment workflow study">
-          <div class="evidence-field">
-            <span class="field-label">FIELD EVIDENCE / LUD</span>
-            <div class="device-geometry"><i></i><i></i><i></i></div>
-            <span class="segmentation-zone"></span>
-            <small>OBSERVATION LAYER</small>
-          </div>
-          <ol class="assessment-rail">
-            <li><span>01</span><strong>Observe</strong><small>Field imagery</small></li>
-            <li><span>02</span><strong>Quantify</strong><small>Geometry / extent</small></li>
-            <li><span>03</span><strong>Validate</strong><small>Rules / confidence</small></li>
-            <li><span>04</span><strong>Review</strong><small>Engineer oversight</small></li>
-          </ol>
+      <article class="project-chapter" id="lud">
+        <div class="project-intro">
+          <p class="eyebrow">Featured project</p>
+          <h2>Lock-Up Device Intelligent Inspection</h2>
+          <p>Project introduction and high-level story.</p>
+          <a class="button" href="/lud-inspection/">Technical details</a>
+        </div>
+        <div class="wireframe-visual project-visual" role="img" aria-label="LUD Inspection visual storytelling placeholder">
+          <span>LUD visual storytelling area</span>
+          <small>Storyboard to be discussed</small>
         </div>
       </article>
     </section>
 
-    <section class="all-work page-grid" aria-labelledby="projects-repeat-title">
-      <header class="section-intro compact-intro">
-        <p class="section-code">DIRECTORY / ALL WORK</p>
-        <div>
-          <h2 id="projects-repeat-title">Continue exploring.</h2>
-          <p>The complete project and outcome directory returns after the four main stories.</p>
-        </div>
-      </header>
-      <nav class="directory-list" aria-label="All projects and outcomes">
-        <a href="/auto-inspector/"><span>01</span><strong>Auto Inspector</strong><small>Technical page ↗</small></a>
-        <a href="/knowledge-distillation/"><span>02</span><strong>Knowledge Distillation</strong><small>Technical page ↗</small></a>
-        <a href="/crack-monitoring/"><span>03</span><strong>Crack Monitoring</strong><small>Technical page ↗</small></a>
-        <a href="/lud-inspection/"><span>04</span><strong>LUD Inspection</strong><small>Technical page ↗</small></a>
-        <a href="/publications/"><span>05</span><strong>Publications &amp; presentations</strong><small>Full list ↗</small></a>
-        <a href="#experience"><span>06</span><strong>Engineering experience</strong><small>Home section ↓</small></a>
-        <a href="#recognition"><span>07</span><strong>Recognition &amp; credentials</strong><small>Home section ↓</small></a>
-        <a href="#capabilities"><span>08</span><strong>Capabilities</strong><small>Home section ↓</small></a>
-      </nav>
-    </section>
-
-    <section class="editorial-section page-grid" id="publications" aria-labelledby="publications-title">
-      <header class="section-intro">
-        <p class="section-code">O / RESEARCH OUTPUTS</p>
-        <div>
-          <h2 id="publications-title">Publications and presentations.</h2>
-          <p>A direct, citation-led record of research outputs and public presentations.</p>
-        </div>
-      </header>
-      <div class="output-list">
-        <a href="/publications/"><span>JOURNAL</span><strong>Journal manuscript</strong><small>Status and citation ↗</small></a>
-        <a href="/publications/"><span>MANUSCRIPT</span><strong>First-author manuscript</strong><small>Status and citation ↗</small></a>
-        <a href="/publications/"><span>THESIS</span><strong>Master’s thesis</strong><small>Research record ↗</small></a>
-        <a href="/publications/"><span>CONFERENCE</span><strong>Presentations and live demonstrations</strong><small>Full list ↗</small></a>
+    <section class="section-shell gallery-section gallery-repeat" aria-labelledby="projects-repeat-title">
+      <div class="section-heading">
+        <p class="eyebrow">Continue exploring</p>
+        <h2 id="projects-repeat-title">All projects &amp; outcomes</h2>
+        <p>The complete set of project and outcome links appears again after the featured stories.</p>
+      </div>
+      <div class="project-gallery" aria-label="All projects and outcomes">
+        <a class="gallery-card gallery-card-primary" href="/auto-inspector/"><span>Auto Inspector</span><small>Technical page</small></a>
+        <a class="gallery-card gallery-card-primary" href="/knowledge-distillation/"><span>Knowledge Distillation</span><small>Technical page</small></a>
+        <a class="gallery-card gallery-card-primary" href="/crack-monitoring/"><span>Crack Monitoring</span><small>Technical page</small></a>
+        <a class="gallery-card gallery-card-primary" href="/lud-inspection/"><span>LUD Inspection</span><small>Technical page</small></a>
+        <a class="gallery-card" href="/publications/"><span>Publications &amp; presentations</span><small>Full list</small></a>
+        <a class="gallery-card" href="#experience"><span>Engineering experience</span><small>Home section</small></a>
+        <a class="gallery-card" href="#recognition"><span>Recognition &amp; credentials</span><small>Home section</small></a>
+        <a class="gallery-card" href="#capabilities"><span>Capabilities</span><small>Home section</small></a>
       </div>
     </section>
 
-    <section class="editorial-section page-grid" id="experience" aria-labelledby="experience-title">
-      <header class="section-intro">
-        <p class="section-code">E / BACKGROUND</p>
-        <div>
-          <h2 id="experience-title">Experience and education.</h2>
-          <p>Research leadership, engineering practice, and field execution in one continuous record.</p>
-        </div>
-      </header>
-      <div class="timeline-study">
-        <div><span>RESEARCH</span><strong>Research Assistant</strong><small>National Taiwan University</small></div>
-        <div><span>EDUCATION</span><strong>M.S. Civil Engineering</strong><small>Structural Engineering Division · NTU</small></div>
-        <div><span>FIELD</span><strong>Engineering internships</strong><small>Site work · coordination · documentation</small></div>
-        <div><span>AUTOMATION</span><strong>Engineering workflow development</strong><small>Drafting and research operations</small></div>
+    <section class="section-shell" id="publications" aria-labelledby="publications-title">
+      <div class="section-heading">
+        <p class="eyebrow">Research outputs</p>
+        <h2 id="publications-title">Publications &amp; presentations</h2>
+      </div>
+      <div class="wireframe-block">Citation list, paper status, thesis, conference photos and links</div>
+      <a class="text-link" href="/publications/">View full list →</a>
+    </section>
+
+    <section class="section-shell" id="experience" aria-labelledby="experience-title">
+      <div class="section-heading">
+        <p class="eyebrow">Background</p>
+        <h2 id="experience-title">Experience &amp; education</h2>
+      </div>
+      <div class="wireframe-block">Research Assistant, National Taiwan University, engineering internships and field experience</div>
+    </section>
+
+    <section class="section-shell" id="recognition" aria-labelledby="recognition-title">
+      <div class="section-heading">
+        <p class="eyebrow">Recognition</p>
+        <h2 id="recognition-title">License, awards &amp; selected moments</h2>
+      </div>
+      <div class="wireframe-block">Licensed Civil Engineer, Taiwan · Awards · Certificates · Event imagery</div>
+    </section>
+
+    <section class="section-shell" id="capabilities" aria-labelledby="capabilities-title">
+      <div class="section-heading">
+        <p class="eyebrow">Capabilities</p>
+        <h2 id="capabilities-title">Research, computing &amp; engineering</h2>
+      </div>
+      <div class="capability-grid">
+        <article>Research</article>
+        <article>Computing</article>
+        <article>Engineering</article>
       </div>
     </section>
 
-    <section class="recognition-section page-grid" id="recognition" aria-labelledby="recognition-title">
-      <header class="index-heading">
-        <p class="section-code">C / CREDENTIALS</p>
-        <h2 id="recognition-title">Recognition backed by records.</h2>
-      </header>
-      <div class="recognition-grid">
-        <article class="credential-primary"><span>LICENSE</span><strong>Licensed Civil Engineer, Taiwan</strong><small>Professional qualification</small></article>
-        <article><span>COMPETITION</span><strong>Cathay Housethon</strong><small>Award record / imagery</small></article>
-        <article><span>PRESENTATION</span><strong>Conference moments</strong><small>Certificates / field demonstrations</small></article>
+    <section class="section-shell about-section" id="about" aria-labelledby="about-title">
+      <div>
+        <p class="eyebrow">About</p>
+        <h2 id="about-title">About Yen-Teng Chang</h2>
+        <div class="wireframe-block">Short biography and education summary</div>
       </div>
-    </section>
-
-    <section class="editorial-section page-grid" id="capabilities" aria-labelledby="capabilities-title">
-      <header class="section-intro compact-intro">
-        <p class="section-code">S / CAPABILITIES</p>
-        <div>
-          <h2 id="capabilities-title">Methods connected to evidence.</h2>
-          <p>Skills are summarized here; the projects above remain the proof.</p>
-        </div>
-      </header>
-      <div class="capability-table">
-        <article><span>01 / RESEARCH</span><strong>Problem formulation · controlled experiments · critical validation · technical communication</strong></article>
-        <article><span>02 / COMPUTING</span><strong>Computer vision · model training · edge AI · spatial computing · application development</strong></article>
-        <article><span>03 / ENGINEERING</span><strong>Structural engineering · field validation · system integration · engineering documentation</strong></article>
-      </div>
-    </section>
-
-    <section class="about-section page-grid" id="about" aria-labelledby="about-title">
-      <p class="section-code">A / ABOUT</p>
-      <div class="about-copy">
-        <h2 id="about-title">Research that remains accountable to engineering reality.</h2>
-        <p>Yen-Teng Chang is a structural engineer and research engineer working across computational methods, physical validation, field systems, and technical communication.</p>
-      </div>
-      <div class="contact-block" id="contact">
-        <span>CONTACT</span>
-        <a href="mailto:r13521223@ntu.edu.tw">r13521223@ntu.edu.tw ↗</a>
-        <a id="cv" href="#cv">Curriculum vitae / link pending</a>
+      <div id="contact">
+        <p class="eyebrow">Contact</p>
+        <h2>Start a conversation</h2>
+        <p><a href="mailto:r13521223@ntu.edu.tw">r13521223@ntu.edu.tw</a></p>
+        <p id="cv"><span class="wireframe-inline">CV link placeholder</span></p>
       </div>
     </section>
   </main>
 
-  <footer class="site-footer page-grid">
+  <footer class="site-footer">
     <span>Yen-Teng Chang</span>
     <nav aria-label="Footer navigation">
       <a href="#projects">Projects</a>
@@ -400,7 +220,7 @@
       <a href="#experience">Experience</a>
       <a href="#contact">Contact</a>
     </nav>
-    <span>TAIPEI / 2026</span>
+    <span>© 2026</span>
   </footer>
 </body>
 </html>
