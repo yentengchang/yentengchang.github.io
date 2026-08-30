@@ -145,6 +145,7 @@ summary:focus-visible {
 
 h1,
 h2,
+h3,
 p { margin-top: 0; }
 
 h1 {
@@ -367,6 +368,36 @@ h2 {
 .project-gallery-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 .project-gallery-grid .gallery-card { min-height: 14rem; }
 
+.technical-work { padding-top: clamp(6rem, 11vw, 10rem); }
+.technical-work > .section-heading { margin-bottom: clamp(2.5rem, 5vw, 4rem); }
+.technical-work-list { border-top: 1px solid var(--ink); }
+
+.technical-work-item {
+  display: grid;
+  grid-template-columns: minmax(15rem, 0.8fr) minmax(0, 1.2fr);
+  gap: clamp(2rem, 7vw, 7rem);
+  padding-block: clamp(2rem, 4vw, 3rem);
+  border-bottom: 1px solid var(--line);
+}
+
+.technical-work-item .eyebrow { margin-bottom: 0.55rem; }
+
+.technical-work-item h3 {
+  max-width: 17ch;
+  margin-bottom: 0;
+  font-size: clamp(1.65rem, 2.7vw, 2.2rem);
+  font-weight: 650;
+  letter-spacing: -0.04em;
+  line-height: 1.08;
+}
+
+.technical-work-item > p {
+  max-width: 48rem;
+  margin: 0;
+  color: var(--muted);
+  font-size: 1.05rem;
+}
+
 .content-section {
   display: grid;
   grid-template-columns: minmax(0, 0.72fr) minmax(20rem, 1.28fr);
@@ -489,7 +520,8 @@ h2 {
   .research-focus { gap: 2.5rem; }
   .focus-list article { grid-template-columns: 1fr; gap: 0.35rem; }
   .section-heading-row,
-  .project-summary { grid-template-columns: 1fr; gap: 1.3rem; }
+  .project-summary,
+  .technical-work-item { grid-template-columns: 1fr; gap: 1.3rem; }
   .section-heading-row { margin-bottom: 2rem; }
   .section-heading-row > p { max-width: 31rem; }
   .project-gallery-scroll { grid-auto-columns: minmax(16rem, 82vw); }
