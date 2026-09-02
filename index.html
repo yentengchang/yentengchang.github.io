@@ -127,205 +127,160 @@
             <p class="crack-project-meta">Sole developer · September 2025 – January 2026</p>
           </div>
         </div>
-
-        <svg class="crack-svg-defs" aria-hidden="true" width="0" height="0">
-          <defs>
-            <path id="crack-mask-shape" d="M315 0 C304 12 311 23 301 30 C293 37 304 43 295 51 C286 60 287 73 278 86 C269 98 267 112 257 125 C247 139 241 151 227 164 C214 176 207 190 194 202 C181 214 169 224 156 239 C143 253 132 268 119 282 C108 295 102 311 91 327 C80 343 75 359 64 374 C53 389 44 403 38 416 L52 416 C59 405 67 392 78 378 C89 363 92 347 103 332 C114 316 120 300 131 287 C144 273 155 259 168 246 C180 232 193 223 205 211 C219 198 226 183 239 172 C253 159 259 146 269 133 C280 119 281 104 290 92 C300 79 299 66 307 59 C317 50 308 43 317 36 C327 27 319 13 328 0 Z"/>
-            <path id="crack-skeleton-line" d="M321 0 C312 15 321 26 309 34 C300 41 312 47 301 55 C292 64 295 77 284 89 C274 101 276 116 263 129 C253 142 250 156 233 168 C221 179 215 194 200 206 C188 218 178 228 162 243 C150 257 141 271 125 285 C116 298 111 315 97 330 C87 346 83 363 70 377 C60 392 51 405 45 416"/>
-          </defs>
-        </svg>
-
-        <div class="crack-prototype" data-crack-story data-state="overview">
+        <div class="crack-prototype" data-crack-story data-state="detail">
           <div class="crack-prototype-note">
-            <span>Interaction prototype · Home beats 1–2</span>
-            <span class="crack-scroll-cue">Scroll to follow the system <span aria-hidden="true">↓</span></span>
+            <span>Scroll-driven system walkthrough</span>
+            <span class="crack-scroll-cue">Scroll to advance <span aria-hidden="true">↓</span></span>
           </div>
 
-          <div class="crack-desktop-story">
-            <div class="crack-copy-track">
-              <section class="crack-step" data-crack-state="overview" tabindex="0">
-                <p class="crack-step-label">System overview</p>
-                <h3>Continuous vision. One coordinated system.</h3>
-                <p>Multiple camera streams are managed inside one desktop application, with connection and physical-scale states visible at a glance.</p>
-              </section>
+          <div class="crack-scroll-shell">
+            <div class="crack-pinned-stage">
+              <div class="crack-copy-stage" aria-live="polite">
+                <section class="crack-copy is-active" data-crack-copy="detail">
+                  <p class="crack-step-label">Single-camera measurement</p>
+                  <h3>Start with the crack itself.</h3>
+                  <p>One camera view brings detection controls, calibration and measurement results into the same working interface.</p>
+                </section>
+                <section class="crack-copy" data-crack-copy="correction">
+                  <p class="crack-step-label">Image correction</p>
+                  <h3>Correct the incoming frame first.</h3>
+                  <p>Camera parameters are applied before scale setup, segmentation or geometry measurement.</p>
+                </section>
+                <section class="crack-copy" data-crack-copy="scale">
+                  <p class="crack-step-label">Physical scale</p>
+                  <h3>Connect pixels to real dimensions.</h3>
+                  <p>The checkerboard and its known square size establish the physical scale used by later measurements.</p>
+                </section>
+                <section class="crack-copy" data-crack-copy="mask">
+                  <p class="crack-step-label">Segmentation</p>
+                  <h3>Isolate the crack as a region.</h3>
+                  <p>The segmentation result follows the crack geometry while retaining the detection label and confidence.</p>
+                </section>
+                <section class="crack-copy" data-crack-copy="skeleton">
+                  <p class="crack-step-label">Length</p>
+                  <h3>Trace the centerline.</h3>
+                  <p>Skeletonization reduces the mask to its centerline so the estimated length can be recorded.</p>
+                </section>
+                <section class="crack-copy" data-crack-copy="width">
+                  <p class="crack-step-label">Maximum width</p>
+                  <h3>Search the full crack, then keep the widest point.</h3>
+                  <p>The distance field is evaluated along the mask before the maximum width is retained in the result.</p>
+                </section>
+                <section class="crack-copy" data-crack-copy="wall">
+                  <p class="crack-step-label">Multi-camera monitoring</p>
+                  <h3>Extend the same workflow across camera streams.</h3>
+                  <p>The single-camera view becomes a coordinated monitoring wall for concurrent observation.</p>
+                </section>
+                <section class="crack-copy" data-crack-copy="event">
+                  <p class="crack-step-label">Seismic event recording</p>
+                  <h3>The interface stays quiet while recording continues in the background.</h3>
+                  <p>After an external trigger, the camera status changes to show event recording while the application preserves the corresponding data.</p>
+                </section>
+              </div>
 
-              <section class="crack-step" data-crack-state="wall" tabindex="0">
-                <p class="crack-step-label">Monitoring wall</p>
-                <h3>Every camera remains observable.</h3>
-                <p>The overview expands into a monitoring wall without leaving the application or reducing each stream to a disconnected screenshot.</p>
-              </section>
-
-              <section class="crack-step" data-crack-state="detail" tabindex="0">
-                <p class="crack-step-label">Camera detail</p>
-                <h3>Move from system state to one inspection view.</h3>
-                <p>Selecting a camera preserves its identity and status while bringing the processed frame and measurements into focus.</p>
-              </section>
-
-              <section class="crack-step" data-crack-state="scale" tabindex="0">
-                <p class="crack-step-label">Image preparation</p>
-                <h3>Corrected first. Scaled before inference.</h3>
-                <p>Lens correction is applied before a checkerboard and known square size establish the physical scale used by the measurement pipeline.</p>
-              </section>
-
-              <section class="crack-step" data-crack-state="mask" tabindex="0">
-                <p class="crack-step-label">Segmentation</p>
-                <h3>The crack becomes a measurable region.</h3>
-                <p>A segmentation mask follows the visible crack geometry instead of reducing the observation to a single bounding box.</p>
-              </section>
-
-              <section class="crack-step" data-crack-state="geometry" tabindex="0">
-                <p class="crack-step-label">Pixel geometry</p>
-                <h3>Length follows the centerline. Width follows the distance field.</h3>
-                <p>The mask is skeletonized for estimated length, while cross-sections reveal the location of maximum width.</p>
-              </section>
-
-              <section class="crack-step" data-crack-state="units" tabindex="0">
-                <p class="crack-step-label">Physical measurement</p>
-                <h3>Pixels become millimeters.</h3>
-                <p>The previously established scale converts pixel geometry into an estimated crack length and maximum width in physical units.</p>
-              </section>
-            </div>
-
-            <div class="crack-stage-column" aria-label="Animated reconstruction of the crack monitoring application">
-              <div class="crack-stage-sticky">
-                <div class="crack-app-window">
-                  <div class="crack-window-bar">
+              <div class="crack-visual-stage" aria-label="Reconstruction of the delivered crack monitoring application">
+                <div class="crack-v1-window" aria-label="Single-camera measurement interface">
+                  <div class="crack-native-titlebar">
                     <span class="crack-window-dots" aria-hidden="true"><i></i><i></i><i></i></span>
-                    <span class="crack-window-title">Crack Monitoring</span>
-                    <span class="crack-system-state"><i aria-hidden="true"></i> System online</span>
+                    <span>Real-Time Crack Detection and Dimension Measurement System v1.0</span>
                   </div>
+                  <div class="crack-v1-body">
+                    <section class="crack-v1-video-panel">
+                      <header>Live Camera View</header>
+                      <div class="crack-v1-video-space">
+                        <div class="crack-feed-square">
+                          <img class="crack-feed-image crack-feed-image-raw" src="/assets/images/crack-monitoring/crack-primary.jpg" alt="Concrete surface with a visible crack">
+                          <img class="crack-feed-image crack-feed-image-corrected" src="/assets/images/crack-monitoring/crack-primary.jpg" alt="">
+                          <div class="crack-checkerboard" aria-hidden="true"><img src="/assets/images/crack-monitoring/checkerboard.jpg" alt=""></div>
+                          <canvas class="crack-analysis-layer crack-mask-canvas" width="400" height="400" aria-hidden="true"></canvas>
+                          <canvas class="crack-analysis-layer crack-skeleton-canvas" width="400" height="400" aria-hidden="true"></canvas>
+                          <canvas class="crack-analysis-layer crack-distance-canvas" width="400" height="400" aria-hidden="true"></canvas>
+                          <canvas class="crack-analysis-layer crack-width-scan-canvas" width="400" height="400" aria-hidden="true"></canvas>
+                          <canvas class="crack-analysis-layer crack-width-max-canvas" width="400" height="400" aria-hidden="true"></canvas>
+                          <div class="crack-detection-box" aria-hidden="true"><span>crack_0 0.96</span></div>
+                        </div>
+                      </div>
+                    </section>
 
-                  <div class="crack-app-shell">
-                    <nav class="crack-app-nav" aria-label="Application views">
-                      <span class="crack-app-brand" aria-hidden="true">CM</span>
-                      <span class="crack-nav-item crack-nav-overview">Overview</span>
-                      <span class="crack-nav-item crack-nav-wall">Monitoring wall</span>
-                      <span class="crack-nav-item crack-nav-detail">Camera detail</span>
-                      <span class="crack-nav-spacer"></span>
-                      <span class="crack-nav-foot">4 cameras</span>
+                    <aside class="crack-v1-control-panel">
+                      <h4>Control Panel</h4>
+                      <div class="crack-v1-status-row"><span class="crack-v1-status">Status: Connected</span><button type="button" tabindex="-1">Disconnect</button></div>
+                      <button class="crack-v1-detect" type="button" tabindex="-1">Start Detection</button>
+                      <div class="crack-v1-result-head"><span>Detection Results:</span><button class="crack-v1-scale-button" type="button" tabindex="-1">Set Scale</button></div>
+                      <div class="crack-v1-log">
+                        <p class="crack-log-waiting">Waiting for image...</p>
+                        <div class="crack-log-scale"><span>— Detection Log —</span><strong>Scale ready</strong></div>
+                        <div class="crack-log-detection"><span>Detected 1 crack:</span><strong>› Crack 01</strong></div>
+                        <div class="crack-log-length"><span>Length</span><strong>104.17 mm</strong></div>
+                        <div class="crack-log-width"><span>Maximum width</span><strong>2.82 mm</strong></div>
+                      </div>
+                      <label class="crack-v1-theme-label">Appearance Mode:</label>
+                      <div class="crack-v1-theme">Dark <span>⌄</span></div>
+                    </aside>
+                  </div>
+                </div>
+
+                <div class="crack-v2-window" aria-label="Multi-camera interface and event recording status">
+                  <div class="crack-native-titlebar">
+                    <span class="crack-window-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+                    <span>Crack Monitoring System v2.0</span>
+                  </div>
+                  <div class="crack-v2-body">
+                    <nav class="crack-v2-nav" aria-label="Application views">
+                      <button type="button" tabindex="-1">Stop All</button>
+                      <strong>Navigation</strong>
+                      <span>System Overview</span>
+                      <span class="crack-v2-wall-link">Monitoring Wall</span>
+                      <span class="crack-v2-detail-link">Camera Detail</span>
+                      <div class="crack-v2-theme">Dark <b>⌄</b></div>
                     </nav>
-
-                    <div class="crack-app-content">
-                      <section class="crack-app-view crack-view-overview" aria-label="System overview">
-                        <header class="crack-view-header">
-                          <div><small>Live system</small><h4>System Overview</h4></div>
-                          <span class="crack-status-chip">All streams active</span>
-                        </header>
-                        <div class="crack-overview-list">
-                          <div class="crack-overview-head"><span>Camera</span><span>Connection</span><span>Physical scale</span></div>
-                          <div class="crack-camera-row"><span><i></i> CAM-01</span><span>Connected</span><span>Ready</span></div>
-                          <div class="crack-camera-row"><span><i></i> CAM-02</span><span>Connected</span><span>Ready</span></div>
-                          <div class="crack-camera-row"><span><i></i> CAM-03</span><span>Connected</span><span>Ready</span></div>
-                          <div class="crack-camera-row"><span><i></i> CAM-04</span><span>Connected</span><span>Ready</span></div>
-                        </div>
-                        <div class="crack-overview-footer"><span><b>4</b> active streams</span><span><b>1</b> coordinated application</span></div>
-                      </section>
-
-                      <section class="crack-app-view crack-view-wall" aria-label="Multi-camera monitoring wall">
-                        <header class="crack-view-header">
-                          <div><small>Live system</small><h4>Monitoring Wall</h4></div>
-                          <span class="crack-status-chip">4 connected</span>
-                        </header>
-                        <div class="crack-camera-grid">
-                          <figure><img src="/assets/images/crack-monitoring/crack-02.jpg" alt=""><figcaption><span>CAM-01</span><small>Scale ready</small></figcaption></figure>
-                          <figure><img src="/assets/images/crack-monitoring/crack-03.jpg" alt=""><figcaption><span>CAM-02</span><small>Scale ready</small></figcaption></figure>
-                          <figure class="is-selected"><img src="/assets/images/crack-monitoring/crack-primary.jpg" alt=""><figcaption><span>CAM-03</span><small>Selected</small></figcaption></figure>
-                          <figure><img src="/assets/images/crack-monitoring/crack-04.jpg" alt=""><figcaption><span>CAM-04</span><small>Scale ready</small></figcaption></figure>
+                    <main class="crack-v2-content">
+                      <section class="crack-v2-wall-view">
+                        <h4>Monitoring Wall</h4>
+                        <div class="crack-v2-grid">
+                          <figure><figcaption>Camera 01 (sim_cam_01)</figcaption><div><img class="crack-v2-checker" src="/assets/images/crack-monitoring/checkerboard.jpg" alt=""><span class="crack-v2-feed"><img src="/assets/images/crack-monitoring/crack-02.jpg" alt=""><i></i><b>crack_0 0.90</b></span></div></figure>
+                          <figure><figcaption>Camera 02 (sim_cam_02)</figcaption><div><img class="crack-v2-checker" src="/assets/images/crack-monitoring/checkerboard.jpg" alt=""><span class="crack-v2-feed is-horizontal"><img src="/assets/images/crack-monitoring/crack-04.jpg" alt=""><i></i><b>crack_0 0.94</b></span></div></figure>
+                          <figure><figcaption>Camera 03 (sim_cam_03)</figcaption><div><img class="crack-v2-checker" src="/assets/images/crack-monitoring/checkerboard.jpg" alt=""><span class="crack-v2-feed"><img src="/assets/images/crack-monitoring/crack-03.jpg" alt=""><i></i><b>crack_0 0.87</b></span></div></figure>
+                          <figure><figcaption>Camera 04 (sim_cam_04)</figcaption><div><img class="crack-v2-checker" src="/assets/images/crack-monitoring/checkerboard.jpg" alt=""><span class="crack-v2-feed"><img src="/assets/images/crack-monitoring/crack-primary.jpg" alt=""><i></i><b>crack_0 0.96</b></span></div></figure>
                         </div>
                       </section>
 
-                      <section class="crack-app-view crack-view-detail" aria-label="Selected camera analysis">
-                        <header class="crack-view-header crack-detail-header">
-                          <div><small>Selected stream</small><h4>Camera Detail</h4></div>
-                          <span class="crack-camera-selector">CAM-03 <span aria-hidden="true">⌄</span></span>
-                        </header>
-                        <div class="crack-detail-layout">
-                          <figure class="crack-analysis-frame">
-                            <img src="/assets/images/crack-monitoring/crack-primary.jpg" alt="Concrete surface with a visible diagonal crack">
-                            <svg class="crack-analysis-overlay" viewBox="0 0 416 416" aria-hidden="true">
-                              <rect class="crack-bounding-box" x="28" y="3" width="302" height="410" rx="8"/>
-                              <use class="crack-mask" href="#crack-mask-shape"/>
-                              <use class="crack-skeleton" href="#crack-skeleton-line" pathLength="1"/>
-                              <g class="crack-width-samples">
-                                <line x1="266" y1="118" x2="281" y2="128"/>
-                                <line x1="218" y1="181" x2="232" y2="193"/>
-                                <line x1="151" y1="230" x2="170" y2="249"/>
-                                <line class="is-maximum" x1="112" y1="276" x2="135" y2="294"/>
-                                <line x1="83" y1="322" x2="104" y2="336"/>
-                              </g>
-                              <g class="crack-width-label">
-                                <path d="M135 285 L176 267"/>
-                                <rect x="176" y="248" width="112" height="36" rx="18"/>
-                                <text x="232" y="271" text-anchor="middle">maximum width</text>
-                              </g>
-                            </svg>
-                            <div class="crack-scale-inset">
-                              <img src="/assets/images/crack-monitoring/checkerboard.jpg" alt="">
-                              <span class="crack-corner-grid" aria-hidden="true"></span>
-                              <small>scale ready</small>
-                            </div>
-                            <figcaption><span>CAM-03</span><small>Corrected frame · Scale ready</small></figcaption>
-                          </figure>
-
-                          <aside class="crack-measurement-panel">
-                            <div class="crack-panel-status"><span><i></i> Connected</span><span>Scale ready</span></div>
-                            <div class="crack-result-card">
-                              <small>Estimated length</small>
-                              <strong><span class="crack-pixel-value">skeleton pixels</span><span class="crack-mm-value">Length (mm)</span></strong>
-                            </div>
-                            <div class="crack-result-card">
-                              <small>Maximum width</small>
-                              <strong><span class="crack-pixel-value">2 × max radius</span><span class="crack-mm-value">Width (mm)</span></strong>
-                            </div>
-                            <div class="crack-conversion">
-                              <span>pixel geometry</span><i aria-hidden="true">×</i><span>mm / px</span><i aria-hidden="true">→</i><b>millimeters</b>
-                            </div>
-                            <div class="crack-measurement-log">
-                              <small>Measurement log</small>
-                              <span><b>Crack 01</b><em>current frame</em></span>
-                            </div>
+                      <section class="crack-v2-detail-view">
+                        <div class="crack-v2-detail-head"><h4>Camera Detail</h4><span>sim_cam_02 <b>⌄</b></span></div>
+                        <div class="crack-v2-detail-body">
+                          <div class="crack-v2-detail-media"><img src="/assets/images/crack-monitoring/crack-primary.jpg" alt="Concrete surface with detected crack"><i></i><b>crack_0 0.96</b></div>
+                          <aside>
+                            <p class="crack-event-status"><span class="crack-status-normal">Status: Connected</span><span class="crack-status-recording">Status: Connected [Event Recording]</span></p>
+                            <h5>Camera Controls</h5>
+                            <button type="button" tabindex="-1">Calibrate This Camera</button>
+                            <div class="crack-v2-log"><span>— Detection Log —</span><strong>Scale: 0.1157 mm/px</strong><span>Detected 1 crack:</span><b>› Crack 01<br>Length: 104.17 mm<br>Width: 2.82 mm</b></div>
                           </aside>
                         </div>
                       </section>
-                    </div>
+                    </main>
                   </div>
                 </div>
-                <p class="crack-reconstruction-caption">Interface reconstruction based on the delivered system.</p>
               </div>
+            </div>
+
+            <div class="crack-scroll-states" aria-hidden="true">
+              <span data-crack-state="detail"></span>
+              <span data-crack-state="correction"></span>
+              <span data-crack-state="scale"></span>
+              <span data-crack-state="mask"></span>
+              <span data-crack-state="skeleton"></span>
+              <span data-crack-state="width"></span>
+              <span data-crack-state="wall"></span>
+              <span data-crack-state="event"></span>
             </div>
           </div>
 
-          <div class="crack-mobile-story" aria-label="Crack Monitoring key states for mobile">
-            <article class="crack-mobile-card">
-              <div><p class="crack-step-label">Multi-camera system</p><h3>Continuous vision. One coordinated system.</h3></div>
-              <div class="crack-mobile-grid" aria-hidden="true">
-                <img src="/assets/images/crack-monitoring/crack-02.jpg" alt=""><img src="/assets/images/crack-monitoring/crack-03.jpg" alt=""><img src="/assets/images/crack-monitoring/crack-primary.jpg" alt=""><img src="/assets/images/crack-monitoring/crack-04.jpg" alt="">
-              </div>
-            </article>
-            <article class="crack-mobile-card">
-              <div><p class="crack-step-label">Image preparation</p><h3>Corrected first. Scaled before inference.</h3></div>
-              <div class="crack-mobile-analysis is-scale" aria-hidden="true">
-                <img src="/assets/images/crack-monitoring/crack-primary.jpg" alt="">
-                <span class="crack-mobile-checker"><img src="/assets/images/crack-monitoring/checkerboard.jpg" alt=""><small>scale ready</small></span>
-              </div>
-            </article>
-            <article class="crack-mobile-card">
-              <div><p class="crack-step-label">Segmentation</p><h3>The crack becomes a measurable region.</h3></div>
-              <div class="crack-mobile-analysis is-mask" aria-hidden="true">
-                <img src="/assets/images/crack-monitoring/crack-primary.jpg" alt="">
-                <svg viewBox="0 0 416 416"><rect class="crack-bounding-box" x="28" y="3" width="302" height="410" rx="8"/><use class="crack-mask" href="#crack-mask-shape"/></svg>
-              </div>
-            </article>
-            <article class="crack-mobile-card">
-              <div><p class="crack-step-label">Physical measurement</p><h3>Geometry becomes millimeters.</h3></div>
-              <div class="crack-mobile-analysis is-units" aria-hidden="true">
-                <img src="/assets/images/crack-monitoring/crack-primary.jpg" alt="">
-                <svg viewBox="0 0 416 416"><use class="crack-mask" href="#crack-mask-shape"/><use class="crack-skeleton" href="#crack-skeleton-line"/><line class="crack-mobile-width" x1="112" y1="276" x2="135" y2="294"/></svg>
-                <span class="crack-mobile-result">px × mm/px <b>→ millimeters</b></span>
-              </div>
-            </article>
-            <p class="crack-reconstruction-caption">Interface reconstruction based on the delivered system.</p>
-          </div>
+          <p class="crack-reconstruction-caption">Interface reconstruction based on the delivered v1 and v2 systems.</p>
+        </div>
+
+        <div class="crack-actions">
+          <a class="button button-light" href="/crack-monitoring/">Technical details <span aria-hidden="true">↗</span></a>
+          <a class="crack-view-all" href="#all-projects">View all projects <span aria-hidden="true">↓</span></a>
         </div>
       </article>
 
