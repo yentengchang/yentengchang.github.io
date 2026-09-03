@@ -173,8 +173,8 @@
                 </section>
                 <section class="crack-copy" data-crack-copy="event">
                   <p class="crack-step-label">Seismic event recording</p>
-                  <h3>The interface stays quiet while recording continues in the background.</h3>
-                  <p>After an external trigger, the camera status changes to show event recording while the application preserves the corresponding data.</p>
+                  <h3>The record begins before the trigger.</h3>
+                  <p>A rolling buffer preserves the lead-up, then continues through and after the seismic event—organizing every camera stream under the same event record.</p>
                 </section>
               </div>
 
@@ -182,7 +182,7 @@
                 <div class="crack-v1-window" aria-label="Single-camera measurement interface">
                   <div class="crack-native-titlebar">
                     <span class="crack-window-dots" aria-hidden="true"><i></i><i></i><i></i></span>
-                    <span>Real-Time Crack Detection and Dimension Measurement System v1.0</span>
+                    <span>Real-Time Crack Detection and Measurement v1.0</span>
                   </div>
                   <div class="crack-v1-body">
                     <section class="crack-v1-video-panel">
@@ -205,11 +205,11 @@
                     <aside class="crack-v1-control-panel">
                       <h4>Control Panel</h4>
                       <div class="crack-v1-status-row"><span class="crack-v1-status">Status: Connected</span><button type="button" tabindex="-1">Disconnect</button></div>
-                      <button class="crack-v1-detect" type="button" tabindex="-1">Start Detection</button>
+                      <button class="crack-v1-detect" type="button" tabindex="-1"><span class="crack-detect-start">Start Detection</span><span class="crack-detect-stop">Stop Detection</span></button>
                       <div class="crack-v1-result-head"><span>Detection Results:</span><button class="crack-v1-scale-button" type="button" tabindex="-1">Set Scale</button></div>
                       <div class="crack-v1-log">
                         <p class="crack-log-waiting">Waiting for image...</p>
-                        <div class="crack-log-scale"><span>— Detection Log —</span><strong>Scale ready</strong></div>
+                        <div class="crack-log-scale"><span>— Detection Log —</span><strong>Scale: 0.1157 mm/px</strong></div>
                         <div class="crack-log-detection"><span>Detected 1 crack:</span><strong>› Crack 01</strong></div>
                         <div class="crack-log-length"><span>Length</span><strong>104.17 mm</strong></div>
                         <div class="crack-log-width"><span>Maximum width</span><strong>2.82 mm</strong></div>
@@ -220,7 +220,7 @@
                   </div>
                 </div>
 
-                <div class="crack-v2-window" aria-label="Multi-camera interface and event recording status">
+                <div class="crack-v2-window" aria-label="Multi-camera monitoring interface">
                   <div class="crack-native-titlebar">
                     <span class="crack-window-dots" aria-hidden="true"><i></i><i></i><i></i></span>
                     <span>Crack Monitoring System v2.0</span>
@@ -238,26 +238,38 @@
                       <section class="crack-v2-wall-view">
                         <h4>Monitoring Wall</h4>
                         <div class="crack-v2-grid">
-                          <figure><figcaption>Camera 01 (sim_cam_01)</figcaption><div><img class="crack-v2-checker" src="/assets/images/crack-monitoring/checkerboard.jpg" alt=""><span class="crack-v2-feed"><img src="/assets/images/crack-monitoring/crack-02.jpg" alt=""><i></i><b>crack_0 0.90</b></span></div></figure>
-                          <figure><figcaption>Camera 02 (sim_cam_02)</figcaption><div><img class="crack-v2-checker" src="/assets/images/crack-monitoring/checkerboard.jpg" alt=""><span class="crack-v2-feed is-horizontal"><img src="/assets/images/crack-monitoring/crack-04.jpg" alt=""><i></i><b>crack_0 0.94</b></span></div></figure>
-                          <figure><figcaption>Camera 03 (sim_cam_03)</figcaption><div><img class="crack-v2-checker" src="/assets/images/crack-monitoring/checkerboard.jpg" alt=""><span class="crack-v2-feed"><img src="/assets/images/crack-monitoring/crack-03.jpg" alt=""><i></i><b>crack_0 0.87</b></span></div></figure>
-                          <figure><figcaption>Camera 04 (sim_cam_04)</figcaption><div><img class="crack-v2-checker" src="/assets/images/crack-monitoring/checkerboard.jpg" alt=""><span class="crack-v2-feed"><img src="/assets/images/crack-monitoring/crack-primary.jpg" alt=""><i></i><b>crack_0 0.96</b></span></div></figure>
-                        </div>
-                      </section>
-
-                      <section class="crack-v2-detail-view">
-                        <div class="crack-v2-detail-head"><h4>Camera Detail</h4><span>sim_cam_02 <b>⌄</b></span></div>
-                        <div class="crack-v2-detail-body">
-                          <div class="crack-v2-detail-media"><img src="/assets/images/crack-monitoring/crack-primary.jpg" alt="Concrete surface with detected crack"><i></i><b>crack_0 0.96</b></div>
-                          <aside>
-                            <p class="crack-event-status"><span class="crack-status-normal">Status: Connected</span><span class="crack-status-recording">Status: Connected [Event Recording]</span></p>
-                            <h5>Camera Controls</h5>
-                            <button type="button" tabindex="-1">Calibrate This Camera</button>
-                            <div class="crack-v2-log"><span>— Detection Log —</span><strong>Scale: 0.1157 mm/px</strong><span>Detected 1 crack:</span><b>› Crack 01<br>Length: 104.17 mm<br>Width: 2.82 mm</b></div>
-                          </aside>
+                          <figure><figcaption>Camera 01 (sim_cam_01)</figcaption><div><img class="crack-v2-checker" src="/assets/images/crack-monitoring/checkerboard.jpg" alt=""><span class="crack-v2-feed"><img src="/assets/images/crack-monitoring/crack-feed-090.png" alt="Actual crack segmentation result with confidence 0.90"></span></div></figure>
+                          <figure><figcaption>Camera 02 (sim_cam_02)</figcaption><div><img class="crack-v2-checker" src="/assets/images/crack-monitoring/checkerboard.jpg" alt=""><span class="crack-v2-feed"><img src="/assets/images/crack-monitoring/crack-feed-094.png" alt="Actual crack segmentation result with confidence 0.94"></span></div></figure>
+                          <figure><figcaption>Camera 03 (sim_cam_03)</figcaption><div><img class="crack-v2-checker" src="/assets/images/crack-monitoring/checkerboard.jpg" alt=""><span class="crack-v2-feed"><img src="/assets/images/crack-monitoring/crack-feed-087.png" alt="Actual crack segmentation result with confidence 0.87"></span></div></figure>
+                          <figure data-crack-morph-target><figcaption>Camera 04 (sim_cam_04)</figcaption><div><img class="crack-v2-checker" src="/assets/images/crack-monitoring/checkerboard.jpg" alt=""><span class="crack-v2-feed"><img src="/assets/images/crack-monitoring/segmentation-reference.png" alt="Actual crack segmentation result with confidence 0.96"></span></div></figure>
                         </div>
                       </section>
                     </main>
+                  </div>
+                </div>
+
+                <div class="crack-morph-feed" aria-hidden="true">
+                  <img src="/assets/images/crack-monitoring/segmentation-reference.png" alt="">
+                </div>
+
+                <div class="crack-event-story" aria-label="Conceptual visualization of multi-camera event recording">
+                  <div class="crack-event-heading">
+                    <span>Conceptual event sequence</span>
+                    <strong>One event record</strong>
+                  </div>
+                  <div class="crack-event-wave">
+                    <svg viewBox="0 0 800 80" preserveAspectRatio="none" aria-hidden="true">
+                      <path pathLength="1" d="M0 42 L104 42 L121 39 L132 46 L141 34 L151 52 L162 19 L174 67 L185 29 L196 55 L208 38 L228 42 L800 42"></path>
+                    </svg>
+                    <i class="crack-event-trigger"></i>
+                    <span class="crack-event-trigger-label">Trigger</span>
+                  </div>
+                  <div class="crack-event-phases" aria-hidden="true"><span>Before</span><span>During</span><span>After</span></div>
+                  <div class="crack-event-tracks">
+                    <div><b>Camera 01</b><span><i></i><i></i><i></i></span></div>
+                    <div><b>Camera 02</b><span><i></i><i></i><i></i></span></div>
+                    <div><b>Camera 03</b><span><i></i><i></i><i></i></span></div>
+                    <div><b>Camera 04</b><span><i></i><i></i><i></i></span></div>
                   </div>
                 </div>
               </div>

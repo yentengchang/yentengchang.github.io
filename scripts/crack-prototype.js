@@ -7,13 +7,47 @@
   const stateMarkers = [...story.querySelectorAll('.crack-scroll-states [data-crack-state]')];
   const copySections = [...story.querySelectorAll('[data-crack-copy]')];
   const stateNames = stateMarkers.map((marker) => marker.dataset.crackState);
+  const v1Window = story.querySelector('.crack-v1-window');
+  const v2Window = story.querySelector('.crack-v2-window');
+  const wallFigures = [...story.querySelectorAll('.crack-v2-grid figure')];
+  const morphTargetFigure = story.querySelector('[data-crack-morph-target]');
+  const morphFeed = story.querySelector('.crack-morph-feed');
+  const morphSource = story.querySelector('.crack-feed-square');
+  const morphTarget = story.querySelector('[data-crack-morph-target] .crack-v2-feed');
+  const maskCanvas = story.querySelector('.crack-mask-canvas');
+  const skeletonCanvas = story.querySelector('.crack-skeleton-canvas');
+  const distanceCanvas = story.querySelector('.crack-distance-canvas');
+  const scanCanvas = story.querySelector('.crack-width-scan-canvas');
+  const maxCanvas = story.querySelector('.crack-width-max-canvas');
+  const detectionBox = story.querySelector('.crack-detection-box');
+  const detectButton = story.querySelector('.crack-v1-detect');
+  const logScale = story.querySelector('.crack-log-scale');
+  const logDetection = story.querySelector('.crack-log-detection');
+  const logLength = story.querySelector('.crack-log-length');
+  const logWidth = story.querySelector('.crack-log-width');
+  const eventStory = story.querySelector('.crack-event-story');
+  const eventWave = story.querySelector('.crack-event-wave path');
+  const eventTrigger = story.querySelector('.crack-event-trigger');
+  const eventTriggerLabel = story.querySelector('.crack-event-trigger-label');
+  const eventTracks = [...story.querySelectorAll('.crack-event-tracks span')];
   let activeState = '';
   let frameRequested = false;
+  let morphGeometry = null;
+
+  const clamp = (value, minimum, maximum) => Math.min(maximum, Math.max(minimum, value));
+  const remap = (value, start, end) => clamp((value - start) / (end - start), 0, 1);
+  const smoothstep = (value) => {
+    const t = clamp(value, 0, 1);
+    return t * t * (3 - (2 * t));
+  };
+  const mix = (start, end, amount) => start + ((end - start) * amount);
 
   const activate = (state) => {
     if (!state || state === activeState) return;
     activeState = state;
     story.dataset.state = state;
+
+    if (state === 'wall') morphGeometry = null;
 
     copySections.forEach((section) => {
       const isActive = section.dataset.crackCopy === state;
@@ -22,14 +56,254 @@
     });
   };
 
+  const measureMorphGeometry = () => {
+    if (!morphSource || !morphTarget || !story.querySelector('.crack-visual-stage')) return null;
+    const visualRect = story.querySelector('.crack-visual-stage').getBoundingClientRect();
+    const sourceRect = morphSource.getBoundingClientRect();
+    const targetRect = morphTarget.getBoundingClientRect();
+
+    return {
+      source: {
+        left: sourceRect.left - visualRect.left,
+        top: sourceRect.top - visualRect.top,
+        width: sourceRect.width,
+        height: sourceRect.height
+      },
+      target: {
+        left: targetRect.left - visualRect.left,
+        top: targetRect.top - visualRect.top,
+        width: targetRect.width,
+        height: targetRect.height
+      }
+    };
+  };
+
+  const setAnalysisLayer = (element, opacity, reveal = 1) => {
+    if (!element) return;
+    element.style.opacity = String(opacity);
+    element.style.clipPath = `inset(0 ${(1 - clamp(reveal, 0, 1)) * 100}% 0 0)`;
+  };
+
+  const clearLogHighlight = (entry) => {
+    if (!entry) return;
+    entry.style.background = '';
+    entry.style.boxShadow = '';
+  };
+
+  const highlightLogEntry = (entry, intensity) => {
+    if (!entry) return;
+    const strength = clamp(intensity, 0, 1);
+    entry.style.background = `rgba(54, 137, 199, ${strength * 0.16})`;
+    entry.style.boxShadow = `0 0 0 1px rgba(112, 190, 246, ${strength * 0.82}), 0 0 0 ${strength * 0.18}rem rgba(75, 157, 216, ${strength * 0.11})`;
+  };
+
+  const highlightEnvelope = (progress, start, end) => {
+    const phase = remap(progress, start, end);
+    if (progress < start || progress > end) return 0;
+    return Math.sin(Math.PI * phase);
+  };
+
+  const resetVisuals = () => {
+    if (v1Window) {
+      v1Window.style.opacity = '1';
+      v1Window.style.transform = 'none';
+      v1Window.style.pointerEvents = 'auto';
+    }
+    if (v2Window) {
+      v2Window.style.opacity = '0';
+      v2Window.style.transform = 'none';
+      v2Window.style.transformOrigin = 'top center';
+      v2Window.style.pointerEvents = 'none';
+    }
+    wallFigures.forEach((figure) => {
+      figure.style.opacity = '0';
+      figure.style.transform = 'scale(0.96)';
+    });
+    if (morphFeed) morphFeed.style.opacity = '0';
+    if (eventStory) {
+      eventStory.style.opacity = '0';
+      eventStory.style.transform = 'translateY(0.8rem)';
+    }
+    if (eventWave) eventWave.style.strokeDashoffset = '1';
+    if (eventTrigger) eventTrigger.style.opacity = '0';
+    if (eventTriggerLabel) eventTriggerLabel.style.opacity = '0';
+    eventTracks.forEach((track) => {
+      track.style.clipPath = 'inset(0 100% 0 0)';
+    });
+    setAnalysisLayer(maskCanvas, 0);
+    setAnalysisLayer(skeletonCanvas, 0, 0);
+    setAnalysisLayer(distanceCanvas, 0);
+    setAnalysisLayer(scanCanvas, 0, 0);
+    setAnalysisLayer(maxCanvas, 0);
+    if (detectionBox) detectionBox.style.opacity = '0';
+    if (detectButton) {
+      detectButton.classList.remove('is-running');
+      detectButton.style.transform = 'none';
+      detectButton.style.boxShadow = 'none';
+    }
+    if (logWidth) logWidth.style.opacity = '';
+    [logScale, logDetection, logLength, logWidth].forEach((entry) => {
+      if (!entry) return;
+      entry.style.opacity = '';
+      entry.style.transform = '';
+      clearLogHighlight(entry);
+    });
+  };
+
+  const updateAnalysis = (state, progress) => {
+    const detectionStates = ['skeleton', 'width', 'wall', 'event'];
+    const isRunning = detectionStates.includes(state) || (state === 'mask' && progress >= 0.14);
+    if (detectButton) detectButton.classList.toggle('is-running', isRunning);
+
+    if (state === 'scale') {
+      highlightLogEntry(logScale, highlightEnvelope(progress, 0.02, 0.56));
+      return;
+    }
+
+    if (state === 'mask') {
+      const pressDown = smoothstep(remap(progress, 0.01, 0.07));
+      const pressUp = smoothstep(remap(progress, 0.07, 0.14));
+      const pressAmount = pressDown * (1 - pressUp);
+      if (detectButton) {
+        detectButton.style.transform = `translateY(${pressAmount * 1.5}px) scale(${1 - (pressAmount * 0.025)})`;
+        detectButton.style.boxShadow = `inset 0 ${pressAmount * 2}px ${pressAmount * 5}px rgba(0, 0, 0, ${pressAmount * 0.42})`;
+      }
+
+      const reveal = smoothstep(remap(progress, 0.16, 0.7));
+      setAnalysisLayer(maskCanvas, reveal * 0.58);
+      if (detectionBox) detectionBox.style.opacity = String(reveal);
+      if (logDetection) {
+        logDetection.style.opacity = String(reveal);
+        logDetection.style.transform = `translateY(${(1 - reveal) * 0.25}rem)`;
+      }
+      highlightLogEntry(logDetection, highlightEnvelope(progress, 0.18, 0.76));
+      return;
+    }
+
+    if (state === 'skeleton') {
+      const reveal = smoothstep(remap(progress, 0.03, 0.88));
+      setAnalysisLayer(maskCanvas, 0.58);
+      setAnalysisLayer(skeletonCanvas, reveal > 0 ? 1 : 0, reveal);
+      if (detectionBox) detectionBox.style.opacity = '1';
+      const lengthReveal = smoothstep(remap(progress, 0.58, 0.76));
+      if (logLength) {
+        logLength.style.opacity = String(lengthReveal);
+        logLength.style.transform = `translateY(${(1 - lengthReveal) * 0.25}rem)`;
+      }
+      highlightLogEntry(logLength, highlightEnvelope(progress, 0.56, 0.94));
+      return;
+    }
+
+    if (state === 'width' || state === 'wall' || state === 'event') {
+      const distanceReveal = state === 'width' ? smoothstep(remap(progress, 0.01, 0.16)) : 1;
+      const scanReveal = state === 'width' ? smoothstep(remap(progress, 0.06, 0.62)) : 1;
+      const maximumReveal = state === 'width' ? smoothstep(remap(progress, 0.62, 0.8)) : 1;
+      setAnalysisLayer(maskCanvas, 0.16);
+      setAnalysisLayer(skeletonCanvas, 1, 1);
+      setAnalysisLayer(distanceCanvas, distanceReveal * 0.9);
+      setAnalysisLayer(scanCanvas, scanReveal * 0.96, scanReveal);
+      setAnalysisLayer(maxCanvas, maximumReveal);
+      if (detectionBox) detectionBox.style.opacity = '1';
+      if (logWidth) {
+        logWidth.style.opacity = String(maximumReveal);
+        logWidth.style.transform = `translateY(${(1 - maximumReveal) * 0.25}rem)`;
+      }
+      if (state === 'width') {
+        highlightLogEntry(logWidth, highlightEnvelope(progress, 0.58, 0.96));
+      }
+    }
+  };
+
+  const updateWallTransition = (progress) => {
+    if (!v1Window || !v2Window) return;
+    const assemble = smoothstep(remap(progress, 0.08, 0.84));
+    const v1Fade = smoothstep(remap(progress, 0.16, 0.76));
+    const v2Fade = smoothstep(remap(progress, 0.1, 0.66));
+
+    v1Window.style.opacity = String(1 - (v1Fade * 0.96));
+    v1Window.style.transform = `scale(${mix(1, 0.96, v1Fade)})`;
+    v1Window.style.pointerEvents = 'none';
+    v2Window.style.opacity = String(v2Fade);
+    v2Window.style.transform = 'none';
+    v2Window.style.pointerEvents = 'auto';
+
+    wallFigures.forEach((figure, index) => {
+      if (figure === morphTargetFigure) return;
+      const tileReveal = smoothstep(remap(progress, 0.2 + (index * 0.1), 0.58 + (index * 0.1)));
+      figure.style.opacity = String(tileReveal);
+      figure.style.transform = `scale(${mix(0.96, 1, tileReveal)})`;
+    });
+
+    if (morphTargetFigure) {
+      const targetReveal = smoothstep(remap(progress, 0.87, 1));
+      morphTargetFigure.style.opacity = String(targetReveal);
+      morphTargetFigure.style.transform = `scale(${mix(0.96, 1, targetReveal)})`;
+    }
+
+    if (!morphFeed) return;
+    if (!morphGeometry) morphGeometry = measureMorphGeometry();
+    if (!morphGeometry) return;
+
+    const movement = smoothstep(remap(progress, 0.06, 0.92));
+    const fadeIn = smoothstep(remap(progress, 0.02, 0.1));
+    const fadeOut = 1 - smoothstep(remap(progress, 0.88, 0.99));
+    const { source, target } = morphGeometry;
+    morphFeed.style.left = `${mix(source.left, target.left, movement)}px`;
+    morphFeed.style.top = `${mix(source.top, target.top, movement)}px`;
+    morphFeed.style.width = `${mix(source.width, target.width, movement)}px`;
+    morphFeed.style.height = `${mix(source.height, target.height, movement)}px`;
+    morphFeed.style.borderRadius = `${movement * 0.3}rem`;
+    morphFeed.style.opacity = String(fadeIn * fadeOut);
+    morphFeed.style.boxShadow = `0 ${mix(0, 10, assemble)}px ${mix(0, 28, assemble)}px rgba(0, 0, 0, ${mix(0, 0.28, assemble)})`;
+  };
+
+  const updateEventSequence = (progress) => {
+    if (!v1Window || !v2Window || !eventStory) return;
+    const windowShift = smoothstep(remap(progress, 0.02, 0.42));
+    const eventReveal = smoothstep(remap(progress, 0.1, 0.34));
+    const waveReveal = smoothstep(remap(progress, 0.16, 0.64));
+    const triggerReveal = smoothstep(remap(progress, 0.25, 0.36));
+
+    v1Window.style.opacity = '0';
+    v1Window.style.pointerEvents = 'none';
+    v2Window.style.opacity = '1';
+    v2Window.style.pointerEvents = 'auto';
+    v2Window.style.transform = `translateY(${-5 * windowShift}%) scale(${mix(1, 0.72, windowShift)})`;
+    wallFigures.forEach((figure) => {
+      figure.style.opacity = '1';
+      figure.style.transform = 'none';
+    });
+
+    eventStory.style.opacity = String(eventReveal);
+    eventStory.style.transform = `translateY(${(1 - eventReveal) * 0.8}rem)`;
+    if (eventWave) eventWave.style.strokeDashoffset = String(1 - waveReveal);
+    if (eventTrigger) eventTrigger.style.opacity = String(triggerReveal);
+    if (eventTriggerLabel) eventTriggerLabel.style.opacity = String(triggerReveal);
+    eventTracks.forEach((track, index) => {
+      const trackReveal = smoothstep(remap(progress, 0.32 + (index * 0.055), 0.78 + (index * 0.04)));
+      track.style.clipPath = `inset(0 ${(1 - trackReveal) * 100}% 0 0)`;
+    });
+  };
+
+  const updateVisualProgress = (state, progress) => {
+    const motionProgress = remap(progress, 0, 0.74);
+    resetVisuals();
+    updateAnalysis(state, motionProgress);
+    if (state === 'wall') updateWallTransition(motionProgress);
+    if (state === 'event') updateEventSequence(motionProgress);
+  };
+
   const updateFromScroll = () => {
     frameRequested = false;
     const shellRect = shell.getBoundingClientRect();
     const stickyTop = Number.parseFloat(getComputedStyle(stage).top) || 0;
     const travel = Math.max(1, shell.offsetHeight - stage.offsetHeight);
     const progress = Math.min(1, Math.max(0, (stickyTop - shellRect.top) / travel));
-    const index = Math.min(stateNames.length - 1, Math.floor(progress * stateNames.length));
+    const scaledProgress = progress * stateNames.length;
+    const index = Math.min(stateNames.length - 1, Math.floor(scaledProgress));
+    const stateProgress = progress === 1 ? 1 : scaledProgress - index;
     activate(stateNames[index]);
+    updateVisualProgress(stateNames[index], stateProgress);
   };
 
   const queueUpdate = () => {
@@ -37,8 +311,6 @@
     frameRequested = true;
     requestAnimationFrame(updateFromScroll);
   };
-
-  const clamp = (value, minimum, maximum) => Math.min(maximum, Math.max(minimum, value));
 
   const jet = (value) => {
     const r = clamp(1.5 - Math.abs((4 * value) - 3), 0, 1);
@@ -63,6 +335,42 @@
 
     clusters.push(cluster);
     return clusters;
+  };
+
+  const prepareEventWaveform = () => {
+    if (!eventWave) return;
+    const points = [];
+    const total = 260;
+    const twoPi = Math.PI * 2;
+
+    for (let index = 0; index <= total; index += 1) {
+      const time = index / total;
+      let amplitude = 0;
+
+      if (time >= 0.06 && time < 0.28) {
+        amplitude = mix(1.4, 5.5, smoothstep(remap(time, 0.06, 0.28)));
+      } else if (time >= 0.28 && time < 0.42) {
+        amplitude = mix(5.5, 27, smoothstep(remap(time, 0.28, 0.42)));
+      } else if (time >= 0.42 && time < 0.58) {
+        amplitude = mix(27, 11, smoothstep(remap(time, 0.42, 0.58)));
+      } else if (time >= 0.58 && time < 0.84) {
+        const decay = mix(10, 2, smoothstep(remap(time, 0.58, 0.84)));
+        const aftershock = 5.5 * Math.exp(-Math.pow((time - 0.69) / 0.045, 2));
+        amplitude = decay + aftershock;
+      } else if (time >= 0.84 && time < 0.94) {
+        amplitude = mix(2, 0, smoothstep(remap(time, 0.84, 0.94)));
+      }
+
+      const carrier =
+        (Math.sin(time * twoPi * 61) * 0.63) +
+        (Math.sin((time * twoPi * 103) + 0.7) * 0.25) +
+        (Math.sin((time * twoPi * 17) + 1.1) * 0.12);
+      const x = time * 800;
+      const y = 40 + (amplitude * carrier);
+      points.push(`${index === 0 ? 'M' : 'L'}${x.toFixed(2)} ${y.toFixed(2)}`);
+    }
+
+    eventWave.setAttribute('d', points.join(' '));
   };
 
   const prepareAnalysisLayers = () => {
@@ -265,9 +573,13 @@
     source.src = '/assets/images/crack-monitoring/segmentation-reference.png';
   };
 
+  prepareEventWaveform();
   prepareAnalysisLayers();
   updateFromScroll();
 
   window.addEventListener('scroll', queueUpdate, { passive: true });
-  window.addEventListener('resize', queueUpdate);
+  window.addEventListener('resize', () => {
+    morphGeometry = null;
+    queueUpdate();
+  });
 })();
