@@ -97,12 +97,6 @@
     entry.style.boxShadow = `0 0 0 1px rgba(112, 190, 246, ${strength * 0.82}), 0 0 0 ${strength * 0.18}rem rgba(75, 157, 216, ${strength * 0.11})`;
   };
 
-  const highlightEnvelope = (progress, start, end) => {
-    const phase = remap(progress, start, end);
-    if (progress < start || progress > end) return 0;
-    return Math.sin(Math.PI * phase);
-  };
-
   const resetVisuals = () => {
     if (v1Window) {
       v1Window.style.opacity = '1';
@@ -156,7 +150,7 @@
     if (detectButton) detectButton.classList.toggle('is-running', isRunning);
 
     if (state === 'scale') {
-      highlightLogEntry(logScale, highlightEnvelope(progress, 0.02, 0.56));
+      highlightLogEntry(logScale, smoothstep(remap(progress, 0.02, 0.16)));
       return;
     }
 
@@ -176,7 +170,9 @@
         logDetection.style.opacity = String(reveal);
         logDetection.style.transform = `translateY(${(1 - reveal) * 0.25}rem)`;
       }
-      highlightLogEntry(logDetection, highlightEnvelope(progress, 0.18, 0.76));
+      const detectionHandoff = smoothstep(remap(progress, 0.18, 0.36));
+      highlightLogEntry(logScale, 1 - detectionHandoff);
+      highlightLogEntry(logDetection, detectionHandoff);
       return;
     }
 
@@ -190,7 +186,9 @@
         logLength.style.opacity = String(lengthReveal);
         logLength.style.transform = `translateY(${(1 - lengthReveal) * 0.25}rem)`;
       }
-      highlightLogEntry(logLength, highlightEnvelope(progress, 0.56, 0.94));
+      const lengthHandoff = smoothstep(remap(progress, 0.56, 0.76));
+      highlightLogEntry(logDetection, 1 - lengthHandoff);
+      highlightLogEntry(logLength, lengthHandoff);
       return;
     }
 
@@ -209,7 +207,9 @@
         logWidth.style.transform = `translateY(${(1 - maximumReveal) * 0.25}rem)`;
       }
       if (state === 'width') {
-        highlightLogEntry(logWidth, highlightEnvelope(progress, 0.58, 0.96));
+        const widthHandoff = smoothstep(remap(progress, 0.58, 0.8));
+        highlightLogEntry(logLength, 1 - widthHandoff);
+        highlightLogEntry(logWidth, widthHandoff);
       }
     }
   };
