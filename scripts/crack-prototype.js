@@ -181,12 +181,12 @@
       setAnalysisLayer(maskCanvas, 0.58);
       setAnalysisLayer(skeletonCanvas, reveal > 0 ? 1 : 0, reveal);
       if (detectionBox) detectionBox.style.opacity = '1';
-      const lengthReveal = smoothstep(remap(progress, 0.58, 0.76));
+      const lengthReveal = smoothstep(remap(progress, 0.06, 0.3));
       if (logLength) {
         logLength.style.opacity = String(lengthReveal);
         logLength.style.transform = `translateY(${(1 - lengthReveal) * 0.25}rem)`;
       }
-      const lengthHandoff = smoothstep(remap(progress, 0.56, 0.76));
+      const lengthHandoff = smoothstep(remap(progress, 0.06, 0.3));
       highlightLogEntry(logDetection, 1 - lengthHandoff);
       highlightLogEntry(logLength, lengthHandoff);
       return;
@@ -196,6 +196,7 @@
       const distanceReveal = state === 'width' ? smoothstep(remap(progress, 0.01, 0.16)) : 1;
       const scanReveal = state === 'width' ? smoothstep(remap(progress, 0.06, 0.62)) : 1;
       const maximumReveal = state === 'width' ? smoothstep(remap(progress, 0.62, 0.8)) : 1;
+      const widthResultReveal = state === 'width' ? smoothstep(remap(progress, 0.04, 0.24)) : 1;
       setAnalysisLayer(maskCanvas, 0.16);
       setAnalysisLayer(skeletonCanvas, 1, 1);
       setAnalysisLayer(distanceCanvas, distanceReveal * 0.9);
@@ -203,11 +204,11 @@
       setAnalysisLayer(maxCanvas, maximumReveal);
       if (detectionBox) detectionBox.style.opacity = '1';
       if (logWidth) {
-        logWidth.style.opacity = String(maximumReveal);
-        logWidth.style.transform = `translateY(${(1 - maximumReveal) * 0.25}rem)`;
+        logWidth.style.opacity = String(widthResultReveal);
+        logWidth.style.transform = `translateY(${(1 - widthResultReveal) * 0.25}rem)`;
       }
       if (state === 'width') {
-        const widthHandoff = smoothstep(remap(progress, 0.58, 0.8));
+        const widthHandoff = smoothstep(remap(progress, 0.04, 0.24));
         highlightLogEntry(logLength, 1 - widthHandoff);
         highlightLogEntry(logWidth, widthHandoff);
       }

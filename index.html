@@ -120,7 +120,7 @@
         <div class="project-summary crack-project-heading">
           <div>
             <p class="eyebrow">Featured project · Sanlien Technology Corp.</p>
-            <h2>Crack Monitoring System</h2>
+            <h2>Real-Time Crack Monitoring and Measurement System</h2>
           </div>
           <div class="project-intro">
             <p>A multi-camera Windows system that converts continuous crack imagery into measurements in physical units and event-linked records.</p>
@@ -129,42 +129,37 @@
         </div>
         <div class="crack-prototype" data-crack-story data-state="detail">
           <div class="crack-prototype-note">
-            <span>Scroll-driven system walkthrough</span>
-            <span class="crack-scroll-cue">Scroll to advance <span aria-hidden="true">↓</span></span>
+            <span>System walkthrough</span>
+            <span class="crack-scroll-cue">Scroll to explore <span aria-hidden="true">↓</span></span>
           </div>
 
           <div class="crack-scroll-shell">
             <div class="crack-pinned-stage">
               <div class="crack-copy-stage" aria-live="polite">
                 <section class="crack-copy is-active" data-crack-copy="detail">
-                  <p class="crack-step-label">Single-camera measurement</p>
-                  <h3>Start with the crack itself.</h3>
-                  <p>One camera view brings detection controls, calibration and measurement results into the same working interface.</p>
-                </section>
-                <section class="crack-copy" data-crack-copy="correction">
-                  <p class="crack-step-label">Image correction</p>
-                  <h3>Correct the incoming frame first.</h3>
-                  <p>Camera parameters are applied before scale setup, segmentation or geometry measurement.</p>
+                  <p class="crack-step-label">Real-time camera feed</p>
+                  <h3>Monitor each crack through a live, high-resolution stream.</h3>
+                  <p>The incoming camera feed, detection controls and measurement results remain together in one operational view for continuous monitoring.</p>
                 </section>
                 <section class="crack-copy" data-crack-copy="scale">
                   <p class="crack-step-label">Physical scale</p>
-                  <h3>Connect pixels to real dimensions.</h3>
-                  <p>The checkerboard and its known square size establish the physical scale used by later measurements.</p>
+                  <h3>Translate pixels into physical dimensions.</h3>
+                  <p>A checkerboard with a known square size establishes the pixel-to-millimeter scale used for every subsequent measurement.</p>
                 </section>
                 <section class="crack-copy" data-crack-copy="mask">
-                  <p class="crack-step-label">Segmentation</p>
-                  <h3>Isolate the crack as a region.</h3>
-                  <p>The segmentation result follows the crack geometry while retaining the detection label and confidence.</p>
+                  <p class="crack-step-label">Instance segmentation</p>
+                  <h3>Move from detection to precise crack boundaries.</h3>
+                  <p>Instance segmentation delineates each crack for physical measurement. Multiple cracks can be detected and tracked in real time, preserving a separate measurement history for each one.</p>
                 </section>
                 <section class="crack-copy" data-crack-copy="skeleton">
-                  <p class="crack-step-label">Length</p>
-                  <h3>Trace the centerline.</h3>
-                  <p>Skeletonization reduces the mask to its centerline so the estimated length can be recorded.</p>
+                  <p class="crack-step-label">Physical crack length</p>
+                  <h3>Convert the skeletonized mask into physical length.</h3>
+                  <p>Skeletonization reduces the segmented crack to its centerline. Combined with the established pixel-to-millimeter scale, it yields the crack’s physical length.</p>
                 </section>
                 <section class="crack-copy" data-crack-copy="width">
-                  <p class="crack-step-label">Maximum width</p>
-                  <h3>Search the full crack, then keep the widest point.</h3>
-                  <p>The distance field is evaluated along the mask before the maximum width is retained in the result.</p>
+                  <p class="crack-step-label">Maximum crack width</p>
+                  <h3>Measure the widest point in physical units.</h3>
+                  <p>The distance transform evaluates width along the full crack, then records the maximum physical width—a key value for engineering assessment.</p>
                 </section>
                 <section class="crack-copy" data-crack-copy="wall">
                   <p class="crack-step-label">Multi-camera monitoring</p>
@@ -179,18 +174,17 @@
               </div>
 
               <div class="crack-visual-stage" aria-label="Reconstruction of the delivered crack monitoring application">
-                <div class="crack-v1-window" aria-label="Single-camera measurement interface">
+                <div class="crack-v1-window" aria-label="Real-time crack monitoring and measurement interface">
                   <div class="crack-native-titlebar">
                     <span class="crack-window-dots" aria-hidden="true"><i></i><i></i><i></i></span>
-                    <span>Real-Time Crack Detection and Measurement v1.0</span>
+                    <span>Real-Time Crack Monitoring and Measurement System</span>
                   </div>
                   <div class="crack-v1-body">
                     <section class="crack-v1-video-panel">
                       <header>Live Camera View</header>
                       <div class="crack-v1-video-space">
                         <div class="crack-feed-square">
-                          <img class="crack-feed-image crack-feed-image-raw" src="/assets/images/crack-monitoring/crack-primary.jpg" alt="Concrete surface with a visible crack">
-                          <img class="crack-feed-image crack-feed-image-corrected" src="/assets/images/crack-monitoring/crack-primary.jpg" alt="">
+                          <img class="crack-feed-image" src="/assets/images/crack-monitoring/crack-primary.jpg" alt="Concrete surface with a visible crack">
                           <div class="crack-checkerboard" aria-hidden="true"><img src="/assets/images/crack-monitoring/checkerboard.jpg" alt=""></div>
                           <canvas class="crack-analysis-layer crack-mask-canvas" width="400" height="400" aria-hidden="true"></canvas>
                           <canvas class="crack-analysis-layer crack-skeleton-canvas" width="400" height="400" aria-hidden="true"></canvas>
@@ -223,7 +217,7 @@
                 <div class="crack-v2-window" aria-label="Multi-camera monitoring interface">
                   <div class="crack-native-titlebar">
                     <span class="crack-window-dots" aria-hidden="true"><i></i><i></i><i></i></span>
-                    <span>Crack Monitoring System v2.0</span>
+                    <span>Real-Time Crack Monitoring and Measurement System</span>
                   </div>
                   <div class="crack-v2-body">
                     <nav class="crack-v2-nav" aria-label="Application views">
@@ -238,10 +232,10 @@
                       <section class="crack-v2-wall-view">
                         <h4>Monitoring Wall</h4>
                         <div class="crack-v2-grid">
-                          <figure><figcaption>Camera 01 (sim_cam_01)</figcaption><div><img class="crack-v2-checker" src="/assets/images/crack-monitoring/checkerboard.jpg" alt=""><span class="crack-v2-feed"><img src="/assets/images/crack-monitoring/crack-feed-090.png" alt="Actual crack segmentation result with confidence 0.90"></span></div></figure>
-                          <figure><figcaption>Camera 02 (sim_cam_02)</figcaption><div><img class="crack-v2-checker" src="/assets/images/crack-monitoring/checkerboard.jpg" alt=""><span class="crack-v2-feed"><img src="/assets/images/crack-monitoring/crack-feed-094.png" alt="Actual crack segmentation result with confidence 0.94"></span></div></figure>
-                          <figure><figcaption>Camera 03 (sim_cam_03)</figcaption><div><img class="crack-v2-checker" src="/assets/images/crack-monitoring/checkerboard.jpg" alt=""><span class="crack-v2-feed"><img src="/assets/images/crack-monitoring/crack-feed-087.png" alt="Actual crack segmentation result with confidence 0.87"></span></div></figure>
-                          <figure data-crack-morph-target><figcaption>Camera 04 (sim_cam_04)</figcaption><div><img class="crack-v2-checker" src="/assets/images/crack-monitoring/checkerboard.jpg" alt=""><span class="crack-v2-feed"><img src="/assets/images/crack-monitoring/segmentation-reference.png" alt="Actual crack segmentation result with confidence 0.96"></span></div></figure>
+                          <figure><figcaption>Camera 01</figcaption><div><img class="crack-v2-checker" src="/assets/images/crack-monitoring/checkerboard.jpg" alt=""><span class="crack-v2-feed"><img src="/assets/images/crack-monitoring/crack-feed-090.png" alt="Actual crack segmentation result with confidence 0.90"></span></div></figure>
+                          <figure><figcaption>Camera 02</figcaption><div><img class="crack-v2-checker" src="/assets/images/crack-monitoring/checkerboard.jpg" alt=""><span class="crack-v2-feed"><img src="/assets/images/crack-monitoring/crack-feed-094.png" alt="Actual crack segmentation result with confidence 0.94"></span></div></figure>
+                          <figure><figcaption>Camera 03</figcaption><div><img class="crack-v2-checker" src="/assets/images/crack-monitoring/checkerboard.jpg" alt=""><span class="crack-v2-feed"><img src="/assets/images/crack-monitoring/crack-feed-087.png" alt="Actual crack segmentation result with confidence 0.87"></span></div></figure>
+                          <figure data-crack-morph-target><figcaption>Camera 04</figcaption><div><img class="crack-v2-checker" src="/assets/images/crack-monitoring/checkerboard.jpg" alt=""><span class="crack-v2-feed"><img src="/assets/images/crack-monitoring/segmentation-reference.png" alt="Actual crack segmentation result with confidence 0.96"></span></div></figure>
                         </div>
                       </section>
                     </main>
@@ -277,7 +271,6 @@
 
             <div class="crack-scroll-states" aria-hidden="true">
               <span data-crack-state="detail"></span>
-              <span data-crack-state="correction"></span>
               <span data-crack-state="scale"></span>
               <span data-crack-state="mask"></span>
               <span data-crack-state="skeleton"></span>
