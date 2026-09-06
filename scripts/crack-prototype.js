@@ -25,11 +25,16 @@
   const logDetection = story.querySelector('.crack-log-detection');
   const logLength = story.querySelector('.crack-log-length');
   const logWidth = story.querySelector('.crack-log-width');
-  const eventStory = story.querySelector('.crack-event-story');
+  const eventSequencePanel = story.querySelector('.crack-event-sequence-panel');
+  const eventSummaryPanel = story.querySelector('.crack-event-summary-panel');
   const eventWave = story.querySelector('.crack-event-wave path');
   const eventTrigger = story.querySelector('.crack-event-trigger');
   const eventTriggerLabel = story.querySelector('.crack-event-trigger-label');
   const eventTracks = [...story.querySelectorAll('.crack-event-tracks span')];
+  const eventSequence = story.querySelector('.crack-event-sequence');
+  const eventSummary = story.querySelector('.crack-event-summary');
+  const eventSummaryLength = story.querySelector('.home-event-series-length');
+  const eventSummaryWidth = story.querySelector('.home-event-series-width');
   let activeState = '';
   let frameRequested = false;
   let morphGeometry = null;
@@ -46,11 +51,12 @@
     if (!state || state === activeState) return;
     activeState = state;
     story.dataset.state = state;
+    const copyState = state === 'event-history' ? 'event' : state;
 
     if (state === 'wall') morphGeometry = null;
 
     copySections.forEach((section) => {
-      const isActive = section.dataset.crackCopy === state;
+      const isActive = section.dataset.crackCopy === copyState;
       section.classList.toggle('is-active', isActive);
       section.setAttribute('aria-hidden', String(!isActive));
     });
@@ -114,9 +120,13 @@
       figure.style.transform = 'scale(0.96)';
     });
     if (morphFeed) morphFeed.style.opacity = '0';
-    if (eventStory) {
-      eventStory.style.opacity = '0';
-      eventStory.style.transform = 'translateY(0.8rem)';
+    if (eventSequencePanel) {
+      eventSequencePanel.style.opacity = '0';
+      eventSequencePanel.style.transform = 'translateY(1rem)';
+    }
+    if (eventSummaryPanel) {
+      eventSummaryPanel.style.opacity = '0';
+      eventSummaryPanel.style.transform = 'translateY(1rem)';
     }
     if (eventWave) eventWave.style.strokeDashoffset = '1';
     if (eventTrigger) eventTrigger.style.opacity = '0';
@@ -124,6 +134,12 @@
     eventTracks.forEach((track) => {
       track.style.clipPath = 'inset(0 100% 0 0)';
     });
+    if (eventSequence) {
+      eventSequence.style.opacity = '1';
+      eventSequence.style.transform = 'none';
+    }
+    if (eventSummaryLength) eventSummaryLength.style.strokeDashoffset = '1';
+    if (eventSummaryWidth) eventSummaryWidth.style.strokeDashoffset = '1';
     setAnalysisLayer(maskCanvas, 0);
     setAnalysisLayer(skeletonCanvas, 0, 0);
     setAnalysisLayer(distanceCanvas, 0);
@@ -258,32 +274,60 @@
     morphFeed.style.boxShadow = `0 ${mix(0, 10, assemble)}px ${mix(0, 28, assemble)}px rgba(0, 0, 0, ${mix(0, 0.28, assemble)})`;
   };
 
-  const updateEventSequence = (progress) => {
-    if (!v1Window || !v2Window || !eventStory) return;
-    const windowShift = smoothstep(remap(progress, 0.02, 0.42));
-    const eventReveal = smoothstep(remap(progress, 0.1, 0.34));
-    const waveReveal = smoothstep(remap(progress, 0.16, 0.64));
-    const triggerReveal = smoothstep(remap(progress, 0.25, 0.36));
+  const setEventContext = (windowShift = 1) => {
+    if (!v1Window || !v2Window) return;
 
     v1Window.style.opacity = '0';
     v1Window.style.pointerEvents = 'none';
     v2Window.style.opacity = '1';
     v2Window.style.pointerEvents = 'auto';
-    v2Window.style.transform = `translateY(${-5 * windowShift}%) scale(${mix(1, 0.72, windowShift)})`;
+    v2Window.style.transform = `translateY(${-7 * windowShift}%) scale(${mix(1, 0.67, windowShift)})`;
     wallFigures.forEach((figure) => {
       figure.style.opacity = '1';
       figure.style.transform = 'none';
     });
+  };
 
-    eventStory.style.opacity = String(eventReveal);
-    eventStory.style.transform = `translateY(${(1 - eventReveal) * 0.8}rem)`;
+  const updateEventSequence = (progress) => {
+    if (!eventSequencePanel) return;
+    const windowShift = smoothstep(remap(progress, 0.02, 0.3));
+    const eventReveal = smoothstep(remap(progress, 0.1, 0.3));
+    const waveReveal = smoothstep(remap(progress, 0.2, 0.58));
+    const triggerReveal = smoothstep(remap(progress, 0.3, 0.42));
+
+    setEventContext(windowShift);
+
+    eventSequencePanel.style.opacity = String(eventReveal);
+    eventSequencePanel.style.transform = `translateY(${(1 - eventReveal)}rem)`;
     if (eventWave) eventWave.style.strokeDashoffset = String(1 - waveReveal);
     if (eventTrigger) eventTrigger.style.opacity = String(triggerReveal);
     if (eventTriggerLabel) eventTriggerLabel.style.opacity = String(triggerReveal);
     eventTracks.forEach((track, index) => {
-      const trackReveal = smoothstep(remap(progress, 0.32 + (index * 0.055), 0.78 + (index * 0.04)));
+      const trackReveal = smoothstep(remap(progress, 0.42 + (index * 0.06), 0.68 + (index * 0.055)));
       track.style.clipPath = `inset(0 ${(1 - trackReveal) * 100}% 0 0)`;
     });
+  };
+
+  const updateEventHistory = (progress) => {
+    if (!eventSequencePanel || !eventSummaryPanel) return;
+    setEventContext(1);
+
+    if (eventWave) eventWave.style.strokeDashoffset = '0';
+    if (eventTrigger) eventTrigger.style.opacity = '1';
+    if (eventTriggerLabel) eventTriggerLabel.style.opacity = '1';
+    eventTracks.forEach((track) => {
+      track.style.clipPath = 'inset(0 0 0 0)';
+    });
+
+    const summaryReveal = smoothstep(remap(progress, 0.12, 0.34));
+    const lengthReveal = smoothstep(remap(progress, 0.46, 0.9));
+    const widthReveal = smoothstep(remap(progress, 0.58, 0.99));
+    eventSequencePanel.style.opacity = String(1 - summaryReveal);
+    eventSequencePanel.style.transform = `translateY(${-0.3 * summaryReveal}rem)`;
+    eventSummaryPanel.style.opacity = String(summaryReveal);
+    eventSummaryPanel.style.transform = `translateY(${(1 - summaryReveal)}rem)`;
+    if (eventSummaryLength) eventSummaryLength.style.strokeDashoffset = String(1 - lengthReveal);
+    if (eventSummaryWidth) eventSummaryWidth.style.strokeDashoffset = String(1 - widthReveal);
   };
 
   const updateVisualProgress = (state, progress) => {
@@ -292,6 +336,7 @@
     updateAnalysis(state, motionProgress);
     if (state === 'wall') updateWallTransition(motionProgress);
     if (state === 'event') updateEventSequence(motionProgress);
+    if (state === 'event-history') updateEventHistory(motionProgress);
   };
 
   const updateFromScroll = () => {
@@ -372,6 +417,95 @@
     }
 
     eventWave.setAttribute('d', points.join(' '));
+  };
+
+  const prepareEventSummary = () => {
+    if (!eventSummaryLength || !eventSummaryWidth) return;
+
+    const sampleCount = 241;
+    const rawNoise = [];
+    let seed = 27463;
+
+    for (let index = 0; index < sampleCount + 8; index += 1) {
+      seed = (seed * 16807) % 2147483647;
+      rawNoise.push(((seed / 2147483647) * 2) - 1);
+    }
+
+    const filteredNoise = rawNoise.map((_, index) => {
+      const a = rawNoise[Math.max(0, index - 2)];
+      const b = rawNoise[Math.max(0, index - 1)];
+      const c = rawNoise[index];
+      const d = rawNoise[Math.min(rawNoise.length - 1, index + 1)];
+      const e = rawNoise[Math.min(rawNoise.length - 1, index + 2)];
+      return (a + (2 * b) + (3 * c) + (2 * d) + e) / 9;
+    });
+
+    const sigmoid = (value, center, steepness = 65) => 1 / (1 + Math.exp(-steepness * (value - center)));
+    const gaussian = (value, center, spread) => Math.exp(-Math.pow((value - center) / spread, 2));
+    const samples = Array.from({ length: sampleCount }, (_, index) => index / (sampleCount - 1));
+    const xAt = (time) => 92 + (686 * time);
+    const lengthY = (value) => 83 - (((value - 49.78) / 0.24) * 53);
+    const widthY = (value) => 159 - (((value - 1.48) / 0.16) * 53);
+
+    const lengthValues = samples.map((time, index) => {
+      const noise = filteredNoise[index + 3];
+      if (time < 0.3) {
+        return 49.82 + (0.0018 * Math.sin(2 * Math.PI * ((4.2 * time) + 0.1))) + (0.0015 * noise);
+      }
+      if (time <= 0.75) {
+        const eventTime = (time - 0.3) / 0.45;
+        const growth =
+          (0.018 * sigmoid(eventTime, 0.17)) +
+          (0.043 * sigmoid(eventTime, 0.35)) +
+          (0.052 * sigmoid(eventTime, 0.55)) +
+          (0.036 * sigmoid(eventTime, 0.73)) +
+          (0.019 * sigmoid(eventTime, 0.88));
+        const activity =
+          (0.36 * gaussian(eventTime, 0.24, 0.16)) +
+          gaussian(eventTime, 0.55, 0.2) +
+          (0.42 * gaussian(eventTime, 0.82, 0.16));
+        return 49.82 + growth +
+          ((0.0014 + (0.0036 * activity)) * noise) +
+          (0.0018 * activity * Math.sin(2 * Math.PI * ((13.4 * eventTime) + (0.8 * eventTime * eventTime))));
+      }
+      const postTime = (time - 0.75) / 0.25;
+      return 49.988 +
+        (0.0025 * Math.exp(-7 * postTime) * Math.sin(2 * Math.PI * 8.5 * postTime)) +
+        (0.0013 * noise);
+    });
+
+    const widthValues = samples.map((time, index) => {
+      const noise = filteredNoise[index + 5];
+      if (time < 0.3) {
+        return 1.54 + (0.0015 * Math.sin(2 * Math.PI * ((4.8 * time) + 0.18))) + (0.0012 * noise);
+      }
+      if (time <= 0.75) {
+        const eventTime = (time - 0.3) / 0.45;
+        const activity =
+          (0.38 * gaussian(eventTime, 0.2, 0.14)) +
+          gaussian(eventTime, 0.51, 0.2) +
+          (0.48 * gaussian(eventTime, 0.8, 0.17));
+        const carrier =
+          (0.48 * Math.sin(2 * Math.PI * ((9.1 * eventTime) + (1.1 * eventTime * eventTime)) + 0.3)) +
+          (0.27 * Math.sin(2 * Math.PI * ((15.7 * eventTime) + (0.55 * eventTime * eventTime)) + 1.35)) +
+          (0.16 * Math.sin(2 * Math.PI * (24.3 * eventTime) + 2.2)) +
+          (0.18 * noise);
+        return 1.54 + (0.032 * sigmoid(eventTime, 0.57, 18)) + ((0.005 + (0.054 * activity)) * carrier);
+      }
+      const postTime = (time - 0.75) / 0.25;
+      return 1.572 +
+        (0.0085 * Math.exp(-6.5 * postTime) * Math.sin(2 * Math.PI * 9.5 * postTime + 0.35)) +
+        (0.0035 * Math.exp(-8 * postTime) * Math.sin(2 * Math.PI * 18.5 * postTime + 1.1)) +
+        (0.0012 * noise);
+    });
+
+    const toPath = (values, yScale) => values.map((value, index) => {
+      const command = index === 0 ? 'M' : 'L';
+      return `${command}${xAt(samples[index]).toFixed(2)} ${yScale(value).toFixed(2)}`;
+    }).join(' ');
+
+    eventSummaryLength.setAttribute('d', toPath(lengthValues, lengthY));
+    eventSummaryWidth.setAttribute('d', toPath(widthValues, widthY));
   };
 
   const prepareAnalysisLayers = () => {
@@ -575,6 +709,7 @@
   };
 
   prepareEventWaveform();
+  prepareEventSummary();
   prepareAnalysisLayers();
   updateFromScroll();
 

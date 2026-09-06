@@ -1,29 +1,501 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Crack Monitoring System — Yen-Teng Chang</title>
-  <meta name="description" content="Real-time multi-camera crack monitoring system with automatic physical-scale calibration, seismic-event re-calibration, and socket-triggered event archiving, delivered as a client-ready Windows application.">
-  <link rel="stylesheet" href="/assets/style.css">
+  <meta name="description" content="Technical case study of Yen-Teng Chang's real-time multi-camera crack monitoring and measurement system for Sanlien Technology Corp.">
+  <title>Real-Time Crack Monitoring and Measurement System | Yen-Teng Chang</title>
+  <link rel="stylesheet" href="/assets/wireframe.css">
+  <link rel="stylesheet" href="/assets/crack-detail.css?v=20260906a">
 </head>
-<body>
-<main>
-  <nav class="top"><a href="/">Yen-Teng Chang</a> / Projects</nav>
+<body class="detail-page">
+  <a class="skip-link" href="#main-content">Skip to content</a>
 
-  <h1>Crack Monitoring System — Real-Time Multi-Camera Deployment</h1>
-  <p class="context">Sanlien Technology Corp. · Sole developer · September 2025 – January 2026</p>
+  <header class="site-header">
+    <a class="site-name" href="/#top">Yen-Teng Chang</a>
+    <nav class="desktop-nav" aria-label="Primary navigation">
+      <a href="/#projects">Projects</a>
+      <a href="/#publications">Publications</a>
+      <a href="/#experience">Experience</a>
+      <a href="/#awards">Awards</a>
+      <a href="/#contact">Contact</a>
+    </nav>
+    <a class="header-cv" href="/#cv">CV <span aria-hidden="true">↗</span></a>
+    <details class="mobile-menu">
+      <summary aria-label="Open navigation">Menu</summary>
+      <nav aria-label="Mobile navigation">
+        <a href="/#projects">Projects</a>
+        <a href="/#publications">Publications</a>
+        <a href="/#experience">Experience</a>
+        <a href="/#awards">Awards</a>
+        <a href="/#contact">Contact</a>
+      </nav>
+    </details>
+  </header>
 
-  <ul>
-    <li>Translated field monitoring requirements into a standalone multi-camera crack-monitoring system supporting concurrent RTSP streams, segmentation, identification, and automated crack measurement.</li>
-    <li>Implemented automatic physical-scale calibration and seismic-event re-calibration, converting pixel-level crack masks into physical length and width measurements despite camera and target movement.</li>
-    <li>Integrated socket-triggered seismic event recording, automatically archiving 30 s before and 60 s after each event with synchronized images, measurements, timestamps, and camera identifiers.</li>
-    <li>Designed and packaged the client-ready Windows application, including system-status, multi-camera, and detailed inspection views, with no additional environment configuration required.</li>
-  </ul>
+  <main id="main-content">
+    <section class="detail-hero" id="top" aria-labelledby="project-title">
+      <div class="detail-shell">
+        <p class="detail-breadcrumb"><a href="/#projects">Projects</a><span aria-hidden="true">/</span> Structural monitoring system</p>
+        <div class="detail-hero-grid">
+          <div>
+            <p class="detail-kicker">Technical case study</p>
+            <h1 id="project-title">Real-Time Crack Monitoring and Measurement System</h1>
+          </div>
+          <div class="detail-introduction">
+            <p>A multi-camera Windows application that converts continuous crack imagery into measurements in physical units and traceable records around seismic events.</p>
+            <a class="detail-text-link" href="/#crack-monitoring">Back to the Home walkthrough <span aria-hidden="true">↗</span></a>
+          </div>
+        </div>
+        <dl class="project-facts" aria-label="Project facts">
+          <div><dt>Role</dt><dd>Sole developer</dd></div>
+          <div><dt>Collaboration</dt><dd>Sanlien Technology Corp.</dd></div>
+          <div><dt>Period</dt><dd>Sep 2025 – Jan 2026</dd></div>
+          <div><dt>Delivery</dt><dd>Self-contained Windows application</dd></div>
+        </dl>
+      </div>
+    </section>
 
-  <p class="note">Interface screenshots and an event-timeline illustration will be added to this page.</p>
+    <nav class="detail-section-nav" aria-label="Case study sections">
+      <div class="detail-shell">
+        <a href="#architecture">Architecture</a>
+        <a href="#calibration">Calibration</a>
+        <a href="#measurement">Measurement</a>
+        <a href="#event-recording">Event recording</a>
+        <a href="#delivery">Delivery</a>
+      </div>
+    </nav>
 
-  <footer><a href="/">← Home</a></footer>
-</main>
+    <section class="detail-overview detail-shell" aria-labelledby="overview-title">
+      <div class="detail-section-heading">
+        <p class="detail-kicker">What I built</p>
+        <h2 id="overview-title">One system across sensing, measurement, event capture, and delivery.</h2>
+      </div>
+      <ol class="build-list">
+        <li><span>01</span><p>Configurable multi-camera acquisition and independent processing workers.</p></li>
+        <li><span>02</span><p>Lens-distortion correction and physical-scale initialization.</p></li>
+        <li><span>03</span><p>Instance segmentation with physical crack length and maximum-width estimation.</p></li>
+        <li><span>04</span><p>Socket-triggered rolling buffers and event-linked archives.</p></li>
+        <li><span>05</span><p>Operational desktop views and packaged Windows delivery.</p></li>
+      </ol>
+    </section>
+
+    <section class="architecture-section" id="architecture" aria-labelledby="architecture-title">
+      <div class="detail-shell">
+        <div class="detail-heading-row">
+          <div class="detail-section-heading">
+            <p class="detail-kicker">System architecture</p>
+            <h2 id="architecture-title">Per-camera state, shared inference, coordinated events.</h2>
+          </div>
+          <p>The architecture separates continuous camera work from shared vision inference and event coordination. Select a pathway to follow its data flow.</p>
+        </div>
+        <div class="architecture-controls" role="group" aria-label="Highlight an architecture pathway">
+          <button type="button" class="is-active" data-architecture-filter="all" aria-pressed="true">Complete system</button>
+          <button type="button" data-architecture-filter="camera" aria-pressed="false">Camera processing</button>
+          <button type="button" data-architecture-filter="output" aria-pressed="false">Presentation &amp; storage</button>
+          <button type="button" data-architecture-filter="event" aria-pressed="false">Seismic event control</button>
+        </div>
+        <div class="architecture-scroll" tabindex="0" aria-label="Scrollable system architecture diagram">
+          <svg class="architecture-map" viewBox="0 0 1200 610" role="img" aria-labelledby="architecture-svg-title architecture-svg-desc">
+            <title id="architecture-svg-title">Crack monitoring system architecture</title>
+            <desc id="architecture-svg-desc">Configurable RTSP cameras feed per-camera handlers and workers. Workers share one locked vision core, update the application interface, and pass images and measurements to per-camera data managers. A host seismic system sends start, stop, and event identifiers through a socket server and the main controller to all active workers.</desc>
+            <defs>
+              <marker id="arrow" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L9,4.5 L0,9 z"></path></marker>
+              <marker id="arrow-start" markerWidth="9" markerHeight="9" refX="1" refY="4.5" orient="auto" markerUnits="strokeWidth"><path d="M9,0 L0,4.5 L9,9 z"></path></marker>
+            </defs>
+            <g class="arch-connectors">
+              <path data-path-tags="camera" d="M210 150 H270" marker-end="url(#arrow)"></path>
+              <path data-path-tags="camera" d="M440 150 H500" marker-end="url(#arrow)"></path>
+              <path data-path-tags="camera" d="M710 150 H770" marker-start="url(#arrow-start)" marker-end="url(#arrow)"></path>
+              <path data-path-tags="output" d="M710 112 V55 H970 V86 H1000" marker-end="url(#arrow)"></path>
+              <path data-path-tags="output event" d="M605 225 V315 H770" marker-end="url(#arrow)"></path>
+              <path data-path-tags="output event" d="M950 315 H1000" marker-end="url(#arrow)"></path>
+              <path data-path-tags="event" d="M210 477 H270" marker-end="url(#arrow)"></path>
+              <path data-path-tags="event" d="M440 477 H500" marker-end="url(#arrow)"></path>
+              <path data-path-tags="event" d="M605 420 V225" marker-end="url(#arrow)"></path>
+              <path data-path-tags="event" d="M1085 360 V405" marker-end="url(#arrow)"></path>
+            </g>
+            <g class="arch-node" data-path-tags="camera">
+              <rect x="30" y="70" width="180" height="160" rx="18"></rect>
+              <text x="120" y="105" class="arch-label">INPUTS</text>
+              <text x="120" y="138" class="arch-title">RTSP cameras</text>
+              <line x1="55" y1="157" x2="185" y2="157"></line>
+              <text x="120" y="181" class="arch-detail">Camera 01</text>
+              <text x="120" y="205" class="arch-detail">Camera 02 · · · Camera N</text>
+            </g>
+            <g class="arch-node" data-path-tags="camera">
+              <rect x="270" y="95" width="170" height="110" rx="18"></rect>
+              <text x="355" y="130" class="arch-label">PER CAMERA</text>
+              <text x="355" y="160" class="arch-title">CameraHandler</text>
+              <text x="355" y="184" class="arch-detail">Connection · latest frame</text>
+            </g>
+            <g class="arch-node arch-node-primary" data-path-tags="camera output event">
+              <rect x="500" y="75" width="210" height="150" rx="18"></rect>
+              <text x="605" y="111" class="arch-label">PER CAMERA</text>
+              <text x="605" y="143" class="arch-title">CameraWorker</text>
+              <text x="605" y="170" class="arch-detail">Lens-correction maps</text>
+              <text x="605" y="194" class="arch-detail">Physical scale · processing loop</text>
+            </g>
+            <g class="arch-node arch-node-shared" data-path-tags="camera">
+              <rect x="770" y="95" width="180" height="110" rx="18"></rect>
+              <text x="860" y="130" class="arch-label">SHARED RESOURCE</text>
+              <text x="860" y="160" class="arch-title">VisionCore</text>
+              <text x="860" y="181" class="arch-detail">Locked inference</text>
+              <text x="860" y="198" class="arch-detail">Crack measurement</text>
+            </g>
+            <g class="arch-node" data-path-tags="output">
+              <rect x="1000" y="35" width="170" height="105" rx="18"></rect>
+              <text x="1085" y="70" class="arch-label">PRESENTATION</text>
+              <text x="1085" y="100" class="arch-title">App UI</text>
+              <text x="1085" y="122" class="arch-detail">Latest frame + status</text>
+            </g>
+            <g class="arch-node" data-path-tags="output event">
+              <rect x="770" y="260" width="180" height="110" rx="18"></rect>
+              <text x="860" y="295" class="arch-label">PER CAMERA</text>
+              <text x="860" y="325" class="arch-title">DataManager</text>
+              <text x="860" y="349" class="arch-detail">Buffer · phase · writer queue</text>
+            </g>
+            <g class="arch-node" data-path-tags="output event">
+              <rect x="1000" y="260" width="170" height="100" rx="18"></rect>
+              <text x="1085" y="295" class="arch-label">CONTINUOUS</text>
+              <text x="1085" y="325" class="arch-title">Rolling buffer</text>
+              <text x="1085" y="347" class="arch-detail">Latest data packets</text>
+            </g>
+            <g class="arch-node arch-node-event" data-path-tags="event output">
+              <rect x="1000" y="405" width="170" height="115" rx="18"></rect>
+              <text x="1085" y="440" class="arch-label">ON TRIGGER</text>
+              <text x="1085" y="470" class="arch-title">Event archive</text>
+              <text x="1085" y="494" class="arch-detail">Event ID / Camera ID</text>
+            </g>
+            <g class="arch-node arch-node-event" data-path-tags="event">
+              <rect x="30" y="420" width="180" height="115" rx="18"></rect>
+              <text x="120" y="455" class="arch-label">EXTERNAL INPUT</text>
+              <text x="120" y="485" class="arch-title">Host seismic system</text>
+              <text x="120" y="509" class="arch-detail">Start · stop · event ID</text>
+            </g>
+            <g class="arch-node arch-node-event" data-path-tags="event">
+              <rect x="270" y="420" width="170" height="115" rx="18"></rect>
+              <text x="355" y="455" class="arch-label">EVENT INTERFACE</text>
+              <text x="355" y="485" class="arch-title">Socket Server</text>
+              <text x="355" y="509" class="arch-detail">Receive + acknowledge</text>
+            </g>
+            <g class="arch-node arch-node-event" data-path-tags="event">
+              <rect x="500" y="420" width="210" height="115" rx="18"></rect>
+              <text x="605" y="455" class="arch-label">COORDINATION</text>
+              <text x="605" y="485" class="arch-title">MainController</text>
+              <text x="605" y="509" class="arch-detail">Broadcast to active workers</text>
+            </g>
+            <text x="55" y="580" class="arch-caption">Solid relationships reflect the implemented application architecture.</text>
+          </svg>
+        </div>
+        <p class="architecture-hint" aria-hidden="true">On smaller screens, swipe horizontally to inspect the complete diagram.</p>
+      </div>
+    </section>
+
+    <section class="calibration-section" id="calibration" aria-labelledby="calibration-title">
+      <div class="detail-shell">
+        <div class="detail-heading-row">
+          <div class="detail-section-heading">
+            <p class="detail-kicker">Lens-distortion correction</p>
+            <h2 id="calibration-title">Calibrate once. Reuse the correction.</h2>
+          </div>
+          <p>OpenCV estimates the lens parameters offline. The application then loads those saved parameters and prepares reusable correction maps at runtime.</p>
+        </div>
+        <div class="calibration-process" aria-label="Camera calibration and runtime correction process">
+          <article>
+            <p class="process-index">01 / Offline camera calibration</p>
+            <h3>Estimate the camera parameters.</h3>
+            <p>Checkerboard images captured at varied positions and orientations are processed with OpenCV. <code>findChessboardCorners</code> locates the pattern, <code>cornerSubPix</code> refines the image coordinates, and <code>calibrateCamera</code> estimates the camera matrix and distortion coefficients. The results are stored in <code>camera_params.npz</code>.</p>
+            <div class="process-flow" aria-label="Checkerboard views through OpenCV corner detection and camera calibration to a saved parameter file">
+              <span>Checkerboard views</span><b aria-hidden="true">→</b><span><code>findChessboardCorners</code></span><b aria-hidden="true">→</b><span><code>cornerSubPix</code></span><b aria-hidden="true">→</b><span><code>calibrateCamera</code></span><b aria-hidden="true">→</b><span><code>camera_params.npz</code></span>
+            </div>
+          </article>
+          <article>
+            <p class="process-index">02 / Runtime lens correction</p>
+            <h3>Prepare the mapping once per run.</h3>
+            <p>The CameraWorker loads the saved matrix and coefficients. Once the first frame establishes the stream resolution, <code>initUndistortRectifyMap</code> generates resolution-specific lookup maps. <code>remap</code> then reuses those maps to correct each incoming frame.</p>
+            <div class="process-flow" aria-label="Load parameters to first frame resolution to remap tables to corrected frames">
+              <span>Load parameters</span><b aria-hidden="true">→</b><span>First-frame resolution</span><b aria-hidden="true">→</b><span><code>initUndistortRectifyMap</code></span><b aria-hidden="true">→</b><span><code>remap</code> every frame</span>
+            </div>
+          </article>
+        </div>
+        <div class="comparison-heading">
+          <div><p class="detail-kicker">Actual result</p><h3>Compare the camera geometry before and after correction.</h3></div>
+          <p>Both states are visible by default. Move the divider for a localized comparison.</p>
+        </div>
+        <figure class="lens-comparison" data-lens-comparison style="--split: 50%;">
+          <img class="lens-before" src="/assets/images/crack-monitoring/technical/lens-before.png" alt="Camera image before lens-distortion correction" loading="lazy" decoding="async">
+          <div class="lens-after-wrap" aria-hidden="true"><img class="lens-after" src="/assets/images/crack-monitoring/technical/lens-after.png" alt=""></div>
+          <span class="comparison-label comparison-label-before">Before correction</span>
+          <span class="comparison-label comparison-label-after">Corrected</span>
+          <span class="comparison-divider" aria-hidden="true"><i></i></span>
+          <input type="range" min="0" max="100" value="50" aria-label="Adjust the lens-correction comparison">
+        </figure>
+        <div class="physical-scale-block">
+          <div>
+            <p class="detail-kicker">Physical-scale initialization</p>
+            <h3>A separate step converts pixels into physical units.</h3>
+            <p>After lens correction, the system detects the checkerboard in the operating view. The known square size and measured pixel span establish the <code>mm/px</code> scale used by the measurement pipeline.</p>
+            <p>Scale can be initialized at startup, updated manually, and refreshed during event recording. If an update fails, the most recent valid scale remains available.</p>
+          </div>
+          <div class="scale-equation" aria-label="Physical-scale calculation">
+            <img src="/assets/images/crack-monitoring/checkerboard.jpg" alt="Checkerboard used to establish the physical scale" loading="lazy" decoding="async">
+            <div><span>Known distance (mm)</span><b aria-hidden="true">/</b><span>Measured span (px)</span><strong>= scale (mm/px)</strong></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="measurement-section" id="measurement" aria-labelledby="measurement-title">
+      <div class="detail-shell">
+        <div class="detail-heading-row detail-heading-row-dark">
+          <div class="detail-section-heading">
+            <p class="detail-kicker">Segmentation and measurement</p>
+            <h2 id="measurement-title">From a pixel-level boundary to physical crack dimensions.</h2>
+          </div>
+          <p>The same corrected frame and established physical scale support instance-level identification, length estimation, and maximum-width estimation.</p>
+        </div>
+        <div class="measurement-visuals" aria-label="Three stages of the crack measurement method">
+          <figure>
+            <div class="measurement-image"><img src="/assets/images/crack-monitoring/segmentation-reference.png" alt="Actual instance-segmentation result with crack mask, bounding box, class, and confidence" loading="lazy" decoding="async"></div>
+            <figcaption><span>01</span><strong>Instance segmentation</strong><small>Separate crack instances and retain the pixel-level boundary required for measurement.</small></figcaption>
+          </figure>
+          <figure>
+            <div class="measurement-image measurement-layered">
+              <img src="/assets/images/crack-monitoring/crack-primary.jpg" alt="Crack image with a source-derived mask and centerline visualization" loading="lazy" decoding="async">
+              <canvas width="400" height="400" data-technical-layer="mask" aria-hidden="true"></canvas>
+              <canvas width="400" height="400" data-technical-layer="skeleton" aria-hidden="true"></canvas>
+            </div>
+            <figcaption><span>02</span><strong>Physical crack length</strong><small>Skeletonize the mask, count the centerline pixels, and apply the established scale.</small></figcaption>
+          </figure>
+          <figure>
+            <div class="measurement-image measurement-layered">
+              <img src="/assets/images/crack-monitoring/crack-primary.jpg" alt="Crack image with a source-derived distance-transform and maximum-width visualization" loading="lazy" decoding="async">
+              <canvas width="400" height="400" data-technical-layer="distance" aria-hidden="true"></canvas>
+              <canvas width="400" height="400" data-technical-layer="scan" aria-hidden="true"></canvas>
+              <canvas width="400" height="400" data-technical-layer="maximum" aria-hidden="true"></canvas>
+            </div>
+            <figcaption><span>03</span><strong>Maximum crack width</strong><small>Use the distance transform to locate the largest local radius, then convert its diameter into millimeters.</small></figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="event-section" id="event-recording" aria-labelledby="event-title">
+      <div class="detail-shell">
+        <div class="detail-heading-row">
+          <div class="detail-section-heading">
+            <p class="detail-kicker">Event state and rolling buffer</p>
+            <h2 id="event-title">The event record includes what happened before the trigger.</h2>
+          </div>
+          <p>A local TCP socket connects the host seismic system to the monitoring application. Start and stop signals carry the same event ID through the controller to every active camera worker.</p>
+        </div>
+        <div class="event-interface">
+          <article class="socket-contract">
+            <p class="process-index">TCP socket interface</p>
+            <h3>Two messages coordinate one event ID.</h3>
+            <div class="socket-messages">
+              <div>
+                <span>Event start</span>
+                <code>event_occurred=1,no={event_id}</code>
+                <small>Application response: <code>ACK_START</code></small>
+              </div>
+              <div>
+                <span>Event stop</span>
+                <code>event_occurred=0,no={event_id}</code>
+                <small>Application response: <code>ACK_STOP</code></small>
+              </div>
+            </div>
+          </article>
+          <article class="event-dispatch">
+            <p class="process-index">System response</p>
+            <h3>Parse once. Broadcast to every active camera.</h3>
+            <ol>
+              <li><span>01</span><p>The socket server parses <code>event_occurred</code> and <code>no</code>, then acknowledges the host system.</p></li>
+              <li><span>02</span><p>MainController forwards the event ID and state to all active CameraWorkers.</p></li>
+              <li><span>03</span><p>Each DataManager manages its own buffer, phase state, image files, and CSV record inside the shared event archive.</p></li>
+            </ol>
+          </article>
+        </div>
+        <div class="event-state-flow" aria-label="Event recording state sequence">
+          <article><span>01</span><strong>Standby</strong><small>Continuously retain the latest data packets.</small></article>
+          <i aria-hidden="true">→</i>
+          <article><span>02</span><strong>Start received</strong><small>Create the event and camera directories, initialize the CSV, and snapshot the rolling buffer as <code>pre_event</code>.</small></article>
+          <i aria-hidden="true">→</i>
+          <article><span>03</span><strong>During event</strong><small>Append incoming raw images, annotated images, and measurements as <code>during_event</code>.</small></article>
+          <i aria-hidden="true">→</i>
+          <article><span>04</span><strong>Stop received</strong><small>Switch new packets to <code>post_event</code> and continue through the configured follow-on window.</small></article>
+          <i aria-hidden="true">→</i>
+          <article><span>05</span><strong>Finalize</strong><small>Close the CSV and return the camera record to standby.</small></article>
+        </div>
+        <figure class="event-data-figure" data-event-data-figure hidden>
+          <figcaption>
+            <span>Illustrative event histories</span>
+            <small><strong>Simulated demonstration.</strong> The trajectories illustrate how the implemented event-log structure can organize crack measurements over time; they are not measurements from an experimental earthquake response.</small>
+          </figcaption>
+          <p class="event-chart-hint" aria-hidden="true">Swipe horizontally to follow the complete event history.</p>
+          <div class="event-chart-scroll" tabindex="0" aria-label="Horizontally scrollable simulated crack measurement histories">
+            <svg class="event-data-chart" viewBox="0 0 1160 660" role="img" aria-labelledby="event-chart-title event-chart-description">
+              <title id="event-chart-title">Simulated crack length and maximum crack width histories around a seismic event</title>
+              <desc id="event-chart-description">Two synchronized line charts share an event-relative time axis. Both are divided into pre-event, during-event, and post-event phases. Values are simulated to explain the implemented record structure and are not experimental results.</desc>
+
+              <g class="event-phase-bands" aria-hidden="true">
+                <rect class="event-phase-band event-phase-pre" x="130" y="112" width="285" height="460"></rect>
+                <rect class="event-phase-band event-phase-during" x="415" y="112" width="427.5" height="460"></rect>
+                <rect class="event-phase-band event-phase-post" x="842.5" y="112" width="237.5" height="460"></rect>
+                <text x="272.5" y="92" text-anchor="middle">PRE-EVENT</text>
+                <text x="628.75" y="92" text-anchor="middle">DURING EVENT</text>
+                <text x="961.25" y="92" text-anchor="middle">POST-EVENT</text>
+              </g>
+
+              <g class="event-chart-grid" aria-hidden="true">
+                <line x1="130" y1="120" x2="1080" y2="120"></line>
+                <line x1="130" y1="157.5" x2="1080" y2="157.5"></line>
+                <line x1="130" y1="195" x2="1080" y2="195"></line>
+                <line x1="130" y1="232.5" x2="1080" y2="232.5"></line>
+                <line x1="130" y1="270" x2="1080" y2="270"></line>
+                <line x1="130" y1="300" x2="1080" y2="300"></line>
+                <line x1="130" y1="385" x2="1080" y2="385"></line>
+                <line x1="130" y1="430" x2="1080" y2="430"></line>
+                <line x1="130" y1="475" x2="1080" y2="475"></line>
+                <line x1="130" y1="520" x2="1080" y2="520"></line>
+                <line x1="130" y1="565" x2="1080" y2="565"></line>
+                <line x1="367.5" y1="120" x2="367.5" y2="300"></line>
+                <line x1="605" y1="120" x2="605" y2="300"></line>
+                <line x1="842.5" y1="120" x2="842.5" y2="300"></line>
+                <line x1="367.5" y1="385" x2="367.5" y2="565"></line>
+                <line x1="605" y1="385" x2="605" y2="565"></line>
+                <line x1="842.5" y1="385" x2="842.5" y2="565"></line>
+              </g>
+
+              <g class="event-plot-frames" aria-hidden="true">
+                <rect x="130" y="120" width="950" height="180"></rect>
+                <rect x="130" y="385" width="950" height="180"></rect>
+              </g>
+
+              <g class="event-chart-labels" aria-hidden="true">
+                <text class="event-chart-name" x="130" y="108">(a) Crack length history</text>
+                <text class="event-axis-label" transform="translate(40 210) rotate(-90)" text-anchor="middle">Crack length (mm)</text>
+                <text x="116" y="125" text-anchor="end">50.02</text>
+                <text x="116" y="162.5" text-anchor="end">49.97</text>
+                <text x="116" y="200" text-anchor="end">49.92</text>
+                <text x="116" y="237.5" text-anchor="end">49.87</text>
+                <text x="116" y="275" text-anchor="end">49.82</text>
+                <text x="116" y="305" text-anchor="end">49.78</text>
+                <text class="event-chart-name" x="130" y="373">(b) Maximum crack width history</text>
+                <text class="event-axis-label" transform="translate(40 475) rotate(-90)" text-anchor="middle">Maximum width (mm)</text>
+                <text x="116" y="390" text-anchor="end">1.64</text>
+                <text x="116" y="435" text-anchor="end">1.60</text>
+                <text x="116" y="480" text-anchor="end">1.56</text>
+                <text x="116" y="525" text-anchor="end">1.52</text>
+                <text x="116" y="570" text-anchor="end">1.48</text>
+                <text class="event-time-label" x="605" y="637" text-anchor="middle">EVENT-RELATIVE TIME</text>
+              </g>
+
+              <g class="event-marker-group event-trigger-marker" aria-hidden="true">
+                <line x1="415" y1="112" x2="415" y2="572"></line>
+                <text x="403" y="610" text-anchor="end">t₀ · TRIGGER</text>
+              </g>
+              <g class="event-marker-group event-stop-marker" aria-hidden="true">
+                <line x1="842.5" y1="112" x2="842.5" y2="572"></line>
+                <text x="854.5" y="610">t₁ · STOP</text>
+              </g>
+
+              <path class="event-series-path event-series-length" pathLength="1" d="M130.0 266.8 L135.9 266.3 L141.9 268.2 L147.8 267.5 L153.8 268.5 L159.7 269.3 L165.6 266.3 L171.6 266.1 L177.5 268.5 L183.4 269.1 L189.4 272.1 L195.3 275.2 L201.3 273.2 L207.2 272.1 L213.1 272.4 L219.1 270.4 L225.0 271.3 L230.9 273.7 L236.9 271.6 L242.8 269.7 L248.8 268.8 L254.7 265.1 L260.6 264.8 L266.6 267.7 L272.5 267.9 L278.4 268.9 L284.4 270.5 L290.3 268.2 L296.3 267.9 L302.2 270.9 L308.1 271.6 L314.1 273.6 L320.0 276.2 L325.9 273.6 L331.9 271.2 L337.8 271.2 L343.8 269.1 L349.7 269.2 L355.6 271.6 L361.6 269.7 L367.5 267.5 L373.4 267.2 L379.4 264.7 L385.3 264.8 L391.3 268.8 L397.2 269.8 L403.1 270.6 L409.1 272.4 L415.0 270.5 L420.9 269.5 L426.9 272.3 L432.8 272.8 L438.8 274.7 L444.7 276.2 L450.6 272.1 L456.6 268.4 L462.5 266.5 L468.4 267.1 L474.4 268.9 L480.3 269.2 L486.3 267.3 L492.2 258.8 L498.1 255.4 L504.1 255.3 L510.0 250.1 L515.9 252.0 L521.9 246.8 L527.8 236.6 L533.8 240.6 L539.7 238.9 L545.6 240.0 L551.6 246.5 L557.5 236.9 L563.4 234.5 L569.4 236.3 L575.3 233.5 L581.3 240.5 L587.2 237.1 L593.1 229.8 L599.1 228.4 L605.0 223.4 L610.9 228.7 L616.9 226.8 L622.8 213.4 L628.8 204.2 L634.7 186.9 L640.6 185.1 L646.6 194.7 L652.5 191.3 L658.4 194.8 L664.4 187.8 L670.3 174.5 L676.3 182.3 L682.2 184.3 L688.1 186.7 L694.1 191.3 L700.0 177.7 L705.9 170.9 L711.9 170.1 L717.8 167.4 L723.8 171.3 L729.7 166.2 L735.6 157.1 L741.6 150.7 L747.5 145.4 L753.4 149.5 L759.4 151.7 L765.3 152.1 L771.3 153.5 L777.2 147.3 L783.1 146.6 L789.1 148.0 L795.0 144.3 L800.9 146.5 L806.9 146.4 L812.8 143.2 L818.8 144.9 L824.7 143.9 L830.6 140.9 L836.6 142.3 L842.5 144.4 L848.4 139.5 L854.4 144.9 L860.3 150.2 L866.3 150.5 L872.2 150.7 L878.1 148.9 L884.1 145.9 L890.0 148.0 L895.9 150.2 L901.9 148.5 L907.8 147.8 L913.8 145.5 L919.7 141.5 L925.6 142.3 L931.6 144.5 L937.5 143.9 L943.4 145.2 L949.4 145.1 L955.3 142.3 L961.3 143.7 L967.2 146.7 L973.1 147.6 L979.1 150.5 L985.0 151.6 L990.9 148.4 L996.9 147.6 L1002.8 148.0 L1008.8 146.6 L1014.7 148.2 L1020.6 149.2 L1026.6 145.7 L1032.5 143.9 L1038.4 142.9 L1044.4 140.5 L1050.3 142.4 L1056.3 145.6 L1062.2 145.1 L1068.1 145.9 L1074.1 146.5 L1080.0 144.3"></path>
+              <path class="event-series-path event-series-width" pathLength="1" d="M130.0 493.6 L135.9 493.0 L141.9 496.4 L147.8 495.4 L153.8 495.8 L159.7 495.9 L165.6 492.4 L171.6 494.6 L177.5 497.6 L183.4 498.2 L189.4 501.8 L195.3 500.8 L201.3 498.0 L207.2 499.8 L213.1 499.2 L219.1 500.2 L225.0 503.0 L230.9 499.4 L236.9 497.1 L242.8 496.3 L248.8 493.1 L254.7 495.5 L260.6 497.3 L266.6 494.9 L272.5 495.5 L278.4 493.7 L284.4 492.1 L290.3 496.6 L296.3 498.1 L302.2 499.2 L308.1 501.4 L314.1 498.2 L320.0 497.9 L325.9 500.5 L331.9 499.9 L337.8 502.3 L343.8 502.3 L349.7 497.5 L355.6 496.9 L361.6 495.6 L367.5 494.4 L373.4 497.8 L379.4 496.5 L385.3 494.1 L391.3 494.6 L397.2 492.1 L403.1 493.7 L409.1 498.3 L415.0 498.0 L420.9 498.7 L426.9 498.4 L432.8 497.2 L438.8 506.1 L444.7 503.0 L450.6 498.5 L456.6 485.9 L462.5 501.3 L468.4 510.9 L474.4 507.8 L480.3 497.3 L486.3 471.9 L492.2 489.8 L498.1 490.3 L504.1 530.8 L510.0 509.2 L515.9 464.5 L521.9 469.3 L527.8 483.5 L533.8 537.0 L539.7 514.2 L545.6 512.3 L551.6 455.3 L557.5 455.5 L563.4 522.1 L569.4 538.5 L575.3 539.0 L581.3 447.0 L587.2 465.6 L593.1 470.9 L599.1 517.0 L605.0 553.7 L610.9 486.8 L616.9 451.0 L622.8 418.6 L628.8 517.3 L634.7 522.6 L640.6 510.1 L646.6 474.5 L652.5 420.2 L658.4 468.3 L664.4 489.3 L670.3 550.1 L676.3 475.1 L682.2 432.9 L688.1 448.4 L694.1 468.8 L700.0 516.2 L705.9 483.5 L711.9 474.2 L717.8 413.2 L723.8 446.0 L729.7 491.5 L735.6 484.3 L741.6 472.1 L747.5 425.6 L753.4 448.5 L759.4 452.2 L765.3 482.1 L771.3 481.6 L777.2 450.1 L783.1 444.4 L789.1 450.9 L795.0 478.7 L800.9 469.6 L806.9 468.0 L812.8 456.6 L818.8 452.2 L824.7 462.6 L830.6 462.6 L836.6 461.6 L842.5 459.6 L848.4 440.9 L854.4 450.1 L860.3 462.9 L866.3 464.4 L872.2 460.9 L878.1 453.8 L884.1 450.7 L890.0 457.6 L895.9 461.9 L901.9 463.2 L907.8 464.5 L913.8 460.7 L919.7 460.0 L925.6 462.4 L931.6 460.7 L937.5 462.0 L943.4 462.7 L949.4 459.3 L955.3 459.5 L961.3 457.6 L967.2 454.3 L973.1 456.6 L979.1 456.7 L985.0 456.6 L990.9 459.1 L996.9 456.4 L1002.8 455.6 L1008.8 458.5 L1014.7 458.7 L1020.6 462.2 L1026.6 464.5 L1032.5 461.3 L1038.4 461.4 L1044.4 461.1 L1050.3 459.9 L1056.3 463.5 L1062.2 462.8 L1068.1 459.6 L1074.1 459.1 L1080.0 455.3"></path>
+            </svg>
+          </div>
+        </figure>
+        <figure class="record-excerpt">
+          <figcaption>
+            <span>Simulated record excerpt</span>
+            <small>Field names, phase labels, and file-linking logic follow the implemented CSV export. Values shown below are illustrative sample data.</small>
+          </figcaption>
+          <div class="record-table-wrap" tabindex="0" aria-label="Horizontally scrollable event record example">
+            <table class="record-table">
+              <thead>
+                <tr><th>Event phase</th><th>Timestamp</th><th>Crack ID</th><th>Length</th><th>Max. width</th><th>Raw image</th><th>Annotated image</th></tr>
+              </thead>
+              <tbody>
+                <tr class="record-pre"><th scope="rowgroup" rowspan="2"><strong>Pre-event</strong><code>pre_event</code></th><td>2025-11-28_15-29-58</td><td>0</td><td>49.80 mm</td><td>1.55 mm</td><td><code>raw_…29-58.jpg</code></td><td><code>annotated_…29-58.jpg</code></td></tr>
+                <tr class="record-pre"><td>2025-11-28_15-29-59</td><td>−1</td><td>0</td><td>0</td><td><code>raw_…29-59.jpg</code></td><td><code>annotated_…29-59.jpg</code></td></tr>
+                <tr class="record-during"><th scope="rowgroup" rowspan="3"><strong>During event</strong><code>during_event</code></th><td>2025-11-28_15-30-00</td><td>0</td><td>51.20 mm</td><td>1.71 mm</td><td><code>raw_…30-00.jpg</code></td><td><code>annotated_…30-00.jpg</code></td></tr>
+                <tr class="record-during"><td>2025-11-28_15-30-00</td><td>1</td><td>22.30 mm</td><td>0.64 mm</td><td><code>raw_…30-00.jpg</code></td><td><code>annotated_…30-00.jpg</code></td></tr>
+                <tr class="record-during"><td>2025-11-28_15-30-01</td><td>0</td><td>53.60 mm</td><td>1.83 mm</td><td><code>raw_…30-01.jpg</code></td><td><code>annotated_…30-01.jpg</code></td></tr>
+                <tr class="record-post"><th scope="rowgroup" rowspan="2"><strong>Post-event</strong><code>post_event</code></th><td>2025-11-28_15-30-02</td><td>0</td><td>54.10 mm</td><td>1.88 mm</td><td><code>raw_…30-02.jpg</code></td><td><code>annotated_…30-02.jpg</code></td></tr>
+                <tr class="record-post"><td>2025-11-28_15-30-03</td><td>0</td><td>54.00 mm</td><td>1.86 mm</td><td><code>raw_…30-03.jpg</code></td><td><code>annotated_…30-03.jpg</code></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </figure>
+        <div class="archive-block" aria-labelledby="archive-title">
+          <div>
+            <p class="detail-kicker">Archive and traceability</p>
+            <h3 id="archive-title">Images and measurements remain linked by event, camera, and time.</h3>
+            <p>Each event contains a separate directory for every active camera. The measurement log points back to the raw and annotated images from the same timestamp and records whether each packet belongs to the pre-event, during-event, or post-event phase.</p>
+          </div>
+          <pre class="archive-tree" aria-label="Event archive folder structure"><code>archives/
+└── event_id/
+    └── camera_id/
+        ├── raw_images/
+        ├── annotated_images/
+        └── event_camera_log.csv</code></pre>
+        </div>
+        <div class="schema-table-wrap" tabindex="0">
+          <table class="schema-table">
+            <caption>Event log fields</caption>
+            <thead><tr><th>Field</th><th>Purpose</th></tr></thead>
+            <tbody>
+              <tr><td><code>timestamp</code></td><td>Connects each measurement to its image time.</td></tr>
+              <tr><td><code>crack_id</code></td><td>Separates multiple detected cracks within the same frame.</td></tr>
+              <tr><td><code>length_mm</code></td><td>Estimated physical crack length.</td></tr>
+              <tr><td><code>width_mm</code></td><td>Estimated maximum physical crack width.</td></tr>
+              <tr><td><code>raw_image_filename</code></td><td>Links to the original camera frame.</td></tr>
+              <tr><td><code>annotated_image_filename</code></td><td>Links to the corresponding processed frame.</td></tr>
+              <tr><td><code>phase</code></td><td>Marks the record as pre-event, during-event, or post-event.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="delivery-section" id="delivery" aria-labelledby="delivery-title">
+      <div class="detail-shell">
+        <div class="detail-heading-row">
+          <div class="detail-section-heading">
+            <p class="detail-kicker">Application and delivery</p>
+            <h2 id="delivery-title">The pipeline was delivered as one operational application.</h2>
+          </div>
+          <p>The final system was packaged for direct operational use rather than delivered as source code that required a developer-managed environment.</p>
+        </div>
+        <div class="delivery-feature">
+          <div>
+            <p class="process-index">Self-contained Windows application</p>
+            <h3>Launch the system without assembling a Python environment.</h3>
+          </div>
+          <div class="delivery-copy">
+            <p>The application was packaged with PyInstaller as a windowed executable, bundling the program and its runtime dependencies. Operators can launch the monitoring system directly without installing Python, creating a virtual environment, or running source files from a command line.</p>
+            <p>Camera sources, model and calibration paths, processing settings, socket port, and archive location remain editable through the external <code>config.json</code>, so deployment settings can change without modifying the application code.</p>
+          </div>
+          <dl>
+            <div><dt>Launch</dt><dd>Windowed executable</dd></div>
+            <div><dt>Runtime setup</dt><dd>No manual Python environment</dd></div>
+            <div><dt>Operations</dt><dd>External configuration file</dd></div>
+          </dl>
+        </div>
+        <div class="detail-next-actions">
+          <a class="button" href="/#crack-monitoring">Return to the Home walkthrough <span aria-hidden="true">↗</span></a>
+          <a class="detail-text-link" href="/#all-projects">View all projects <span aria-hidden="true">↗</span></a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <span>© 2026 Yen-Teng Chang</span>
+    <nav aria-label="Footer navigation"><a href="/#projects">Projects</a><a href="/#publications">Publications</a><a href="/#contact">Contact</a></nav>
+    <a href="#top">Back to top ↑</a>
+  </footer>
+  <script src="/scripts/crack-detail.js?v=20260906a" defer></script>
 </body>
 </html>

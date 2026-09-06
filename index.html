@@ -6,7 +6,7 @@
   <meta name="description" content="Yen-Teng Chang — structural engineering, computer vision, edge AI, spatial computing, and engineering systems integration.">
   <title>Yen-Teng Chang | Research Engineer</title>
   <link rel="stylesheet" href="/assets/wireframe.css">
-  <link rel="stylesheet" href="/assets/crack-prototype.css">
+  <link rel="stylesheet" href="/assets/crack-prototype.css?v=20260906b">
 </head>
 <body>
   <a class="skip-link" href="#main-content">Skip to content</a>
@@ -245,24 +245,73 @@
                   <img src="/assets/images/crack-monitoring/segmentation-reference.png" alt="">
                 </div>
 
-                <div class="crack-event-story" aria-label="Conceptual visualization of multi-camera event recording">
+                <div class="crack-event-panel crack-event-sequence-panel" aria-label="Conceptual visualization of multi-camera event recording">
                   <div class="crack-event-heading">
                     <span>Conceptual event sequence</span>
                     <strong>Event record</strong>
                   </div>
-                  <div class="crack-event-wave">
-                    <svg viewBox="0 0 800 80" preserveAspectRatio="none" aria-hidden="true">
-                      <path pathLength="1" d="M0 42 L104 42 L121 39 L132 46 L141 34 L151 52 L162 19 L174 67 L185 29 L196 55 L208 38 L228 42 L800 42"></path>
-                    </svg>
-                    <i class="crack-event-trigger"></i>
-                    <span class="crack-event-trigger-label">Trigger</span>
+                  <div class="crack-event-sequence">
+                    <div class="crack-event-wave">
+                      <svg viewBox="0 0 800 80" preserveAspectRatio="none" aria-hidden="true">
+                        <path pathLength="1" d="M0 42 L104 42 L121 39 L132 46 L141 34 L151 52 L162 19 L174 67 L185 29 L196 55 L208 38 L228 42 L800 42"></path>
+                      </svg>
+                      <i class="crack-event-trigger"></i>
+                      <span class="crack-event-trigger-label">Trigger</span>
+                    </div>
+                    <div class="crack-event-phases" aria-hidden="true"><span>Before</span><span>During</span><span>After</span></div>
+                    <div class="crack-event-tracks">
+                      <div><b>Camera 01</b><span><i></i><i></i><i></i></span></div>
+                      <div><b>Camera 02</b><span><i></i><i></i><i></i></span></div>
+                      <div><b>Camera 03</b><span><i></i><i></i><i></i></span></div>
+                      <div><b>Camera 04</b><span><i></i><i></i><i></i></span></div>
+                    </div>
                   </div>
-                  <div class="crack-event-phases" aria-hidden="true"><span>Before</span><span>During</span><span>After</span></div>
-                  <div class="crack-event-tracks">
-                    <div><b>Camera 01</b><span><i></i><i></i><i></i></span></div>
-                    <div><b>Camera 02</b><span><i></i><i></i><i></i></span></div>
-                    <div><b>Camera 03</b><span><i></i><i></i><i></i></span></div>
-                    <div><b>Camera 04</b><span><i></i><i></i><i></i></span></div>
+                </div>
+
+                <div class="crack-event-panel crack-event-summary-panel" aria-label="Simulated crack measurement histories aligned with a seismic event">
+                  <div class="crack-event-heading">
+                    <span>Simulated demonstration</span>
+                    <strong>Measurement histories</strong>
+                  </div>
+                  <div class="crack-event-summary">
+                    <svg viewBox="0 0 800 185" role="img" aria-labelledby="home-event-chart-title home-event-chart-desc">
+                      <title id="home-event-chart-title">Simulated event-linked crack measurement histories</title>
+                      <desc id="home-event-chart-desc">Illustrative crack length and maximum crack width histories aligned to pre-event, during-event, and post-event phases. These are not experimental earthquake measurements.</desc>
+                      <g class="home-event-bands">
+                        <rect x="92" y="22" width="204" height="145"></rect>
+                        <rect class="during" x="296" y="22" width="306" height="145"></rect>
+                        <rect x="602" y="22" width="176" height="145"></rect>
+                        <text x="194" y="15" text-anchor="middle">PRE-EVENT</text>
+                        <text x="449" y="15" text-anchor="middle">DURING EVENT</text>
+                        <text x="690" y="15" text-anchor="middle">POST-EVENT</text>
+                      </g>
+                      <g class="home-event-grid">
+                        <rect x="92" y="30" width="686" height="53"></rect>
+                        <rect x="92" y="106" width="686" height="53"></rect>
+                        <line x1="92" y1="56.5" x2="778" y2="56.5"></line>
+                        <line x1="92" y1="132.5" x2="778" y2="132.5"></line>
+                        <line x1="263.5" y1="30" x2="263.5" y2="83"></line>
+                        <line x1="435" y1="30" x2="435" y2="83"></line>
+                        <line x1="606.5" y1="30" x2="606.5" y2="83"></line>
+                        <line x1="263.5" y1="106" x2="263.5" y2="159"></line>
+                        <line x1="435" y1="106" x2="435" y2="159"></line>
+                        <line x1="606.5" y1="106" x2="606.5" y2="159"></line>
+                      </g>
+                      <g class="home-event-axis-labels">
+                        <text x="82" y="51" text-anchor="end">Length</text>
+                        <text x="82" y="65" text-anchor="end">(mm)</text>
+                        <text x="82" y="127" text-anchor="end">Max. width</text>
+                        <text x="82" y="141" text-anchor="end">(mm)</text>
+                        <text x="286" y="181" text-anchor="end">t₀ · TRIGGER</text>
+                        <text x="612" y="181">t₁ · STOP</text>
+                      </g>
+                      <g class="home-event-markers">
+                        <line x1="296" y1="22" x2="296" y2="167"></line>
+                        <line x1="602" y1="22" x2="602" y2="167"></line>
+                      </g>
+                      <path class="home-event-series home-event-series-length" pathLength="1" d="M92 73 L296 73 L420 61 L520 46 L602 39 L778 39"></path>
+                      <path class="home-event-series home-event-series-width" pathLength="1" d="M92 139 L296 139 L360 126 L430 150 L500 116 L560 138 L602 125 L778 125"></path>
+                    </svg>
                   </div>
                 </div>
               </div>
@@ -276,6 +325,7 @@
               <span data-crack-state="width"></span>
               <span data-crack-state="wall"></span>
               <span data-crack-state="event"></span>
+              <span data-crack-state="event-history"></span>
             </div>
           </div>
 
@@ -297,7 +347,7 @@
       </article>
     </section>
 
-    <section class="gallery-section gallery-section-grid" aria-labelledby="projects-repeat-title">
+    <section class="gallery-section gallery-section-grid" id="all-projects" aria-labelledby="projects-repeat-title">
       <div class="section-shell">
         <div class="section-heading section-heading-row">
           <div><p class="eyebrow">All work</p><h2 id="projects-repeat-title">Projects &amp; technical work.</h2></div>
@@ -384,6 +434,6 @@
       link.addEventListener('click', () => mobileMenu.removeAttribute('open'));
     });
   </script>
-  <script src="/scripts/crack-prototype.js" defer></script>
+  <script src="/scripts/crack-prototype.js?v=20260906b" defer></script>
 </body>
 </html>
