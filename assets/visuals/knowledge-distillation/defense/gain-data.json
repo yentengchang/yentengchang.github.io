@@ -1,0 +1,217 @@
+{
+  "metric": "delta mAP50–95 versus the matched no-KD baseline",
+  "seeds": 5,
+  "degreesOfFreedom": 4,
+  "criticalT": 2.776,
+  "errorBar": "Approximate two-sided 95% paired-t confidence interval, reconstructed from reported rounded mean differences and t statistics. Not standard deviation.",
+  "formula": "halfWidth = 2.776 * abs(reportedMeanDifference / reportedT)",
+  "precision": "Means and t statistics retain the precision reported in the defense generator; computed intervals are approximate and do not restore unrounded experiment data.",
+  "baselineCaution": "The first six configurations use E0; the final two use E0noaug. Do not compare their gain magnitudes as if they share one baseline.",
+  "source": {
+    "path": "gen_deck_figs_D.py",
+    "sha256": "2c8c4a5f381070b14f909b4a034fd2fc6c9b04acb85228128e504ff42bf66175",
+    "lines": "171–175 (CFG, means, t statistics), 176 (critical t), 211 (CI calculation)"
+  },
+  "domains": {
+    "public": [
+      {
+        "code": "E1",
+        "label": "Uniform weighting",
+        "baseline": "E0",
+        "route": "head-output",
+        "reportedMeanDifference": 0.003,
+        "reportedT": 1.39,
+        "ci95approx": 0.005991366906474821,
+        "ci95LowApprox": -0.002991366906474821,
+        "ci95HighApprox": 0.008991366906474821,
+        "significantAt005": false
+      },
+      {
+        "code": "E1mlam",
+        "label": "Stronger distillation",
+        "baseline": "E0",
+        "route": "head-output",
+        "reportedMeanDifference": 0.008,
+        "reportedT": 5.06,
+        "ci95approx": 0.004388932806324111,
+        "ci95LowApprox": 0.0036110671936758895,
+        "ci95HighApprox": 0.01238893280632411,
+        "significantAt005": true
+      },
+      {
+        "code": "E1fg",
+        "label": "Box foreground",
+        "baseline": "E0",
+        "route": "head-output",
+        "reportedMeanDifference": 0.005,
+        "reportedT": 3.14,
+        "ci95approx": 0.004420382165605095,
+        "ci95LowApprox": 0.0005796178343949049,
+        "ci95HighApprox": 0.009420382165605095,
+        "significantAt005": true
+      },
+      {
+        "code": "E1fgbox",
+        "label": "Foreground + box emphasis",
+        "baseline": "E0",
+        "route": "head-output",
+        "reportedMeanDifference": -0.001,
+        "reportedT": -0.22,
+        "ci95approx": 0.012618181818181817,
+        "ci95LowApprox": -0.013618181818181817,
+        "ci95HighApprox": 0.011618181818181816,
+        "significantAt005": false
+      },
+      {
+        "code": "E1seg",
+        "label": "Mask foreground",
+        "baseline": "E0",
+        "route": "head-output",
+        "reportedMeanDifference": 0.006,
+        "reportedT": 2.82,
+        "ci95approx": 0.005906382978723404,
+        "ci95LowApprox": 0.00009361702127659577,
+        "ci95HighApprox": 0.011906382978723404,
+        "significantAt005": true
+      },
+      {
+        "code": "E1ctrl",
+        "label": "Shuffled head outputs",
+        "baseline": "E0",
+        "route": "head-output",
+        "shuffled": true,
+        "reportedMeanDifference": -0.002,
+        "reportedT": -1.83,
+        "ci95approx": 0.0030338797814207646,
+        "ci95LowApprox": -0.005033879781420765,
+        "ci95HighApprox": 0.0010338797814207646,
+        "significantAt005": false
+      },
+      {
+        "code": "E4off",
+        "label": "Cross-architecture labels",
+        "baseline": "E0noaug",
+        "route": "offline-pseudo-label",
+        "reportedMeanDifference": 0.026,
+        "reportedT": 7.75,
+        "ci95approx": 0.009313032258064515,
+        "ci95LowApprox": 0.016686967741935482,
+        "ci95HighApprox": 0.035313032258064515,
+        "significantAt005": true
+      },
+      {
+        "code": "E4ctrl",
+        "label": "Shuffled pseudo labels",
+        "baseline": "E0noaug",
+        "route": "offline-pseudo-label",
+        "shuffled": true,
+        "reportedMeanDifference": -0.016,
+        "reportedT": -5.85,
+        "ci95approx": 0.007592478632478633,
+        "ci95LowApprox": -0.023592478632478632,
+        "ci95HighApprox": -0.008407521367521367,
+        "significantAt005": true
+      }
+    ],
+    "private": [
+      {
+        "code": "E1",
+        "label": "Uniform weighting",
+        "baseline": "E0",
+        "route": "head-output",
+        "reportedMeanDifference": 0.004,
+        "reportedT": 1.46,
+        "ci95approx": 0.007605479452054794,
+        "ci95LowApprox": -0.0036054794520547937,
+        "ci95HighApprox": 0.011605479452054795,
+        "significantAt005": false
+      },
+      {
+        "code": "E1mlam",
+        "label": "Stronger distillation",
+        "baseline": "E0",
+        "route": "head-output",
+        "reportedMeanDifference": 0.004,
+        "reportedT": 2.02,
+        "ci95approx": 0.005497029702970297,
+        "ci95LowApprox": -0.001497029702970297,
+        "ci95HighApprox": 0.009497029702970297,
+        "significantAt005": false
+      },
+      {
+        "code": "E1fg",
+        "label": "Box foreground",
+        "baseline": "E0",
+        "route": "head-output",
+        "reportedMeanDifference": 0.004,
+        "reportedT": 6,
+        "ci95approx": 0.0018506666666666665,
+        "ci95LowApprox": 0.002149333333333334,
+        "ci95HighApprox": 0.005850666666666666,
+        "significantAt005": true
+      },
+      {
+        "code": "E1fgbox",
+        "label": "Foreground + box emphasis",
+        "baseline": "E0",
+        "route": "head-output",
+        "reportedMeanDifference": 0.007,
+        "reportedT": 3.47,
+        "ci95approx": 0.005599999999999999,
+        "ci95LowApprox": 0.001400000000000001,
+        "ci95HighApprox": 0.0126,
+        "significantAt005": true
+      },
+      {
+        "code": "E1seg",
+        "label": "Mask foreground",
+        "baseline": "E0",
+        "route": "head-output",
+        "reportedMeanDifference": 0.004,
+        "reportedT": 1.68,
+        "ci95approx": 0.00660952380952381,
+        "ci95LowApprox": -0.00260952380952381,
+        "ci95HighApprox": 0.01060952380952381,
+        "significantAt005": false
+      },
+      {
+        "code": "E1ctrl",
+        "label": "Shuffled head outputs",
+        "baseline": "E0",
+        "route": "head-output",
+        "shuffled": true,
+        "reportedMeanDifference": 0.004,
+        "reportedT": 1.15,
+        "ci95approx": 0.009655652173913043,
+        "ci95LowApprox": -0.0056556521739130425,
+        "ci95HighApprox": 0.013655652173913043,
+        "significantAt005": false
+      },
+      {
+        "code": "E4off",
+        "label": "Cross-architecture labels",
+        "baseline": "E0noaug",
+        "route": "offline-pseudo-label",
+        "reportedMeanDifference": 0.016,
+        "reportedT": 1.5,
+        "ci95approx": 0.029610666666666664,
+        "ci95LowApprox": -0.013610666666666663,
+        "ci95HighApprox": 0.04561066666666666,
+        "significantAt005": false
+      },
+      {
+        "code": "E4ctrl",
+        "label": "Shuffled pseudo labels",
+        "baseline": "E0noaug",
+        "route": "offline-pseudo-label",
+        "shuffled": true,
+        "reportedMeanDifference": -0.025,
+        "reportedT": -5.98,
+        "ci95approx": 0.011605351170568561,
+        "ci95LowApprox": -0.03660535117056856,
+        "ci95HighApprox": -0.01339464882943144,
+        "significantAt005": true
+      }
+    ]
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "date": "2026-09-18",
+  "records": [
+    {
+      "id": "scan-camera",
+      "start": 0,
+      "duration": 8,
+      "filter": "scale=1280:-2",
+      "note": "User-supplied visual reference: moving living-room view, not Auto Inspector field-validation footage; model and background intentionally need not match.",
+      "file": "scan-camera.mp4",
+      "bytes": 4746018,
+      "sourceSha256": "3e908f9c8e1077600ce603a3ca82a452661d5dae7cc76492aff1bd58204ac6f1",
+      "sha256": "fc055bafd40adc72ade1062c08fec10db02358c1c61f2f1c732a84f310da4e0c"
+    },
+    {
+      "id": "anchor-selected",
+      "filter": "scale=1280:-2",
+      "note": "User-selected anchoring demonstration; retain complete temporal sequence.",
+      "file": "anchor-selected.mp4",
+      "duration": 8.633333,
+      "bytes": 980284,
+      "sourceSha256": "dcba4b0683f62adac666d22d8318a04eeb21d5d5a03546fb62d9f79f1e4aa044",
+      "sha256": "52dbbe42b6e37425b3827b5ef8cad06f08155e9cb58ae3dbcbfecd5cd4fe15bd"
+    },
+    {
+      "id": "workflow-full",
+      "filter": "scale=1280:-2",
+      "note": "User-selected full 64-second workflow; no cuts, speed changes, or repeated segment switching.",
+      "file": "workflow-full.mp4",
+      "duration": 64.2,
+      "bytes": 22473340,
+      "sourceSha256": "0af26ee4f3e687c0a742a6c942aaff6a508f841f12d424f1cb46ffa950f08565",
+      "sha256": "10c0acca1d98a43ff3d6b343cf21a73850e434bdc384f42fbf233d420b586c37"
+    },
+    {
+      "id": "anchor-hold",
+      "file": "anchor-hold.webp",
+      "second": 3.05,
+      "note": "Final held frame: gray anchor visible, before the next detection candidate."
+    }
+  ]
+}

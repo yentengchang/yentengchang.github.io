@@ -1,0 +1,110 @@
+/* KD v06: training / deployment boundary. Native SVG, complete without JS. */
+.kd-transfer-visual {
+  --kd-transfer-ink:#293241;
+  --kd-transfer-muted:#64707e;
+  width:100%;
+  max-width:750px;
+  margin:0 auto;
+  color:var(--kd-transfer-ink);
+  background:#fff;
+  font-family:"Times New Roman","PMingLiU",serif;
+  line-height:1.2;
+  letter-spacing:normal;
+  container:kd-transfer / inline-size;
+}
+.kd-transfer-visual * { box-sizing:border-box; }
+.kd-transfer-visual svg {
+  display:block;
+  width:100%;
+  height:auto;
+  overflow:visible;
+  color:var(--kd-transfer-ink);
+}
+.kd-transfer-visual svg text {
+  fill:var(--kd-transfer-ink);
+  font-family:"Times New Roman","PMingLiU",serif;
+  letter-spacing:normal;
+}
+.kd-transfer-visual .kd-transfer-mobile { display:none; }
+.kd-transfer-visual .kd-transfer-model { font-size:20px; }
+.kd-transfer-visual .kd-transfer-route-label { font-size:18px; }
+.kd-transfer-visual .kd-transfer-minor { fill:var(--kd-transfer-muted); font-size:16px; }
+.kd-transfer-visual .kd-transfer-phase { fill:var(--kd-transfer-muted); font-size:14px; letter-spacing:1.4px; }
+.kd-transfer-visual .kd-transfer-or { fill:var(--kd-transfer-muted); font-size:14px; font-style:italic; }
+.kd-transfer-visual .kd-transfer-boundary-note { fill:var(--kd-transfer-muted); font-size:16px; }
+.kd-transfer-visual .kd-transfer-boundary { fill:none; stroke:#aeb7bf; stroke-width:1; stroke-dasharray:4 5; }
+.kd-transfer-visual .kd-transfer-sand { fill:#f4ead7; stroke:#b69c70; stroke-width:1.2; }
+.kd-transfer-visual .kd-transfer-blue { fill:#dce9f5; stroke:#7f9fbd; stroke-width:1.2; }
+.kd-transfer-visual .kd-transfer-label-glyph { fill:#f2f7fb; stroke:#7f9fbd; stroke-width:1.2; }
+.kd-transfer-visual .kd-transfer-label-glyph path { fill:none; }
+.kd-transfer-visual .kd-transfer-pseudo-box { fill:#dce9f5; }
+.kd-transfer-visual .kd-transfer-gt-glyph { fill:#f5f6f8; stroke:#8d99a4; stroke-width:1; }
+.kd-transfer-visual .kd-transfer-gt-line { fill:none; stroke:#7b8694; stroke-width:1.2; }
+.kd-transfer-visual .kd-transfer-gt-label { fill:var(--kd-transfer-muted); font-size:14px; }
+.kd-transfer-visual .kd-transfer-student-glyph { fill:#e3eee7; stroke:#71957f; stroke-width:1.2; }
+.kd-transfer-visual .kd-transfer-route-line { fill:none; stroke-width:1.5; }
+.kd-transfer-visual .kd-transfer-head-line { stroke:#9a8055; }
+.kd-transfer-visual .kd-transfer-label-line { stroke:#658aae; }
+.kd-transfer-visual .kd-transfer-export-line { fill:none; stroke:#477c61; stroke-width:1.6; }
+.kd-transfer-visual .kd-transfer-export-label { fill:#477c61; font-size:15px; font-style:italic; }
+/* Finite: the two alternatives are explained in sequence, then deployment. */
+.kd-transfer-visual.is-playing .kd-transfer-head-route {
+  animation:kdv6-transfer-head-choice 3.5s ease-out both;
+}
+.kd-transfer-visual.is-playing .kd-transfer-label-route {
+  animation:kdv6-transfer-label-choice 3.5s ease-out both;
+}
+.kd-transfer-visual.is-playing .kd-transfer-head-line {
+  stroke-dasharray:1;
+  animation:kdv6-transfer-draw .65s .15s ease-out both;
+}
+.kd-transfer-visual.is-playing .kd-transfer-label-line {
+  stroke-dasharray:1;
+  animation:kdv6-transfer-draw .65s 1s ease-out both;
+}
+.kd-transfer-visual.is-playing .kd-transfer-training-student {
+  animation:kdv6-transfer-emphasize .5s 1.85s ease-out both;
+}
+.kd-transfer-visual.is-playing .kd-transfer-export-line {
+  stroke-dasharray:1;
+  animation:kdv6-transfer-draw .6s 2.35s ease-out both;
+}
+.kd-transfer-visual.is-playing .kd-transfer-deployed-student {
+  animation:kdv6-transfer-emphasize .55s 2.95s ease-out both;
+}
+@keyframes kdv6-transfer-draw {
+  from { stroke-dashoffset:1; }
+  to { stroke-dashoffset:0; }
+}
+@keyframes kdv6-transfer-emphasize {
+  from { opacity:.25; }
+  to { opacity:1; }
+}
+@keyframes kdv6-transfer-head-choice {
+  0% { opacity:.35; }
+  6%, 23% { opacity:1; }
+  29%, 78% { opacity:.35; }
+  100% { opacity:1; }
+}
+@keyframes kdv6-transfer-label-choice {
+  0%, 29% { opacity:.35; }
+  35%, 48% { opacity:1; }
+  55%, 78% { opacity:.35; }
+  100% { opacity:1; }
+}
+
+@container kd-transfer (max-width:520px) {
+  .kd-transfer-visual .kd-transfer-desktop { display:none; }
+  .kd-transfer-visual .kd-transfer-mobile { display:block; max-width:330px; margin:auto; }
+  .kd-transfer-visual .kd-transfer-mobile .kd-transfer-model { font-size:17px; }
+  .kd-transfer-visual .kd-transfer-mobile .kd-transfer-route-label { font-size:15px; }
+  .kd-transfer-visual .kd-transfer-mobile .kd-transfer-minor { font-size:15px; }
+  .kd-transfer-visual .kd-transfer-mobile .kd-transfer-phase { font-size:12px; letter-spacing:1px; }
+  .kd-transfer-visual .kd-transfer-mobile .kd-transfer-boundary-note { font-size:14px; }
+}
+
+@media (prefers-reduced-motion:reduce) {
+  .kd-transfer-visual.is-playing * { animation:none !important; opacity:1; stroke-dashoffset:0; }
+  .kd-transfer-visual.is-playing .kd-transfer-route-line,
+  .kd-transfer-visual.is-playing .kd-transfer-export-line { stroke-dasharray:none; }
+}

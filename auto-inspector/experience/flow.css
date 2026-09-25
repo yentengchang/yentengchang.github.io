@@ -1,0 +1,54 @@
+/* The user's latest revision removes the pinned stage, not the site language. */
+#auto-inspector .ai-flow{display:grid;gap:clamp(4rem,9vw,8rem);padding-block:clamp(3rem,6vw,6rem)}
+#auto-inspector .ai-scene-section{display:grid;grid-template-columns:minmax(14rem,.58fr) minmax(34rem,1.42fr);gap:clamp(2rem,4vw,4.5rem);align-items:center;scroll-margin-top:6rem}
+#auto-inspector .ai-scene-copy h3{max-width:13ch;margin:0 0 1.1rem;font-size:clamp(1.75rem,2.65vw,2.65rem);font-weight:620;letter-spacing:-.042em;line-height:1.06}
+#auto-inspector .ai-scene-copy>p:last-child{max-width:31rem;margin:0;color:#a1a1a6;font-size:clamp(.9rem,1.25vw,1rem);line-height:1.58}
+#auto-inspector .ai-scene-media{min-width:0}
+#auto-inspector .ai-scene-section .ai-visual-stage{aspect-ratio:1.62;height:auto;position:relative;background:#151617;isolation:isolate}
+#auto-inspector .ai-scene-poster{display:block;position:absolute;inset:0;width:100%;height:100%}
+#auto-inspector .ai-scene-poster img{width:100%;height:100%;object-fit:contain}
+#auto-inspector .is-enhanced>.ai-scene-poster{visibility:hidden}
+#auto-inspector .ai-plan-fallback{display:block;position:absolute;inset:0 0 0 auto;width:50%;height:100%}
+#auto-inspector .ai-visual-stage:has(>.ai-plan-fallback)>.ai-scene-poster{width:50%}
+#auto-inspector .ai-plan-fallback img{display:block;width:100%;height:100%;object-fit:contain;border-radius:.45rem}
+#auto-inspector .ai-scene-media:has(.is-enhanced) .ai-plan-fallback{display:none}
+#auto-inspector .ai-flow-video,#auto-inspector .ai-selected-clip,#auto-inspector .ai-anchor-hold{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#111}
+#auto-inspector .ai-anchor-hold{opacity:0}
+#auto-inspector .ai-exp-selected{background:#111}
+#auto-inspector .ai-scene-section[data-scene="5"] .ai-visual-stage{aspect-ratio:16/9}
+#auto-inspector .ai-player{cursor:pointer;outline:none;-webkit-tap-highlight-color:transparent}
+#auto-inspector .ai-player:focus-visible{outline:2px solid #e4c397;outline-offset:5px}
+#auto-inspector .ai-player-controls{position:absolute;inset:0;z-index:20;opacity:0;transition:opacity .18s ease;pointer-events:none;color:#fff;font-family:-apple-system,BlinkMacSystemFont,sans-serif}
+@media(hover:hover){#auto-inspector .ai-player:hover .ai-player-controls{opacity:1;pointer-events:auto}}
+#auto-inspector .ai-player:focus-visible .ai-player-controls,#auto-inspector .ai-player:has(button:focus-visible,input:focus-visible) .ai-player-controls,#auto-inspector .ai-player.is-touch-active .ai-player-controls,#auto-inspector .ai-player.needs-play .ai-player-controls{opacity:1;pointer-events:auto}
+#auto-inspector .ai-player-controls button{display:grid;place-items:center;color:#fff;border:0;cursor:pointer;padding:0;font:inherit;background:transparent;position:relative;flex:none}
+#auto-inspector .ai-player-controls button:focus-visible,#auto-inspector .ai-seek:focus-visible{outline:2px solid white;outline-offset:3px}
+#auto-inspector .ai-player-controls button>svg{width:24px;height:24px;fill:currentColor}
+#auto-inspector .ai-player-controls .ai-center-control{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:64px;height:64px;background:#101010aa;border:1px solid #fff4;border-radius:50%;box-shadow:0 3px 20px #0002}
+#auto-inspector .ai-center-control svg{width:30px;height:30px}
+#auto-inspector .ai-transport{position:absolute;left:0;right:0;bottom:0;display:flex;align-items:center;gap:12px;padding:36px 18px 13px;background:linear-gradient(transparent,#000b);cursor:default}
+#auto-inspector .ai-transport button{width:34px;height:34px;font-size:30px;line-height:1}
+#auto-inspector .ai-transport button small{position:absolute;font:9px -apple-system,sans-serif;top:14px;left:50%;transform:translateX(-50%)}
+#auto-inspector .ai-seek{display:block;min-width:20px;width:100%;height:20px;margin:0;accent-color:#fff;cursor:pointer;flex:1}
+#auto-inspector .ai-time{font-size:11px;white-space:nowrap;font-variant-numeric:tabular-nums}
+#auto-inspector .ai-player:fullscreen{width:100vw;height:100vh;aspect-ratio:auto;background:#111}
+#auto-inspector .ai-player:fullscreen .ai-experience{max-width:150vh;margin:auto}
+@media(max-width:980px){#auto-inspector .ai-scene-section{grid-template-columns:minmax(11.5rem,.46fr) minmax(29rem,1.54fr);gap:1.5rem}#auto-inspector .ai-scene-copy h3{font-size:clamp(1.55rem,3vw,2.1rem)}}
+@media(max-width:720px){
+ #auto-inspector .ai-flow{gap:4.5rem;padding-block:2.5rem}
+ #auto-inspector .ai-scene-section{grid-template-columns:1fr;gap:1.1rem;scroll-margin-top:5rem}
+ #auto-inspector .ai-scene-copy h3{max-width:20ch;font-size:clamp(1.45rem,6.7vw,1.95rem);margin-bottom:.65rem}
+ #auto-inspector .ai-scene-copy>p:last-child{font-size:.85rem;line-height:1.5}
+ #auto-inspector .ai-scene-section .ai-visual-stage{aspect-ratio:1.05;height:auto}
+ #auto-inspector .ai-scene-section[data-scene="5"] .ai-visual-stage{aspect-ratio:16/9}
+ #auto-inspector .ai-visual-stage:has(>.ai-plan-fallback)>.ai-scene-poster{width:100%;height:50%}
+ #auto-inspector .ai-plan-fallback{inset:auto 0 0;width:100%;height:50%}
+ #auto-inspector .ai-player-controls .ai-center-control{width:54px;height:54px}
+ #auto-inspector .ai-transport{gap:7px;padding:28px 9px 7px}
+ #auto-inspector .ai-time{font-size:9px}
+ #auto-inspector .ai-transport button{width:28px;height:36px}
+}
+@media(prefers-reduced-motion:reduce){#auto-inspector .ai-player-controls{transition:none}}
+.ai-scene-section.ai-reduced .ai-experience,.ai-scene-section.ai-reduced .ai-player-controls{display:none}
+#auto-inspector .ai-reduced .is-enhanced>.ai-scene-poster{visibility:visible}
+#auto-inspector .ai-reduced .ai-plan-fallback{display:block}

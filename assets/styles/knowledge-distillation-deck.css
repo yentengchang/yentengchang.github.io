@@ -1,0 +1,95 @@
+/* Extracted from defense theme.css; see source-manifest.json. */
+.kd-deck-framework{
+    --ink:#293241; --muted:#6b7280; --arrow:#7b8694; --nodebd:#9aa6b6;
+    --inBg:#f5f6f8; --inBd:#c3cad4;
+    --hoBg:#f8f2e6; --hoHd:#ecdfc4; --hoBd:#dcc9a6;
+    --heBg:#e8f0f7; --heHd:#cfdded; --heBd:#b3cae2;
+    --fgBd:#a892cf; --fgBg:#f4f0fb; --fgInk:#5b4a86;
+    --stHd:#dbe3ec;
+  }
+.kd-deck-framework *{box-sizing:border-box;}
+.kd-deck-framework{margin:0;background:#fff;color:var(--ink);
+    font-family:"Times New Roman","PMingLiU","Noto Serif CJK TC",serif;}
+.kd-deck-framework .fig{width:1160px;margin:0 auto;padding:2px 14px;}
+.kd-deck-framework .row{display:flex;justify-content:center;}
+.kd-deck-framework .dn{text-align:center;color:var(--arrow);font-size:17px;line-height:1;margin:3px 0;}
+.kd-deck-framework .input{border:1.4px solid var(--inBd);background:var(--inBg);border-radius:7px;
+    padding:9px 30px;text-align:center;font-size:22px;}
+.kd-deck-framework .input small{color:var(--muted);font-size:15px;}
+.kd-deck-framework .teacher{border:1.4px solid var(--nodebd);background:#eef2f7;border-radius:7px;
+    padding:9px 34px;text-align:center;font-size:22px;}
+.kd-deck-framework .teacher small{color:var(--muted);font-size:15px;}
+.kd-deck-framework .paths{display:flex;gap:22px;align-items:stretch;}
+.kd-deck-framework .path{flex:1;border:1.5px solid;border-radius:9px;padding:0 12px 10px;}
+.kd-deck-framework .path.ho{background:var(--hoBg);border-color:var(--hoBd);}
+.kd-deck-framework .path.he{background:var(--heBg);border-color:var(--heBd);}
+.kd-deck-framework .phd{margin:0 -12px 8px;padding:7px;border-radius:8px 8px 0 0;text-align:center;
+    font-size:20px;font-weight:bold;}
+.kd-deck-framework .path.ho .phd{background:var(--hoHd);}
+.kd-deck-framework .path.he .phd{background:var(--heHd);}
+.kd-deck-framework .box{background:#fff;border:1.3px solid var(--nodebd);border-radius:6px;padding:8px 12px;
+    text-align:center;font-size:20px;line-height:1.4;}
+.kd-deck-framework .box small{display:block;color:var(--muted);font-size:14px;margin-top:2px;}
+.kd-deck-framework .box+.box{margin-top:7px;}
+.kd-deck-framework .fg{border:1.5px solid var(--fgBd);background:var(--fgBg);border-radius:8px;
+    padding:8px 14px;text-align:center;}
+.kd-deck-framework .fg .t{font-weight:bold;color:var(--fgInk);font-size:21px;}
+.kd-deck-framework .fg small{display:block;color:var(--muted);font-size:18px;margin-top:4px;}
+.kd-deck-framework .student{border:1.4px solid var(--nodebd);border-radius:8px;overflow:hidden;}
+.kd-deck-framework .student .sh{background:var(--stHd);text-align:center;font-size:22px;font-weight:bold;padding:8px;}
+.kd-deck-framework .student .sb{padding:10px 14px;text-align:center;font-size:23px;line-height:1.35;}
+.kd-deck-framework .student .eq{font-size:23px;}
+.kd-deck-framework .student .eq i{font-style:italic;}
+.kd-deck-framework .student .sb small{color:var(--muted);font-size:14.5px;}
+
+.kd-deck-foreground{margin:0;background:#fff;font-family:"Times New Roman","PMingLiU",serif;color:#293241}
+.kd-deck-foreground .fig{width:1120px;margin:0 auto;padding:4px 8px}
+.kd-deck-foreground .en{position:relative;top:1.5px}
+.kd-deck-foreground .panels{display:flex;gap:22px;justify-content:center;align-items:flex-start}
+.kd-deck-foreground .panel{display:flex;flex-direction:column;align-items:center}
+.kd-deck-foreground .ptitle{font-size:19px;font-weight:bold;text-align:center;margin-bottom:7px}
+.kd-deck-foreground .ptitle small{display:block;font-weight:normal;color:#6b7280;font-size:11.5px;margin-top:1px}
+.kd-deck-foreground .frame{border:1.3px solid #9aa6b6;border-radius:4px;overflow:hidden;line-height:0}
+.kd-deck-foreground .pcap{font-size:16px;text-align:center;margin-top:8px;line-height:1.5}
+.kd-deck-foreground .note{margin-top:18px;text-align:center;font-size:12.5px;line-height:1.6;border-top:1px solid #d7dde5;padding-top:12px}
+.kd-deck-foreground .note b{color:#6a4f9e}
+.kd-deck-foreground .swatch{display:inline-block;width:11px;height:11px;background:#6a4f9e;border:1px solid #43356e;border-radius:2px;vertical-align:-1px;margin:0 2px}
+
+/* Original slide build timing and bar easing, scoped to these figures. */
+.kd-deck-animated [data-build]{opacity:0;transition:opacity .4s ease}
+.kd-deck-animated [data-build].on{opacity:1}
+.kd-deck-animated g.bargrp[data-build]{transform:scaleY(0);transition:opacity .25s ease,transform .55s cubic-bezier(.2,.85,.3,1)}
+.kd-deck-animated g.bargrp[data-build].on{transform:scaleY(1)}
+/* Container adaptations only; source colors, drawing geometry and serif type stay intact. */
+.kd-deck-original { line-height:1.25; letter-spacing:normal; font-family:"Times New Roman","PMingLiU",serif; color:#293241; }
+.kd-deck-original svg text, svg.kd-deck-original text { font-family:"Times New Roman","PMingLiU",serif; letter-spacing:normal; }
+.kd-deck-framework .fig, .kd-deck-foreground .fig { width:100%; padding:0; }
+.kd-deck-framework .box { padding:8px; }
+.kd-deck-framework .input, .kd-deck-framework .teacher { font-size:20px; }
+.kd-deck-framework .phd, .kd-deck-framework .box { font-size:18px; }
+.kd-deck-framework .student .sh { font-size:20px; }
+.kd-deck-framework .paths { gap:16px; }
+.kd-deck-framework .dn { margin-block:6px; }
+.kd-deck-foreground .panels { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:16px; }
+.kd-deck-foreground .panel { min-width:0; }
+.kd-deck-foreground .ptitle { min-height:45px; font-size:18px; }
+.kd-deck-foreground .frame { width:100%; }
+.kd-deck-foreground .frame svg { width:100% !important; height:auto; }
+.kd-deck-foreground .pcap { font-size:15px; }
+@container (max-width:640px) {
+  .kd-deck-framework .input, .kd-deck-framework .teacher, .kd-deck-framework .student .sh { font-size:18px; }
+  .kd-deck-framework .phd, .kd-deck-framework .box { font-size:16px; }
+  .kd-deck-foreground .panels { grid-template-columns:repeat(2,minmax(0,1fr)); gap:22px 18px; max-width:440px; margin-inline:auto; }
+  .kd-deck-foreground .ptitle { min-height:0; }
+  .kd-deck-foreground .pcap { font-size:14px; }
+}
+@container (max-width:380px) {
+  .kd-deck-framework .paths { flex-direction:column; }
+  .kd-deck-framework .input, .kd-deck-framework .teacher { padding:9px 12px; font-size:17px; }
+  .kd-deck-foreground .ptitle { font-size:16px; min-height:58px; }
+  .kd-deck-foreground .pcap { font-size:13px; }
+  .kd-deck-foreground .panels { gap:18px 12px; }
+}
+@media (prefers-reduced-motion:reduce) {
+  .kd-deck-animated [data-build] { transition:none !important; }
+}

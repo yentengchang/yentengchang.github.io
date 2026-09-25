@@ -1,0 +1,75 @@
+/* Native CaptureView reference: studio-1 operation videos, not the newer Swift
+   control palette. Camera pixels, controls, status, candidate and RoomPreview
+   are independent layers. No clock animation or interactive story controls. */
+.ai-capture-viewport{position:absolute;inset:0;display:grid;place-items:center;container-type:size;background:#101112}
+.ai-app-capture{position:relative;width:min(100cqw,151.1392cqh);aspect-ratio:2388/1580;container-type:inline-size;isolation:isolate;overflow:hidden;background:#403d39;color:#fff;font-family:-apple-system,BlinkMacSystemFont,'PingFang TC','Helvetica Neue',sans-serif;line-height:1.2;border-radius:.45rem}
+.ai-app-capture *{box-sizing:border-box}
+.ai-app-capture svg{display:block}
+.ai-camera{position:absolute;inset:0 11.7253% 0 0;overflow:hidden}
+.ai-camera>img{display:block;width:100%;height:100%;max-width:none;object-fit:cover}
+.ai-camera-overlay{position:absolute;inset:0}
+.ai-capture-status{position:absolute;top:3.54%;left:38.65%;width:20.94%;height:5.06%;display:grid;place-items:center;background:#323231b8;color:#c5ad4b;font-size:1.76cqw;font-weight:600;white-space:nowrap}
+.ai-control-rail{position:absolute;inset:0 0 0 auto;width:11.7253%;background:#373635ef}
+.ai-capture-close{position:absolute;right:1.68cqw;top:1.76cqw;width:1.51cqw;height:1.51cqw;color:#aaa}
+.ai-capture-close svg{width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:1.2}
+.ai-capture-bottom{position:absolute;left:.84cqw;right:.84cqw;bottom:2.6cqw;display:grid;gap:1.26cqw;text-align:center}
+.ai-capture-panorama{display:flex;align-items:center;justify-content:center;gap:.5cqw;height:3.52cqw;border-radius:1.2cqw;background:#454443b5;font-size:1.51cqw}
+.ai-capture-panorama svg{width:2cqw;height:2cqw;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.ai-capture-primary{display:grid;place-items:center;height:4.19cqw;background:#252525;border:1px solid #121212;border-radius:.65cqw;font-size:1.51cqw;white-space:nowrap}
+.ai-room-preview{position:absolute;left:40.9%;top:72.8%;width:18.3%;height:18.9%;overflow:visible}
+.ai-room-preview [data-surface]{stroke:#70706d;stroke-width:.65;stroke-linejoin:round;fill:#fff}
+.ai-room-preview [data-surface="front"]{fill:#fff;fill-opacity:.62}
+.ai-room-preview [data-surface="partition"]{fill-opacity:.55}
+.ai-room-preview [data-layer="opening"]{fill:#9b999455;stroke:#656560;stroke-width:.5}
+.ai-room-preview [data-layer="user-position"]{fill:#ff0505}
+.ai-room-preview--partial{left:45.3%;top:74.5%;width:10%;height:15.7%}
+.ai-detection-sliders{position:absolute;top:10%;left:.84cqw;right:.84cqw;display:grid;grid-template-columns:1fr 1fr;gap:1.26cqw;height:35.8%}
+.ai-detection-slider{display:flex;align-items:center;flex-direction:column;min-width:0;font-size:1.08cqw;font-weight:600}
+.ai-slider-value{font-variant-numeric:tabular-nums;font-size:1.1cqw}
+.ai-slider-plus,.ai-slider-minus{font-size:1.67cqw;font-weight:400;line-height:1;margin:1cqw 0 .8cqw}
+.ai-slider-minus{margin:.8cqw 0 1.1cqw}
+.ai-slider-track{position:relative;flex:1;width:.335cqw;min-height:0;border-radius:.4cqw;background:linear-gradient(#484746 0 50%,#be7e47 50% 100%)}
+.ai-slider-track::after{content:"";position:absolute;left:50%;top:50%;width:2.26cqw;height:2.26cqw;transform:translate(-50%,-50%);border-radius:50%;background:#fff;box-shadow:0 1px 2px #0002}
+.ai-wall-filter{position:absolute;top:55.1%;left:1.26cqw;right:1.26cqw;display:flex;align-items:center;justify-content:space-between;gap:.5cqw;font-size:1.01cqw;font-weight:600;white-space:nowrap}
+.ai-switch{position:relative;display:block;width:3.96cqw;height:2.34cqw;background:#3b3937;border-radius:2cqw;flex:none}
+.ai-switch::after{content:"";position:absolute;top:.04cqw;left:.08cqw;width:2.26cqw;height:2.26cqw;border-radius:50%;background:#fff;box-shadow:0 1px 3px #0003}
+.ai-manual-box{position:absolute;top:67.2%;left:1.26cqw;right:1.26cqw;height:3.7cqw;display:grid;place-items:center;background:#42413fb0;border-radius:1cqw;font-size:1.26cqw;white-space:nowrap}
+/* Candidate rectangle belongs to the reframed image; no fabricated confidence
+   value or extra confirmation dialog. This is a static presentation overlay. */
+.ai-candidate{position:absolute;left:8%;top:27%;width:85%;height:56%;border:.42cqw solid #f20808;display:grid;place-items:center}
+.ai-candidate-label{font-family:Arial,Helvetica,sans-serif;font-size:1.85cqw;font-weight:700;line-height:1;background:#eeede7bf;color:#080808;min-width:12cqw;text-align:center;padding:.08cqw .7cqw}
+
+/* Original modal from the recorded new-project flow, over a DOM dashboard. */
+.ai-app-dashboard[data-state="create"] .ai-app-sidebar,.ai-app-dashboard[data-state="create"] .ai-app-main{filter:blur(4cqw)}
+.ai-create-backdrop{position:absolute;inset:0;background:#edededa6}
+.ai-create-sheet{position:absolute;left:25%;top:12.5%;width:50%;height:50%;background:#f8f8f8;border-radius:.9cqw;color:#a9a9a9}
+.ai-create-input{position:absolute;left:12.3%;top:44%;width:75.4%;height:12%;display:grid;place-items:center;background:#fff;border:1px solid #ddd;border-radius:.45cqw;font-size:1.45cqw;font-weight:700}
+.ai-create-actions{position:absolute;left:32.5%;right:32.5%;top:70%;display:flex;justify-content:space-between;align-items:center}
+.ai-create-action{display:grid;place-items:center;height:3.35cqw;min-width:5.05cqw;padding:0 .8cqw;border-radius:.55cqw;background:#252525;color:#f8f8f8;font-size:1.51cqw;font-weight:600;white-space:nowrap}
+.ai-create-action--cancel{color:#ff3b42;font-size:1.67cqw}
+
+/* Same portfolio mobile stage; enlarge the original rail in place for legibility,
+   never move the controls into a new toolbar or introduce horizontal scrolling. */
+@media(max-width:720px){
+  .ai-app-capture{width:100%;height:100%;aspect-ratio:auto}
+}
+@container(max-width:440px){
+  .ai-control-rail{width:22%}.ai-camera{right:22%}
+  .ai-capture-status{left:21%;top:4%;width:44%;height:7%;font-size:2.85cqw}
+  .ai-capture-close{right:3cqw;top:3cqw;width:3cqw;height:3cqw}
+  .ai-capture-bottom{left:1.5cqw;right:1.5cqw;bottom:4cqw;gap:2.4cqw}
+  .ai-capture-panorama{height:7cqw;font-size:2.8cqw;gap:1cqw}.ai-capture-panorama svg{width:4cqw;height:4cqw}
+  .ai-capture-primary{height:8cqw;font-size:2.8cqw;border-radius:1.1cqw}
+  .ai-detection-sliders{left:1.5cqw;right:1.5cqw;gap:2.4cqw;top:11%;height:34%}
+  .ai-detection-slider,.ai-slider-value{font-size:2.2cqw}
+  .ai-slider-plus,.ai-slider-minus{font-size:3.3cqw;margin:1.7cqw 0 1.4cqw}.ai-slider-minus{margin:1.4cqw 0 2cqw}
+  .ai-slider-track{width:.65cqw}.ai-slider-track::after{width:4.4cqw;height:4.4cqw}
+  .ai-wall-filter{left:1.6cqw;right:1.6cqw;top:54%;font-size:2.15cqw;gap:.5cqw}
+  .ai-switch{width:6.6cqw;height:4.1cqw}.ai-switch::after{width:4cqw;height:4cqw}
+  .ai-manual-box{left:1.5cqw;right:1.5cqw;top:65%;height:7cqw;font-size:2.35cqw;border-radius:1.4cqw}
+  .ai-room-preview{left:28%;top:72%;width:28%;height:20%}.ai-room-preview--partial{left:37%;top:73%;width:18%;height:20%}
+  .ai-candidate{left:8%;width:84%;top:30%;height:49%;border-width:.7cqw}.ai-candidate-label{font-size:3.5cqw;min-width:19cqw}
+  .ai-create-sheet{left:12%;width:76%;top:17%;height:48%;border-radius:1.5cqw}
+  .ai-create-input{font-size:3.5cqw;border-radius:.9cqw}
+  .ai-create-actions{left:27%;right:27%}.ai-create-action{font-size:3.4cqw;min-width:11cqw;height:7cqw;border-radius:1.1cqw}.ai-create-action--cancel{font-size:3.6cqw}
+}

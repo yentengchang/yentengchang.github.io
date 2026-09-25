@@ -1,0 +1,125 @@
+/* Only Auto Inspector-owned UI and states. Outer layout comes from home-shell.css. */
+.ai-home-chapter .ai-scroll-shell{height:740vh}
+.ai-home-chapter .ai-project-heading{margin-bottom:clamp(3.5rem,7vw,6rem)}
+.ai-home-chapter .ai-visual-stage{background:#101112}
+.ai-home-chapter .ai-story-note{font-size:.7rem}
+.ai-home-chapter .ai-static-keyframes{display:grid}
+.ai-home-chapter.ai-motion-ready .ai-static-keyframes{display:none}
+.ai-home-chapter .ai-static-keyframes img{object-fit:contain;background:#f0efeb}
+.ai-home-chapter .ai-static-plan{grid-column:2}
+@media(max-width:720px){.ai-home-chapter .ai-static-plan{grid-column:1}}
+.ai-home-chapter .ai-copy[hidden]{display:none}
+.ai-photo-space.is-detection{inset:auto 0;top:50%;aspect-ratio:4/3;transform:translateY(-50%)}
+.ai-photo-space.is-detection>img{object-fit:contain}
+.ai-home-chapter .ai-experience-note{color:#84848a;font-size:.72rem;margin:1.2rem 0 0;max-width:80ch}
+.ai-home-chapter .ai-end-actions{display:flex;align-items:center;gap:1.2rem;margin-top:clamp(2rem,4vw,3.25rem)}
+.ai-home-chapter .ai-view-all{display:inline-flex;align-items:center;gap:.45rem;color:#d6d6d8;font-size:.88rem;font-weight:570}
+.ai-home-chapter .ai-view-all span{transition:transform 180ms ease}
+.ai-home-chapter .ai-view-all:hover span{transform:translateY(2px)}
+@media(max-width:720px){.ai-home-chapter .ai-end-actions{align-items:flex-start;flex-direction:column}}
+.ai-experience{position:absolute;inset:0;container-type:size;overflow:hidden;color:#fff}
+.ai-experience *{box-sizing:border-box}
+.ai-exp-screen{position:absolute;inset:0;visibility:hidden;opacity:0;display:grid;place-items:center;pointer-events:none;transition:opacity .5s ease,visibility 0s .5s}
+.ai-exp-screen.is-visible{visibility:visible;opacity:1;transition:opacity .5s ease,visibility 0s}
+.ai-experience .ai-app-dashboard{width:min(100cqw,143.1655cqh)}
+.ai-experience .ai-app-capture{width:min(100cqw,151.1392cqh)}
+.ai-experience .ai-app-welcome{font-size:2.345cqw}
+.ai-experience .ai-app-project-title{font-size:1.2cqw}
+.ai-home-create[hidden]{display:none}
+.ai-home-create{position:absolute;inset:0;opacity:0;pointer-events:none}
+.ai-experience .ai-create-actions{left:25%;right:25%}
+.ai-experience .ai-create-action{font-size:1.2cqw}
+.ai-experience .ai-detection-slider{font-size:.8cqw}
+.ai-experience .ai-capture-panorama{font-size:1.12cqw;gap:.2cqw}
+.ai-experience .ai-capture-primary{font-size:1.2cqw}
+.ai-experience .ai-manual-box{font-size:1cqw}
+.ai-experience .ai-wall-filter{font-size:.85cqw}
+.ai-photo-space{position:absolute;inset:0;overflow:hidden}
+.ai-photo-space>img{width:100%;height:100%;display:block;object-fit:cover}
+.ai-spatial-mini{position:absolute;left:22%;top:44%;width:57%;height:51%;transform-origin:50% 75%;transition:transform .4s ease,opacity .4s ease}
+.ai-spatial-mini canvas{width:100%;height:100%;display:block}
+.ai-mini-user{position:absolute;left:48%;top:58%;width:2.5cqw;height:2.5cqw;background:#ff1414;border-radius:50%}
+.ai-mini-anchor{position:absolute;left:53%;top:55%;width:1.2cqw;height:2.4cqw;background:#222;opacity:0;transform:rotate(-12deg)}
+.ai-ceiling-controls{position:absolute;left:.84cqw;right:.84cqw;top:60%;display:grid;gap:1.25cqw}
+.ai-ceiling-controls span{background:#287a7dbb;border-radius:.6cqw;padding:1cqw .15cqw;font-size:.88cqw;text-align:center;white-space:nowrap}
+.ai-detect-controls,.ai-ceiling-controls{display:none}
+.ai-app-capture[data-state="detect"] .ai-detect-controls{display:block}
+.ai-app-capture[data-state="ceiling"] .ai-ceiling-controls{display:grid}
+.ai-home-candidate{position:absolute;left:36.2%;top:.6%;width:8%;height:69.5%;border:.35cqw solid #f71111;opacity:0;display:grid;place-items:center}
+.ai-home-candidate>span{background:#eeede8df;color:#090909;font:700 1.7cqw Arial,sans-serif;padding:0 .5cqw}
+.ai-home-anchor{position:absolute;left:36.2%;top:.6%;width:8%;height:69.5%;background:#24242450;opacity:0}
+.ai-tap-point{position:absolute;left:40%;top:35%;width:4cqw;height:4cqw;transform:translate(-50%,-50%);border:2px solid #fff;border-radius:50%;box-shadow:0 0 0 1cqw #fff3;opacity:0}
+.ai-ray-inset{position:absolute;inset:14% 15% 12% 8%;background:#f0efeb;box-shadow:0 1cqw 5cqw #0003;border-radius:1cqw;opacity:0;overflow:hidden}
+.ai-ray-inset canvas{width:100%;height:100%;display:block}
+.ai-ray-inset>span{position:absolute;top:4%;left:5%;color:#536068;font:600 1.35cqw -apple-system,sans-serif}
+.ai-ray-inset>small{position:absolute;bottom:4%;left:5%;color:#647071;font:1cqw -apple-system,sans-serif}
+.ai-ceiling-caption{display:none;position:absolute;bottom:2.3%;left:3%;font:1.12cqw -apple-system,sans-serif;background:#152025aa;padding:.6cqw .9cqw;border-radius:.3cqw}
+.ai-app-capture[data-state="ceiling"] .ai-ceiling-caption{display:block}
+.ai-model-app{position:relative;width:min(100cqw,151.1392cqh);aspect-ratio:2388/1580;container-type:inline-size;background:#eaeae6;overflow:hidden;border-radius:.45rem}
+.ai-model-app>canvas{display:block;width:100%;height:100%}
+.ai-model-controls{position:absolute;top:10%;right:8%;bottom:7%;display:flex;flex-direction:column;justify-content:space-between;color:#bea327;font:600 1.55cqw -apple-system,sans-serif;text-align:center}
+.ai-model-controls>span,.ai-model-controls>div>span{display:block;border-radius:.65cqw;padding:.7cqw 1.55cqw;background:#262625;margin-bottom:1cqw;min-width:6.7cqw}
+.ai-model-dimensions{position:absolute;inset:0;pointer-events:none;color:#324243;font:600 1.7cqw -apple-system,sans-serif}
+.ai-model-dimensions>span{position:absolute;transform:translate(-50%,-50%);background:#f6f5ede8;padding:.4cqw .8cqw;border-radius:.3cqw;white-space:nowrap}
+.ai-model-dimensions>small{position:absolute;left:3%;bottom:3%;font-size:1cqw;color:#64706c}
+.ai-record-badge{position:absolute;left:3%;top:4%;font:600 1.2cqw -apple-system,sans-serif;color:#b92925}
+.ai-record-app{position:relative;width:min(100cqw,151.1392cqh);aspect-ratio:2388/1580;container-type:inline-size;background:linear-gradient(95deg,#d8b699,#f2f2f2 16%);overflow:hidden;border-radius:.45rem}
+.ai-record-sheet{position:absolute;inset:9% 12.5% 12%;border-radius:2.7cqw;background:#fff;overflow:hidden;color:#252525}
+.ai-file-list{position:absolute;left:1.5%;top:4%;bottom:6%;width:19%;display:flex;flex-direction:column;justify-content:space-between;gap:.4cqw;font:600 1.1cqw Georgia,serif}
+.ai-file-list>span{padding:1cqw .4cqw;background:#fafafa;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ai-file-list>.selected{background:#efede4;border-left:.3cqw solid #b29d35}
+.ai-record-plan{position:absolute;left:22%;right:3%;top:3%;bottom:18%;overflow:hidden}
+.ai-record-plan svg{width:100%;height:100%;display:block}
+.ai-record-actions{position:absolute;left:22%;right:3%;bottom:7%;display:flex;justify-content:space-between;gap:2cqw;font:1.25cqw -apple-system,sans-serif;color:#b29e34}
+.ai-record-actions>span{flex:1;text-align:center;background:#cececc;border-radius:2cqw;padding:1.1cqw .5cqw}
+.ai-exp-field{background:#171817}
+.ai-exp-field video{position:absolute;inset:0 0 3.5rem;width:100%;height:calc(100% - 3.5rem);object-fit:contain;opacity:0;transition:opacity .4s ease}
+.ai-exp-field video.is-visible{opacity:1}
+.ai-field-caption{position:absolute;left:3%;right:3%;bottom:0;min-height:3.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;color:#fff;padding:.8rem 0;font-size:.8rem}
+.ai-field-caption small{color:#bcbfbf;font-size:.65rem;white-space:nowrap}
+@media(max-width:720px){
+  .ai-experience .ai-app-dashboard,.ai-experience .ai-app-capture,.ai-model-app,.ai-record-app{width:100%;height:100%;aspect-ratio:auto}
+  .ai-experience .ai-app-welcome{font-size:3.4cqw}.ai-experience .ai-app-project-title{font-size:2.3cqw}
+  .ai-experience .ai-create-action{font-size:3cqw}.ai-experience .ai-capture-panorama{font-size:2.35cqw}.ai-experience .ai-capture-primary{font-size:2.6cqw}
+  .ai-experience .ai-detection-slider{font-size:1.8cqw}.ai-experience .ai-manual-box{font-size:2cqw}.ai-experience .ai-wall-filter{font-size:1.8cqw}
+  .ai-spatial-mini{left:9%;top:44%;width:72%;height:50%}.ai-mini-user{width:4cqw;height:4cqw}
+  .ai-ceiling-controls{left:1.5cqw;right:1.5cqw;gap:2cqw;top:59%}.ai-ceiling-controls span{font-size:1.75cqw;padding:2cqw .3cqw}
+  .ai-ceiling-caption{font-size:1.7cqw;left:2%}.ai-home-candidate{border-width:.65cqw}.ai-home-candidate>span{font-size:3cqw}
+  .ai-ray-inset{inset:17% 6% 12% 3%}.ai-ray-inset>span{font-size:2.7cqw}.ai-ray-inset>small{font-size:2cqw}
+  .ai-model-controls{right:4%;font-size:3cqw}.ai-model-controls>span,.ai-model-controls>div>span{padding:1.3cqw 2cqw;min-width:11cqw;border-radius:1cqw}
+  .ai-model-dimensions{font-size:3cqw}.ai-model-dimensions>small{font-size:1.8cqw}.ai-record-badge{font-size:2.5cqw}
+  .ai-record-sheet{inset:7% 2% 7%;border-radius:3cqw}.ai-file-list{font-size:2cqw;width:22%}.ai-file-list>span{padding:2cqw .7cqw}
+  .ai-record-plan{left:24%;right:1%}.ai-record-actions{font-size:2.3cqw;left:25%;right:2%;gap:2cqw}.ai-record-actions>span{padding:2cqw .5cqw}
+  .ai-field-caption{font-size:.7rem;flex-direction:column;align-items:start;justify-content:center;gap:.3rem;padding:.5rem}.ai-field-caption small{font-size:.6rem}
+}
+@media(prefers-reduced-motion:reduce){.ai-home-chapter.ai-motion-ready .ai-scroll-shell{display:none}.ai-home-chapter.ai-motion-ready .ai-static-keyframes{display:grid}}
+
+/* 2026-09-18: scroll selects a scene; its own clock sets the pace. */
+.ai-home-chapter .ai-playback{position:absolute;right:0;bottom:clamp(.2rem,2vh,1.25rem);width:calc((100% - clamp(2.5rem,5vw,5rem))* .71);display:flex;align-items:center;gap:.7rem;min-height:2.4rem;font-size:.65rem;color:#9a9ca1}
+.ai-playback-status{white-space:nowrap;font-variant-numeric:tabular-nums}
+.ai-playback-track{height:2px;background:#393b3e;flex:1;min-width:1rem;overflow:hidden}
+.ai-playback-track i{display:block;height:100%;background:#d9b080;transform-origin:left;transform:scaleX(0)}
+.ai-home-chapter .ai-playback button{font:inherit;color:#e5e4e1;background:#202123;border:1px solid #49494b;border-radius:5px;padding:.5rem .7rem;white-space:nowrap;cursor:pointer;min-height:36px}
+.ai-home-chapter .ai-playback button:hover{border-color:#bd956b;background:#292827}
+.ai-home-chapter .ai-playback button:focus-visible{outline:2px solid #f0c390;outline-offset:3px}
+.ai-camera .ai-camera-layer{position:absolute;inset:0;opacity:0;transition:opacity .55s ease;width:100%;height:100%;object-fit:cover;max-width:none}
+.ai-camera .ai-photo-space.is-detection{inset:auto 0;top:50%;height:auto}
+.ai-camera .ai-anchor-video{object-fit:cover;background:#433f39}
+.ai-anchor-caption{position:absolute;bottom:3%;left:3%;max-width:78%;padding:.7cqw 1cqw;border-radius:.4cqw;background:#171d21c9;color:#fff;font:1.25cqw -apple-system,sans-serif;opacity:0}
+.ai-experience .ai-app-project,.ai-experience .ai-app-stat{will-change:transform}
+.ai-experience .ai-app-project-window{position:absolute;top:33.3cqw;left:-1cqw;right:-1cqw;bottom:0;overflow:hidden;padding:1cqw}
+.ai-experience .ai-app-projects{position:relative;top:0;left:0;right:0}
+.ai-home-chapter .ai-playback{bottom:auto}
+.ai-experience .ai-app-main,.ai-experience .ai-app-sidebar{transition:filter .25s ease}
+.ai-experience .ai-detect-controls,.ai-experience .ai-ceiling-controls{display:block;opacity:0;transition:opacity .45s ease;pointer-events:none}
+.ai-experience .ai-ceiling-controls{display:grid}
+.ai-experience .ai-app-capture[data-state="detect"] .ai-detect-controls,.ai-experience .ai-app-capture[data-state="ceiling"] .ai-ceiling-controls{opacity:1}
+.ai-experience .ai-ceiling-caption{display:block;opacity:0;transition:opacity .45s ease}
+.ai-experience .ai-app-capture[data-state="ceiling"] .ai-ceiling-caption{opacity:1}
+@media(max-width:720px){
+  .ai-home-chapter .ai-playback{width:100%;bottom:.2rem;gap:.5rem;font-size:.6rem}
+  .ai-home-chapter .ai-playback button{min-height:40px;padding:.5rem .6rem}
+  .ai-anchor-caption{font-size:2.4cqw;bottom:5%;padding:1.3cqw;max-width:74%}
+}
+@container(max-width:440px){.ai-experience .ai-app-project-window{top:44.5cqw}}
+@media(prefers-reduced-motion:reduce){.ai-home-chapter .ai-playback{display:none}.ai-home-chapter *{transition:none!important}}

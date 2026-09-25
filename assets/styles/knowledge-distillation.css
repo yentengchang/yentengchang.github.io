@@ -1,0 +1,83 @@
+/* Normal-flow research story. Keep the approved left-copy / right-figure proportions. */
+.kd-project-heading { margin-bottom:clamp(3.5rem,7vw,6rem); }
+.kd-project-meta { margin-bottom:0; color:#d7dce1 !important; font-size:.82rem !important; letter-spacing:.01em; }
+.kd-story { border-top:1px solid rgba(255,255,255,.15); color:#f5f5f7; }
+.kd-chapter .kd-research-question { color:#f5f5f7; font-weight:550; }
+.kd-story button[hidden] { display:none; }
+.kd-step { display:grid; grid-template-columns:minmax(14rem,.58fr) minmax(34rem,1.42fr); gap:clamp(2rem,4vw,4.5rem); align-items:center; padding-block:4rem; }
+.kd-step + .kd-step { border-top:1px solid rgba(255,255,255,.12); }
+.kd-copy { min-width:0; }
+.kd-step-label { margin:0 0 .8rem; color:#a1a1a6; font-size:clamp(.8rem,1vw,.9rem); font-weight:650; letter-spacing:.07em; text-transform:uppercase; }
+.kd-copy h3 { max-width:17ch; margin:0 0 1.1rem; font-size:clamp(1.75rem,2.65vw,2.65rem); font-weight:620; letter-spacing:-.042em; line-height:1.1; text-wrap:balance; }
+.kd-copy > p:not(.kd-step-label) { max-width:31rem; margin:0; color:#a1a1a6; font-size:clamp(.9rem,1.25vw,1rem); line-height:1.58; }
+.kd-copy > p + p:not(.kd-step-label) { margin-top:.85rem; }
+.kd-copy strong { color:#ececf0; font-weight:560; }
+.kd-copy > .kd-copy-footnote { margin-top:1.2rem !important; font-size:.78rem !important; }
+.kd-inline-link { display:inline-block; margin-top:1.2rem; color:#d7dce1; font-size:.82rem; }
+.kd-inline-link:hover { text-decoration:underline; text-underline-offset:4px; }
+.kd-chapter .kd-visual { margin:0; min-width:0; }
+.kd-figure-paper { min-width:0; padding:clamp(1rem,2vw,1.8rem); border:1px solid #d6dce0; border-radius:.35rem; background:#fff; color:#293241; container-type:inline-size; }
+.kd-figure-title { margin:0 0 1.7rem; text-align:center; color:#293241; font:bold clamp(1.2rem,2vw,1.6rem)/1.25 "Times New Roman",serif; }
+.kd-chapter .kd-visual figcaption { margin:1rem 0 0; color:#9b9ba0; font-size:.73rem; line-height:1.55; }
+.kd-visual figcaption strong { color:#c7c7cc; font-weight:550; }
+.kd-caption-detail { display:block; margin-top:.55rem; }
+.kd-weight-visual { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:1.15rem; font-family:"Times New Roman",serif; letter-spacing:normal; }
+.kd-weight-panel { min-width:0; }
+.kd-weight-label { margin-bottom:.8rem; text-align:center; }
+.kd-weight-label h4 { margin:0 0 .3rem; color:#293241; font:700 22px/1.2 "Times New Roman",serif; letter-spacing:normal; }
+.kd-weight-label p { margin:0; color:#6b7280; font:16px/1.25 "Times New Roman",serif; }
+.kd-weight-panel svg { display:block; width:100%; height:auto; border:1px solid #9aa6b6; border-radius:4px; }
+.kd-weight-visual.is-playing .kd-weight-overlay { animation:kd-weight-reveal .7s ease both; animation-delay:var(--kd-weight-delay); }
+@keyframes kd-weight-reveal { from { opacity:0; } to { opacity:1; } }
+@container (max-width:480px) {
+  .kd-weight-visual { grid-template-columns:minmax(0,1fr); gap:1.2rem; }
+  .kd-weight-panel { display:grid; grid-template-columns:5.5rem minmax(0,1fr); gap:.6rem; align-items:center; }
+  .kd-weight-label { margin:0; text-align:left; }
+  .kd-weight-label h4 { font-size:20px; }
+  .kd-weight-label p { font-size:15px; }
+}
+.kd-chart-scroll { min-width:0; max-width:100%; overflow-x:auto; overscroll-behavior-inline:contain; }
+.kd-chart-scroll > svg { display:block; width:100%; height:auto; margin-inline:auto; font-family:"Times New Roman",serif; fill:#293241; }
+.kd-bubble-compact-label { display:none; }
+@container (max-width:480px) {
+  .kd-bubble-overview .kd-bubble-full-label { display:none; }
+  .kd-bubble-overview .kd-bubble-compact-label { display:block; font-size:28px; fill:#293241; }
+}
+@container (max-width:300px) {
+  .kd-bubble-overview .kd-bubble-compact-label { font-size:30px; }
+}
+.kd-visual-gain .kd-chart-scroll > svg { width:548px; max-width:100%; height:auto; }
+.kd-chart-key { margin:.5rem 0 0; color:#52606d; font:14px/1.4 "Times New Roman",serif; text-align:center; }
+.kd-replay { display:block; margin:.75rem auto 0; padding:.35rem 0; border:0; background:none; color:#52606d; font:inherit; font-size:.75rem; cursor:pointer; }
+.kd-replay:hover { color:#18754f; }
+.kd-figure-fullsize { display:none; }
+.kd-chapter :is(button,a,.kd-chart-scroll):focus-visible { outline:2px solid #8aaaca; outline-offset:5px; }
+.kd-actions { display:flex; flex-wrap:wrap; align-items:center; gap:1.5rem 2rem; padding-top:2rem; border-top:1px solid rgba(255,255,255,.15); }
+.kd-actions > a:last-child { color:#aaaab0; font-size:.88rem; }
+@media (max-width:980px) {
+  .kd-step { grid-template-columns:minmax(11.5rem,.46fr) minmax(29rem,1.54fr); gap:1.5rem; }
+  .kd-copy h3 { font-size:clamp(1.55rem,3vw,2.1rem); }
+  .kd-figure-paper { padding:1rem; }
+}
+@media (max-width:720px) {
+  .kd-step { display:grid; grid-template-columns:minmax(0,1fr); gap:1.7rem; padding-block:3rem; }
+  .kd-step + .kd-step { border-top:1px solid rgba(255,255,255,.15); }
+  .kd-copy h3 { max-width:19ch; font-size:clamp(1.7rem,7vw,2.5rem); }
+  .kd-copy > p:not(.kd-step-label) { max-width:42ch; font-size:.95rem; }
+  .kd-figure-title { margin-bottom:1.3rem; font-size:1.25rem; }
+  .kd-chart-scroll > svg { min-width:570px; }
+  .kd-bubble-overview > svg { min-width:0; }
+  .kd-chart-scroll.kd-bubble-overview:after { display:none; }
+  .kd-figure-fullsize { display:block; margin:.75rem auto 0; color:#52606d; font-size:.75rem; text-align:center; text-decoration:underline; text-underline-offset:3px; }
+  .kd-visual-gain .kd-chart-scroll > svg { min-width:510px; width:510px; height:auto; max-width:none; }
+  .kd-chart-scroll:after { content:"Swipe to explore the full figure →"; display:block; width:100%; padding-top:.7rem; color:#66717b; font-size:.7rem; }
+  .kd-chart-key { font-size:13px; }
+  .kd-chapter .kd-visual figcaption { font-size:.76rem; }
+}
+@media (max-height:720px) and (min-width:721px) {
+  .kd-figure-title { margin-bottom:.85rem; font-size:1.25rem; }
+  .kd-chapter .kd-visual figcaption { font-size:.68rem; }
+}
+@media (prefers-reduced-motion:reduce) {
+  .kd-story *, .kd-detail-page .kd-deck-original * { animation:none !important; transition:none !important; }
+}

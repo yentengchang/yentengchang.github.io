@@ -1,0 +1,58 @@
+/* AppDashboard, reconstructed from 起始介面展示.png.
+   The outer portfolio stage is not styled here. Native reference: 1194 × 834.
+   Text, panels and controls remain independent DOM layers for later scroll states. */
+.ai-dashboard-viewport{position:absolute;inset:0;display:grid;place-items:center;container-type:size;background:#101112}
+.ai-app-dashboard{position:relative;width:min(100cqw,143.1655cqh);aspect-ratio:1194/834;container-type:inline-size;overflow:hidden;isolation:isolate;background:#f7f7f7;color:#555;font-family:-apple-system,BlinkMacSystemFont,'PingFang TC','Helvetica Neue',sans-serif;font-size:1.34cqw;border-radius:.45rem;text-align:left;line-height:1.2}
+.ai-app-dashboard *{box-sizing:border-box}
+.ai-app-dashboard h4,.ai-app-dashboard p,.ai-app-dashboard ol,.ai-app-dashboard li{margin:0;padding:0;list-style:none}
+.ai-app-dashboard img{display:block;max-width:100%}
+.ai-app-dashboard svg{display:block;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.ai-app-sidebar{position:absolute;inset:0 auto 0 0;width:8.3752cqw;background:#be7e47;color:#fff}
+.ai-app-icon{position:absolute;top:5.025cqw;left:1.675cqw;width:5.025cqw;height:5.025cqw;border-radius:1cqw}
+.ai-app-side-add{position:absolute;top:28.81cqw;left:2.094cqw;width:4.1876cqw;height:4.1876cqw;border-radius:1cqw;display:grid;place-items:center;background:white;color:#be7e47}
+.ai-app-side-add svg{width:2.01cqw;height:2.01cqw}
+.ai-app-help{position:absolute;bottom:10.13cqw;left:1.843cqw;display:flex;align-items:center;gap:.3cqw;color:#fff8;font-size:1.17cqw;white-space:nowrap}
+.ai-app-help svg{width:1.675cqw;height:1.675cqw}
+.ai-app-company{position:absolute;bottom:3.65cqw;left:2.429cqw;width:4.02cqw;height:auto}
+.ai-app-main{position:absolute;inset:0 3.35cqw 0 11.725cqw}
+.ai-app-welcome{position:absolute;top:6.45cqw;left:0;font-size:2.345cqw;font-weight:700;letter-spacing:-.045cqw;line-height:1.25;white-space:nowrap}
+.ai-app-date{position:absolute;top:10.72cqw;left:0;color:#929292;font-size:1.1725cqw;letter-spacing:0;line-height:1.2}
+.ai-app-stats{position:absolute;top:14.65cqw;left:0;right:0;display:grid;grid-template-columns:1fr 1fr;gap:1.675cqw}
+.ai-app-stat{height:6.7cqw;padding:0 2.5125cqw 0 1.675cqw;display:flex;align-items:center;justify-content:space-between;border-radius:1cqw;background:#fff;box-shadow:0 .1675cqw .67cqw #0000000b}
+.ai-app-stat span{color:#969696;font-size:1.34cqw;font-weight:500}
+.ai-app-stat strong{color:#c57939;font-size:2.68cqw;font-weight:650;font-variant-numeric:tabular-nums}
+.ai-app-toolbar{position:absolute;top:24.85cqw;left:0;right:0;height:2.43cqw;display:flex;align-items:center;justify-content:space-between}
+.ai-app-toolbar h4{font-size:1.675cqw;font-weight:650;color:#616161}
+.ai-app-sort{display:flex;align-items:center;gap:.25cqw;border:1px solid #eee;border-radius:.48cqw;background:#fff;padding:.37cqw .6cqw;font-size:1.1725cqw;color:#777}
+.ai-app-sort svg{width:1.17cqw;height:1.17cqw}
+.ai-app-search{position:absolute;top:28.6cqw;left:0;right:0;height:3.685cqw;display:flex;align-items:center;gap:.67cqw;padding:0 1.005cqw;border:1px solid #e9e9e9;border-radius:.67cqw;background:#fff;color:#c3c3c3;font-size:1.5075cqw}
+.ai-app-search svg{width:1.675cqw;height:1.675cqw;color:#a4a4a4}
+.ai-app-projects{position:absolute;top:33.92cqw;left:0;right:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));column-gap:3.75cqw;row-gap:1.675cqw}
+.ai-app-project{position:relative;height:16.75cqw;min-width:0;overflow:hidden;border-radius:1cqw;background:#fff;box-shadow:0 .335cqw .67cqw #0000000d}
+.ai-app-project-photo{width:100%;height:12.73cqw;object-fit:cover;object-position:center}
+.ai-app-project-info{height:4.02cqw;padding:0 1cqw;display:flex;align-items:center;gap:.34cqw;min-width:0}
+.ai-app-project-title{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0;font-size:1.34cqw;color:#111;font-weight:650;letter-spacing:-.05cqw}
+.ai-app-more{margin-left:auto;flex:none;display:flex;align-items:center;gap:.21cqw}
+.ai-app-more i{width:.23cqw;height:.23cqw;min-width:1px;min-height:1px;background:#bbb;border-radius:50%}
+.ai-app-new{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1cqw;background:#fff5eb;border:1px solid #c47c4480;color:#c47c44;box-shadow:none}
+.ai-app-new svg{width:3.35cqw;height:3.35cqw;stroke-width:1.6}
+.ai-app-new span{font-size:1.5075cqw;font-weight:600}
+
+/* Smaller portfolio windows: keep the same app regions, two card columns.
+   The original field-card grid scrolls; the static review preserves that crop. */
+@container (max-width:440px){
+  .ai-app-sidebar{width:9.4cqw}
+  .ai-app-main{inset:0 3.4cqw 0 13cqw}
+  .ai-app-icon{top:5cqw;left:1.6cqw;width:6.2cqw;height:6.2cqw}
+  .ai-app-side-add{top:32cqw;left:1.9cqw;width:5.6cqw;height:5.6cqw}.ai-app-side-add svg{width:3.8cqw;height:3.8cqw}
+  .ai-app-welcome{top:5.4cqw;font-size:3.65cqw;letter-spacing:-.07cqw}
+  .ai-app-date{top:11.5cqw;font-size:2.2cqw}
+  .ai-app-stats{top:17.2cqw;gap:2cqw}.ai-app-stat{height:10cqw;padding:0 2.2cqw}.ai-app-stat span{font-size:2.25cqw}.ai-app-stat strong{font-size:4.1cqw}
+  .ai-app-toolbar{top:31.4cqw;height:3.9cqw}.ai-app-toolbar h4{font-size:2.7cqw}.ai-app-sort{font-size:2.1cqw;padding:.6cqw}.ai-app-sort svg{width:2.3cqw;height:2.3cqw}
+  .ai-app-search{top:37.2cqw;height:6.2cqw;font-size:2.5cqw;padding:0 1.8cqw;gap:1.2cqw}.ai-app-search svg{width:2.7cqw;height:2.7cqw}
+  .ai-app-projects{top:45.5cqw;grid-template-columns:repeat(2,minmax(0,1fr));gap:2.5cqw}
+  .ai-app-project{height:23cqw;border-radius:1.5cqw}.ai-app-project-photo{height:17cqw}.ai-app-project-info{height:6cqw;padding:0 1.7cqw}.ai-app-project-title{font-size:2.3cqw;letter-spacing:-.075cqw}
+  .ai-app-new{gap:1.4cqw}.ai-app-new svg{width:5cqw;height:5cqw}.ai-app-new span{font-size:2.65cqw}
+  .ai-app-help{left:1.5cqw;bottom:11.5cqw;font-size:1.75cqw;gap:.3cqw}.ai-app-help svg{width:2.2cqw;height:2.2cqw}.ai-app-company{left:2.5cqw;width:4.5cqw;bottom:5cqw}
+}
+@media(max-width:720px){.ai-app-dashboard{width:100%;height:100%;aspect-ratio:auto}}

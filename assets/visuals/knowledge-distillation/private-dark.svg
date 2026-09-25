@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="370" viewBox="0 0 760 370" role="img" aria-labelledby="title desc"><title id="title">Private validation: paired mAP50–95 change</title><desc id="desc">Five seeds relative to E0noaug. Blue circles: image-matched E4off. Orange squares: batch-shuffled E4ctrl. Values rounded to three decimals.</desc><g font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#a1a1a6">
+<line x1="78" x2="727" y1="288" y2="288" stroke="#34373c" /><text x="62" y="293" text-anchor="end">−0.040</text>
+<line x1="78" x2="727" y1="238" y2="238" stroke="#34373c" /><text x="62" y="243" text-anchor="end">−0.020</text>
+<line x1="78" x2="727" y1="188" y2="188" stroke="#a1a1a6" stroke-dasharray="5 5"/><text x="62" y="193" text-anchor="end">0</text>
+<line x1="78" x2="727" y1="138" y2="138" stroke="#34373c" /><text x="62" y="143" text-anchor="end">+0.020</text>
+<line x1="78" x2="727" y1="88" y2="88" stroke="#34373c" /><text x="62" y="93" text-anchor="end">+0.040</text>
+<text x="78" y="29">Δ mAP50–95 vs. no-KD baseline</text>
+<circle cx="121" cy="130.5" r="6" fill="#79b9ff"/>
+<text x="121" y="116.5" text-anchor="middle" fill="#79b9ff" font-size="15">+0.023</text>
+<circle cx="253" cy="243" r="6" fill="#79b9ff"/>
+<text x="253" y="229" text-anchor="middle" fill="#79b9ff" font-size="15">−0.022</text>
+<circle cx="385" cy="85.5" r="6" fill="#79b9ff"/>
+<text x="385" y="71.5" text-anchor="middle" fill="#79b9ff" font-size="15">+0.041</text>
+<circle cx="517" cy="120.5" r="6" fill="#79b9ff"/>
+<text x="517" y="106.5" text-anchor="middle" fill="#79b9ff" font-size="15">+0.027</text>
+<circle cx="649" cy="160.5" r="6" fill="#79b9ff"/>
+<text x="649" y="146.5" text-anchor="middle" fill="#79b9ff" font-size="15">+0.011</text>
+<rect x="134" y="263" width="10" height="10" fill="#f4af7a"/>
+<text x="139" y="292" text-anchor="middle" fill="#f4af7a" font-size="15">−0.032</text>
+<rect x="266" y="270.5" width="10" height="10" fill="#f4af7a"/>
+<text x="271" y="299.5" text-anchor="middle" fill="#f4af7a" font-size="15">−0.035</text>
+<rect x="398" y="248" width="10" height="10" fill="#f4af7a"/>
+<text x="403" y="277" text-anchor="middle" fill="#f4af7a" font-size="15">−0.026</text>
+<rect x="530" y="210.5" width="10" height="10" fill="#f4af7a"/>
+<text x="535" y="239.5" text-anchor="middle" fill="#f4af7a" font-size="15">−0.011</text>
+<rect x="662" y="238" width="10" height="10" fill="#f4af7a"/>
+<text x="667" y="267" text-anchor="middle" fill="#f4af7a" font-size="15">−0.022</text>
+<text x="130" y="321" text-anchor="middle">Seed 0</text>
+<text x="262" y="321" text-anchor="middle">Seed 1</text>
+<text x="394" y="321" text-anchor="middle">Seed 2</text>
+<text x="526" y="321" text-anchor="middle">Seed 3</text>
+<text x="658" y="321" text-anchor="middle">Seed 4</text>
+<circle cx="171" cy="355" r="5" fill="#79b9ff"/><text x="185" y="360">Matched teacher</text><rect x="412" y="350" width="10" height="10" fill="#f4af7a"/><text x="435" y="360">Shuffled teacher</text></g></svg>

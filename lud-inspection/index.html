@@ -1,29 +1,108 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>LUD Intelligent Inspection Technology — Yen-Teng Chang</title>
-  <meta name="description" content="Lock-Up Device (LUD) intelligent inspection: deterioration segmentation and a constrained, auditable, code-based assessment chain with graded human-in-the-loop review.">
-  <link rel="stylesheet" href="/assets/style.css">
+  <meta name="description" content="Yen-Teng Chang’s LUD inspection case study: visual evidence, RGB-D geometry, standards-constrained VLM assessment and engineer-reviewed case retrieval.">
+  <title>Lock-Up Device Intelligent Inspection | Yen-Teng Chang</title>
+  <link rel="stylesheet" href="/assets/wireframe.css">
+  <link rel="stylesheet" href="/assets/styles/lud-detail.css?v=20260919">
+  <script src="/assets/scripts/lud-detail.js?v=20260919" defer></script>
 </head>
-<body>
-<main>
-  <nav class="top"><a href="/">Yen-Teng Chang</a> / Projects</nav>
+<body class="ld-page">
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <header class="site-header">
+    <a class="site-name" href="/#top">Yen-Teng Chang</a>
+    <nav class="desktop-nav" aria-label="Primary navigation"><a href="/#projects">Projects</a><a href="/#publications">Publications</a><a href="/#experience">Experience</a><a href="/#awards">Awards</a><a href="/#contact">Contact</a></nav>
+    <a class="header-cv" href="/#cv">CV <span aria-hidden="true">↗</span></a>
+    <details class="mobile-menu"><summary aria-label="Open navigation">Menu</summary><nav aria-label="Mobile navigation"><a href="/#projects">Projects</a><a href="/#publications">Publications</a><a href="/#experience">Experience</a><a href="/#awards">Awards</a><a href="/#contact">Contact</a></nav></details>
+  </header>
+  <main id="main-content">
+    <section class="ld-hero ld-shell" id="top" aria-labelledby="ld-title">
+      <p class="ld-breadcrumb"><a href="/#projects">Projects</a><span>/</span> Inspection R&amp;D</p>
+      <div class="ld-heading-row">
+        <div><p class="ld-kicker">Technical case study</p><h1 id="ld-title">Lock-Up Device Intelligent Inspection</h1></div>
+        <div class="ld-intro"><p>From visible deterioration to an evidence-linked decision. A system design connecting RGB-D measurement, constrained AI and engineering judgement.</p><a class="ld-link" href="/#lud">Home walkthrough ↗</a></div>
+      </div>
+      <dl class="ld-facts"><div><dt>Role</dt><dd>Sole developer</dd></div><div><dt>Foundation</dt><dd>Segmentation prototype</dd></div><div><dt>Focus</dt><dd>Measurement &amp; assessment design</dd></div></dl>
+      <div class="ld-field-intro">
+        <figure><img src="/assets/images/lud-inspection/overview.webp" alt="A complete lock-up device and its connections beneath a bridge" width="1477" height="1108"><figcaption>Lock-up device in its field setting.</figcaption></figure>
+        <div><p class="ld-kicker">The inspection problem</p><h2>See the condition.<br>Measure its extent.<br>Explain the judgement.</h2><p>Lock-up devices accommodate slow movement and restrain rapid movement between bridge components. Inspection must connect what is visible with physical measurements and the criteria behind a grade.</p><p>This workflow keeps the image, measurement, model suggestion and engineer’s decision together.</p></div>
+      </div>
+    </section>
+    <nav class="ld-section-nav" aria-label="Case study sections"><div class="ld-shell"><a href="#architecture">Architecture</a><a href="#segmentation">Visual evidence</a><a href="#geometry">RGB-D measurement</a><a href="#assessment">Constrained AI</a><a href="#case-knowledge">Review &amp; RAG</a><a href="#contribution">My contribution</a></div></nav>
 
-  <h1>Lock-Up Device (LUD) Intelligent Inspection Technology — Deterioration Segmentation and Code-Based Assessment</h1>
-  <p class="context">Technical proposal and system development · Sole developer · November 2024 – present</p>
+    <section class="ld-section ld-tint" id="architecture" aria-labelledby="ld-architecture-title"><div class="ld-shell">
+      <div class="ld-heading-row"><div><p class="ld-kicker">System architecture</p><h2 id="ld-architecture-title">Two evidence paths.<br>One inspection record.</h2></div><p>Visual regions identify what is affected. Depth supplies spatial scale. The assessment layer combines this evidence with the relevant standards, while the engineer retains the final judgement.</p></div>
+      <div class="ld-architecture" aria-label="RGB imagery feeds segmentation; aligned depth feeds geometry; both feed constrained assessment and engineer review. Reviewed cases return as context.">
+        <div class="ld-evidence-lanes"><div><span>RGB image</span><b aria-hidden="true">→</b><strong>Deterioration regions</strong></div><div><span>Depth + intrinsics</span><b aria-hidden="true">→</b><strong>Area &amp; pin distance</strong></div></div>
+        <span class="ld-connector" aria-hidden="true">→</span><div class="ld-arch-assessment"><span>Inspection standards + reviewed cases</span><h3>Constrained assessment</h3><p>D suggestion · measured E<br>Schema, rules &amp; quality gates</p></div>
+        <span class="ld-connector" aria-hidden="true">→</span><div class="ld-arch-review"><h3>Engineer review</h3><p>Confirm or revise<br>Save evidence &amp; rationale</p></div>
+        <div class="ld-arch-return"><b aria-hidden="true">↶</b><strong>Reviewed-case knowledge</strong><span>Relevant examples return to a later assessment.</span></div>
+      </div>
+      <p class="ld-caption">System design. The interface and quantitative outputs below are simulated demonstrations; field photographs and annotation shapes come from project evidence.</p>
+    </div></section>
 
-  <ul>
-    <li>Investigated field inspection needs and defined an automated LUD deterioration-assessment workflow covering image acquisition, segmentation and classification, geometric measurement, and engineering assessment.</li>
-    <li>Established a standardized annotation and iterative model-development workflow with SAM-assisted labeling, hard-sample rebalancing, and human-reviewed cases incorporated as new ground truth.</li>
-    <li>Designed a constrained vision–language-model framework for DERU-based assessment (Degree / Extent / Relevancy / Urgency), integrating structured outputs, rule validation, consistency checks, confidence gating, and auditable decision logs.</li>
-    <li>Implemented human-in-the-loop feedback that returns reviewed low-confidence assessments to the system as retrieval knowledge.</li>
-  </ul>
+    <section class="ld-section ld-shell" id="segmentation" aria-labelledby="ld-seg-title">
+      <div class="ld-heading-row"><div><p class="ld-kicker">01 / Visual evidence</p><h2 id="ld-seg-title">Keep the boundary,<br>not just the label.</h2></div><p>The YOLOv8-based segmentation prototype localizes visible deterioration. A region can then be measured, linked to a criterion and revisited during review.</p></div>
+      <figure class="ld-seg-figure" data-ld-segmentation>
+        <div class="ld-figure-bar"><strong>Deterioration regions</strong><div class="ld-mask-controls ld-js-only" role="group" aria-label="Visible annotation categories"><button type="button" data-ld-category="oil" aria-pressed="true"><i class="ld-oil"></i>Oil leakage</button><button type="button" data-ld-category="rust" aria-pressed="true"><i class="ld-rust"></i>Corrosion</button><button type="button" data-ld-category="coating" aria-pressed="true"><i class="ld-coating"></i>Coating loss</button><button type="button" data-ld-original aria-pressed="false">Original image</button></div></div>
+        <svg class="ld-photo" viewBox="0 0 3840 2160" role="img" aria-label="Support-connection photograph with oil leakage, corrosion and coating-loss annotations"><image href="/assets/images/lud-inspection/deterioration.webp" width="3840" height="2160"/><g class="ld-masks" data-ld-regions></g></svg>
+        <figcaption>Original IMG_0155 field photograph with reconstructed annotation layers. The example illustrates region representation, not live inference or a benchmark.</figcaption>
+        <p class="ld-asset-status" data-ld-mask-status role="status"></p>
+      </figure>
+      <div class="ld-three-notes"><div><h3>Localize</h3><p>Retain each affected region’s boundary and deterioration class.</p></div><div><h3>Measure</h3><p>Carry that mask into the depth-based surface calculation.</p></div><div><h3>Trace</h3><p>Keep the source image and region linked to the assessment.</p></div></div>
+    </section>
 
-  <p class="note">System diagrams and illustrative examples will be added to this page.</p>
+    <section class="ld-section ld-dark" id="geometry" aria-labelledby="ld-geometry-title"><div class="ld-shell">
+      <div class="ld-heading-row"><div><p class="ld-kicker">02 / RGB-D measurement</p><h2 id="ld-geometry-title">Depth gives the image<br>a physical scale.</h2></div><p>The depth camera supplies distance, and its calibrated intrinsics map image locations into 3D. Surface area and pin separation use the same spatial foundation.</p></div>
+      <div class="ld-area-pair">
+        <figure><div class="ld-media-label">RGB · selected deterioration region</div><svg class="ld-photo" viewBox="0 0 3840 2160" role="img" aria-label="Actual support-connection image with the corrosion region selected for measurement"><image href="/assets/images/lud-inspection/deterioration.webp" width="3840" height="2160"/><g class="ld-masks" data-ld-regions="region-4"></g></svg></figure>
+        <figure class="ld-depth-figure"><div class="ld-media-label">RGB-D reconstruction <span>Geometry schematic</span></div><svg viewBox="0 0 600 350" role="img" aria-label="Schematic depth camera and projected 3D surface, with the source annotation silhouette mapped onto a synthetic plane"><g class="ld-depth-rays"><path d="M142 202L293 61M142 202L506 105M142 202L550 270M142 202L337 226"/></g><g class="ld-depth-camera"><rect x="35" y="179" width="110" height="45" rx="11"/><circle cx="54" cy="201" r="9"/><circle cx="90" cy="201" r="7"/><circle cx="126" cy="201" r="9"/><path d="M77 225V245H106V225"/></g><g data-ld-depth-cloud></g><g class="ld-depth-region" data-ld-depth-region></g><g class="ld-depth-labels"><text x="24" y="277">Depth camera</text><text x="390" y="35">3D surface</text><text x="24" y="328">Depth + intrinsics → spatial coordinates</text></g></svg></figure>
+        <div class="ld-area-results"><span>Illustrative readout</span><div>Affected area <strong>1,860 <small>cm²</small></strong></div><div>Extent <strong>42<small>%</small></strong></div></div>
+      </div>
+      <p class="ld-caption">The photographs have no paired depth frames. The point lattice is a geometric schematic, and the measurement values are illustrative.</p>
+      <div class="ld-geometry-explainer"><div><h3>From pixels to surface area.</h3><p>Align depth to the RGB image, reject unreliable depth samples and back-project the region. Local surface orientation accounts for viewing angle when estimating area; the applicable reference area defines the extent ratio.</p></div><div class="ld-equation"><span>Camera back-projection</span><code>X = (u − cₓ)d / fₓ<br>Y = (v − cᵧ)d / fᵧ<br>Z = d</code><p>d: depth · f: focal length · c: principal point</p></div></div>
+      <div class="ld-pin-block" data-ld-motion="pins" data-phase="complete">
+        <div class="ld-subheading"><div><p class="ld-kicker">Pin-to-pin measurement</p><h3>Pick two centres.<br>Measure their separation in 3D.</h3></div><button class="ld-replay ld-js-only" type="button" data-ld-replay="pins">Replay measurement ↻</button></div>
+        <div class="ld-pin-layout"><figure><svg class="ld-pin-photo" viewBox="0 0 4032 3024" role="img" aria-label="Real close-up image with both pin centres marked and an illustrative 1.24 metre separation"><image href="/assets/images/lud-inspection/pin-distance.webp" width="4032" height="3024"/><g class="ld-pin-one"><circle cx="1358" cy="2170" r="78"/><circle cx="1358" cy="2170" r="13"/><path d="M1358 2054V1980M1242 2170H1168M1474 2170H1548M1358 2286V2360"/></g><g class="ld-pin-two"><circle cx="3300" cy="1740" r="78"/><circle cx="3300" cy="1740" r="13"/><path d="M3300 1624V1550M3184 1740H3110M3416 1740H3490M3300 1856V1930"/></g><path class="ld-pin-line" d="M1358 2170L3300 1740" pathLength="1"/><g class="ld-pin-value"><rect x="1980" y="1735" width="710" height="220" rx="24"/><text x="2335" y="1885" text-anchor="middle">1.24 m</text></g></svg><figcaption>Real field-image example; pin positions are selected on the image. Distance is a simulated readout.</figcaption></figure>
+          <div class="ld-pin-method"><ol><li><span>1</span><div><strong>Select both pin centres</strong><p>The operator identifies the measurement endpoints in the RGB image.</p></div></li><li><span>2</span><div><strong>Recover their 3D positions</strong><p>Use calibrated depth and camera intrinsics, with local depth-quality checks.</p></div></li><li><span>3</span><div><strong>Compare spatial separation</strong><p>Relate the pin-to-pin distance to installation information and previous inspections.</p></div></li></ol><div class="ld-pin-equation">L = ‖P₂ − P₁‖₂</div></div>
+        </div>
+      </div>
+      <div class="ld-method-note"><strong>Measurement quality is part of the evidence.</strong><p>Calibration, depth validity and viewing geometry accompany the result. A numerical readout alone does not establish measurement accuracy or device condition.</p></div>
+    </div></section>
 
-  <footer><a href="/">← Home</a></footer>
-</main>
+    <section class="ld-section ld-shell" id="assessment" aria-labelledby="ld-assessment-title">
+      <div class="ld-heading-row"><div><p class="ld-kicker">03 / Standards-constrained LLM / VLM</p><h2 id="ld-assessment-title">Define the allowed answer<br>before asking the model.</h2></div><p>This is a bounded visual–language assessment task, not an open-ended chat. The model works within matched inspection criteria, permitted grades and a required output structure.</p></div>
+      <div class="ld-assessment-demo" data-ld-motion="assessment" data-phase="complete">
+        <div class="ld-demo-bar"><span>Criteria → constrained generation → checks → review</span><button class="ld-replay ld-js-only" type="button" data-ld-replay="assessment">Replay assessment ↻</button></div>
+        <div class="ld-app">
+          <aside class="ld-app-sidebar"><strong>Lock-Up<br> Devices</strong><div class="is-active">Inspection</div><div>History</div></aside>
+          <div class="ld-app-main"><header><h3>Field inspection</h3><span class="ld-status" data-ld-assess-status>Review completed</span></header><div class="ld-app-inspection">
+            <div class="ld-app-image"><h4>Inspection image</h4><svg class="ld-photo" viewBox="0 0 3840 2160" role="img" aria-label="Deterioration evidence supplied to the constrained assessment"><image href="/assets/images/lud-inspection/deterioration.webp" width="3840" height="2160"/><g class="ld-masks" data-ld-regions></g></svg><div class="ld-output-contract"><h4>LLM / VLM · output constraints</h4><div data-ld-contract="criteria"><span>Standards</span><strong>Matched criteria only</strong></div><div data-ld-contract="grades"><span>Allowed D</span><strong class="ld-options"><b>D1</b><b>D2</b><b class="ld-chosen">D3</b></strong></div><div data-ld-contract="schema"><span>JSON schema</span><strong>D · criterion · evidence</strong></div></div></div>
+            <div class="ld-app-results"><section class="ld-app-card"><h4>AI assessment</h4><div class="ld-prediction"><b class="ld-grade" data-ld-suggested>D3</b><div><strong data-ld-suggestion-label>VLM suggestion</strong><span>Deterioration degree</span></div></div><dl class="ld-deru-inline"><div><dt>E</dt><dd>3</dd></div><div><dt>R</dt><dd>—</dd></div><div><dt>U</dt><dd>—</dd></div></dl><div class="ld-checks"><span>Schema &amp; grade valid</span><span>Criterion &amp; evidence linked</span><span>Measurement consistency</span><span class="ld-review-check" data-ld-review-status>Engineer review completed</span></div></section><section class="ld-app-card ld-app-review"><h4>Engineer review</h4><span class="ld-field-label">Final grade</span><div class="ld-select" data-ld-reviewed>D2</div><span class="ld-field-label">Review note</span><p class="ld-review-note" data-ld-rationale>Localized corrosion; grade revised.</p><span class="ld-save">Confirm &amp; save</span></section></div>
+          </div></div>
+        </div>
+        <p class="ld-caption">Simulated software workflow. The D3 → D2 case illustrates a review and correction, not a validated assessment of the photograph.</p><p class="ld-sr-only" data-ld-animation-status aria-live="polite"></p>
+      </div>
+      <div class="ld-harness-detail"><div><h3>Control the input,<br>the output and the hand-off.</h3><p>Constraints make the assessment structured and auditable. They do not make every legal answer correct; the quality gate and engineer review remain separate decisions.</p></div><ol><li><strong>Grounding by deterministic lookup</strong><p>Map the deterioration type to relevant standard rows. Only these candidate descriptions reach the model.</p></li><li><strong>Schema and enum constraints</strong><p>Constrain decoding to the required structure, permitted grade values and candidate row identifiers—not just a prompt asking for well-formed output.</p></li><li><strong>Deterministic validation</strong><p>Check required fields, permitted values and evidence references. E comes from geometric measurement and rules, rather than a model-generated estimate.</p></li><li><strong>Quality gate and provenance</strong><p>Route uncertain or inconsistent cases to the engineer. Retain the original output, applied rules, final decision and supporting evidence.</p></li></ol></div>
+      <div class="ld-responsibility" aria-label="DERU division of responsibility"><div><b>D</b><span>Degree<strong>VLM-assisted</strong></span></div><div><b>E</b><span>Extent<strong>Geometry + rules</strong></span></div><div><b>R</b><span>Relevancy<strong>Engineer</strong></span></div><div><b>U</b><span>Urgency<strong>Engineer</strong></span></div></div>
+    </section>
+
+    <section class="ld-section ld-tint" id="case-knowledge" aria-labelledby="ld-rag-title"><div class="ld-shell">
+      <div class="ld-heading-row"><div><p class="ld-kicker">04 / Human review → reviewed-case RAG</p><h2 id="ld-rag-title">Save the judgement.<br>Bring it to the next case.</h2></div><p>The final grade matters, but so does why it changed. The case-knowledge design retains the image, initial suggestion and engineer’s rationale so later assessments can reference that judgement.</p></div>
+      <div class="ld-app ld-history-app"><aside class="ld-app-sidebar"><strong>Lock-Up<br> Devices</strong><div>Inspection</div><div class="is-active">History</div></aside><div class="ld-app-main"><header><h3>Inspection history</h3><span class="ld-status">Record saved</span></header><div class="ld-history-grid"><section class="ld-app-card"><h4>Inspection records</h4><table><thead><tr><th>Record</th><th>AI</th><th>Reviewed</th></tr></thead><tbody><tr><td>Review 01</td><td>D3</td><td>D2</td></tr></tbody></table><img src="/assets/images/lud-inspection/deterioration.webp" alt="Original image retained in the illustrative reviewed case" width="1600" height="900" loading="lazy"></section><section class="ld-app-card ld-history-detail"><h4>Reviewed result</h4><b class="ld-reviewed-grade">D2</b><dl><div><dt>Initial suggestion</dt><dd>D3</dd></div><div><dt>Reviewed grade</dt><dd>D2</dd></div></dl><span class="ld-field-label">Review note</span><p>Localized corrosion; grade revised.</p><div class="ld-indexed">Available for case retrieval</div></section></div></div></div>
+      <p class="ld-caption">Illustrative history record using the same reviewed-case example as the Home walkthrough.</p>
+      <div class="ld-rag-flow"><div class="ld-rag-sources"><div><span>Authoritative context</span><h3>Inspection standards</h3><p>Matched requirements and allowed criteria.</p></div><div><span>Reviewed experience</span><h3>Case knowledge</h3><p>Relevant images, final grades and review rationales.</p></div></div><b class="ld-connector" aria-hidden="true">→</b><div class="ld-rag-next"><span>Next inspection</span><h3>Evidence + retrieved context</h3><p>The model references relevant reviewed cases alongside the standards. The same output constraints and quality checks remain active.</p></div></div>
+      <p class="ld-rag-note">The feedback changes the context available at inference time—not the model weights automatically. Reviewed examples inform judgement; they do not override inspection standards.</p>
+    </div></section>
+
+    <section class="ld-section ld-shell" id="contribution" aria-labelledby="ld-contribution-title">
+      <div class="ld-heading-row"><div><p class="ld-kicker">My contribution</p><h2 id="ld-contribution-title">Connect perception<br>to the inspection decision.</h2></div><p>My work spans the visual prototype and the system design: defining how sensing, measurement, model constraints and human judgement fit together.</p></div>
+      <div class="ld-contributions"><div><h3>Segmentation prototype</h3><p>Developed the visual feasibility prototype and annotation workflow for oil leakage, corrosion and coating loss.</p></div><div><h3>RGB-D measurement design</h3><p>Connected image regions and operator-selected pin centres to calibrated spatial geometry.</p></div><div><h3>Constrained assessment design</h3><p>Defined the boundary between VLM suggestions, geometric rules, validation and engineer review.</p></div><div><h3>Review-informed knowledge</h3><p>Designed the path from a corrected assessment to a retrievable case with evidence and rationale.</p></div></div>
+      <div class="ld-end"><a class="ld-link" href="/#lud">← Home walkthrough</a><a class="ld-link" href="/#all-projects">All projects ↗</a></div>
+    </section>
+  </main>
+  <footer class="site-footer"><span>Yen-Teng Chang</span><nav aria-label="Footer navigation"><a href="/#projects">Projects</a><a href="/#publications">Publications</a><a href="/#contact">Contact</a></nav><span>© 2026</span></footer>
 </body>
 </html>

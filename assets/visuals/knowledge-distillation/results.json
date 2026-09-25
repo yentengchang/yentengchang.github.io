@@ -1,0 +1,31 @@
+{
+  "metric": "mAP50-95",
+  "baseline": "E0noaug",
+  "seeds": [0, 1, 2, 3, 4],
+  "precision_note": "Per-seed values are original evaluation summaries rounded to three decimals. Reported means and paired t-tests come from thesis Table 4.9, not recalculation from rounded points.",
+  "public": {
+    "matched": [0.029, 0.031, 0.027, 0.031, 0.013],
+    "shuffled": [-0.024, -0.009, -0.011, -0.020, -0.018],
+    "reported_mean_matched": 0.026,
+    "reported_mean_shuffled": -0.016,
+    "paired_t_matched": 7.75,
+    "paired_t_shuffled": -5.85,
+    "p_matched": "<0.01",
+    "p_shuffled": "<0.01"
+  },
+  "private": {
+    "matched": [0.023, -0.022, 0.041, 0.027, 0.011],
+    "shuffled": [-0.032, -0.035, -0.026, -0.011, -0.022],
+    "reported_mean_matched": 0.016,
+    "reported_mean_shuffled": -0.025,
+    "paired_t_matched": 1.50,
+    "paired_t_shuffled": -5.98,
+    "p_matched": "not significant",
+    "p_shuffled": "<0.01"
+  },
+  "sources": [
+    "Master thesis, DOI 10.6342/NTU202603079, Table 4.9 (printed p.55 / PDF p.65)",
+    "Original research analysis/E4ctrl_3way/dual_val_comparison.md",
+    "Original research analysis/E4off_vs_E0noaug/dual_val_comparison.md"
+  ]
+}

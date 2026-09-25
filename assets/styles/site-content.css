@@ -1,0 +1,478 @@
+/* Non-project content. Each batch stays within its own namespaced sections. */
+.site-content-opening {
+  display: block;
+  min-height: 0;
+  padding-block: clamp(1.5rem, 3vw, 2.75rem) clamp(3.5rem, 6vw, 5.5rem);
+}
+
+.site-content-cover {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  overflow: hidden;
+  border-radius: 24px;
+  background: var(--surface);
+}
+
+.site-content-photo {
+  display: block;
+  min-width: 0;
+  aspect-ratio: 3 / 2;
+  overflow: hidden;
+}
+
+.site-content-photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.site-content-photo-exhibition img { object-position: 50% 67%; }
+.site-content-photo-talk img { object-position: 50% 40%; }
+.site-content-photo-research img { object-position: 50% 55%; }
+
+.site-content-introduction {
+  position: relative;
+  max-width: 960px;
+  padding-top: 76px;
+}
+
+.site-content-headshot {
+  position: absolute;
+  top: -28px;
+  left: 0;
+  display: block;
+  width: 88px;
+  height: 88px;
+  border: 5px solid var(--page);
+  border-radius: 50%;
+  background: var(--surface);
+  object-fit: cover;
+}
+
+.site-content-name {
+  max-width: none;
+  margin-bottom: 1rem;
+  font-size: clamp(3.5rem, 5.2vw, 4.5rem);
+  line-height: 1.08;
+  letter-spacing: -0.048em;
+}
+
+.site-content-positioning {
+  margin-bottom: 1.7rem;
+  color: var(--ink);
+  font-size: clamp(1.06rem, 1.5vw, 1.25rem);
+  font-weight: 550;
+  line-height: 1.5;
+  letter-spacing: -0.015em;
+}
+
+.site-content-profile {
+  max-width: 78ch;
+  color: #515154;
+  font-size: clamp(1.125rem, 1.45vw, 1.25rem);
+  line-height: 1.65;
+  letter-spacing: -0.01em;
+}
+
+.site-content-profile p { margin-bottom: 0; }
+.site-content-profile p + p { margin-top: 0.9rem; }
+.site-content-actions { margin-top: 1.8rem; }
+.site-content-actions .text-action { min-height: 44px; }
+
+.site-content-research {
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.35fr);
+  gap: clamp(3rem, 7vw, 7rem);
+  padding-block: clamp(3.5rem, 6vw, 5.5rem) clamp(4.5rem, 7vw, 6.5rem);
+}
+
+.site-content-research-heading h2 {
+  margin-bottom: 0.8rem;
+  font-size: clamp(2.5rem, 3.5vw, 3.1rem);
+}
+
+.site-content-research-heading p {
+  margin-bottom: 0;
+  color: var(--muted);
+  font-size: 1.05rem;
+}
+
+.site-content-focus-item { padding-block: 1.45rem; }
+.site-content-focus-item:first-child { padding-top: 0; }
+.site-content-focus-item:last-child { padding-bottom: 0; }
+.site-content-focus-item + .site-content-focus-item { border-top: 1px solid var(--line); }
+
+.site-content-focus-item h3 {
+  margin: 0 0 0.5rem;
+  font-size: clamp(1.125rem, 1.65vw, 1.35rem);
+  font-weight: 600;
+  line-height: 1.35;
+  letter-spacing: -0.025em;
+}
+
+.site-content-focus-item p {
+  max-width: 62ch;
+  margin-bottom: 0;
+  color: #626267;
+  font-size: 1.0625rem;
+  line-height: 1.55;
+}
+
+@media (max-width: 980px) {
+  .site-content-research { grid-template-columns: 1fr; gap: 2.5rem; }
+}
+
+@media (max-width: 600px) {
+  .site-content-opening { padding-block: 1.25rem 3.5rem; }
+  .site-content-cover { grid-template-columns: repeat(2, minmax(0, 1fr)); border-radius: 18px; }
+  .site-content-photo { aspect-ratio: 1 / 1; }
+  .site-content-photo-research { grid-column: 1 / -1; aspect-ratio: 2 / 1; }
+  .site-content-photo-exhibition img { object-position: 50% 72%; }
+  .site-content-photo-talk img { object-position: 50% 36%; }
+  .site-content-photo-research img { object-position: 50% 52%; }
+  .site-content-introduction { padding-top: 60px; }
+  .site-content-headshot { top: -24px; width: 72px; height: 72px; border-width: 4px; }
+  .site-content-name { margin-bottom: 0.85rem; font-size: clamp(2.5rem, 10.5vw, 3rem); }
+  .site-content-positioning { max-width: 30ch; margin-bottom: 1.4rem; font-size: 1.0625rem; }
+  .site-content-profile { font-size: 1.0625rem; line-height: 1.65; }
+  .site-content-research { padding-block: 3.25rem 4rem; gap: 2.25rem; }
+  .site-content-research-heading h2 { font-size: 2.1rem; }
+  .site-content-focus-item h3 { font-size: 1.125rem; }
+  .site-content-focus-item p { font-size: 1rem; }
+}
+
+/* Batch 03: Conferences, journal manuscripts, and thesis. */
+.site-content-publications { border-bottom: 1px solid var(--line); }
+.site-content-publications-heading { margin-bottom: clamp(3rem, 5vw, 4.5rem); }
+.site-content-publications-heading h1,
+.site-content-publications-heading h2 {
+  max-width: 24ch;
+  margin-bottom: 1.4rem;
+  font-size: clamp(2.5rem, 4vw, 3.25rem);
+  line-height: 1.12;
+}
+.site-content-group-title {
+  margin: 0 0 2.5rem;
+  font-size: clamp(1.875rem, 3.2vw, 2.5rem);
+  font-weight: 650;
+  line-height: 1.2;
+  letter-spacing: -0.035em;
+}
+.site-content-event {
+  display: grid;
+  grid-template-columns: minmax(0, 0.72fr) minmax(0, 1.28fr);
+  align-items: start;
+  gap: clamp(2.5rem, 6vw, 6rem);
+}
+.site-content-event + .site-content-event {
+  margin-top: clamp(3.5rem, 6vw, 5.5rem);
+  padding-top: clamp(3.5rem, 6vw, 5.5rem);
+  border-top: 1px solid var(--line);
+}
+.site-content-kicker {
+  margin-bottom: 1rem;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+.site-content-event-title {
+  margin: 0 0 1rem;
+  font-size: clamp(1.65rem, 2.6vw, 2rem);
+  line-height: 1.15;
+  font-weight: 650;
+  letter-spacing: -0.04em;
+}
+.site-content-talk-title {
+  margin: 1.8rem 0 0.65rem;
+  font-size: 1.13rem;
+  line-height: 1.45;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+.site-content-event-copy > p:not(.site-content-kicker):not(.site-content-event-type) {
+  color: #515154;
+  font-size: 1.0625rem;
+  line-height: 1.55;
+}
+.site-content-event-copy .site-content-event-type {
+  margin-block: 1.1rem 0;
+  font-size: 0.94rem;
+  font-weight: 550;
+}
+.site-content-credit { margin-block: 1.2rem 1.6rem; }
+.site-content-credit strong { color: var(--ink); font-weight: 600; }
+.site-content-link {
+  display: inline-block;
+  padding-block: 0.25rem;
+  border-bottom: 1px solid #b6cadf;
+  color: var(--accent);
+  font-size: 1rem;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+.site-content-link:hover { border-bottom-color: currentColor; }
+.site-content-link span { white-space: nowrap; }
+.site-content-gallery-image {
+  display: block;
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  border-radius: 12px;
+  background: var(--surface);
+  cursor: zoom-in;
+}
+.site-content-gallery-main { aspect-ratio: 3 / 2; border-radius: 24px; }
+.site-content-gallery-image img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.site-content-gallery-thumbnails {
+  display: grid;
+  grid-template-columns: repeat(var(--site-content-thumbnail-count, 3), minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 10px;
+}
+.site-content-materials { margin-top: 1.75rem; border-top: 1px solid var(--line); }
+.site-content-materials-title { margin: 0; padding-block: 0.85rem; font-size: 0.94rem; font-weight: 550; }
+.site-content-document-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-block: 0.25rem 1rem; }
+.site-content-document { display: block; min-width: 0; cursor: zoom-in; }
+.site-content-document img { display: block; width: 100%; height: auto; border: 1px solid var(--line); border-radius: 6px; }
+.site-content-document > span { display: block; margin-top: 0.5rem; font-size: 0.875rem; line-height: 1.35; }
+.site-content-document small { display: block; margin-top: 0.3rem; color: var(--muted); font-size: 0.8rem; }
+.site-content-banner { display: block; cursor: zoom-in; }
+.site-content-banner img { display: block; width: 100%; height: auto; border-radius: 4px; }
+.site-content-ewshm-gallery {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr);
+  gap: 10px;
+  aspect-ratio: 1.18;
+}
+.site-content-ewshm-gallery .site-content-gallery-image { aspect-ratio: auto; }
+.site-content-ewshm-gallery .site-content-gallery-thumbnails {
+  min-height: 0;
+  margin: 0;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: repeat(3, minmax(0, 1fr));
+}
+.site-content-national-gallery .site-content-gallery-image { aspect-ratio: 2.2; }
+.site-content-national-gallery img { object-position: 50% 70%; transform: scale(1.1); transform-origin: 50% 65%; }
+.site-content-national-gallery [href$="/9163-large.jpg"] img { object-position: 50% 55%; }
+.site-content-conference-information { margin-top: 0.25rem; }
+.site-content-bibliography {
+  margin-top: clamp(3.5rem, 6vw, 5.5rem);
+  padding-top: clamp(2.5rem, 4vw, 3.5rem);
+  border-top: 2px solid var(--line);
+}
+.site-content-bibliography .site-content-group-title { margin-bottom: 1.25rem; }
+.site-content-citation { padding-block: 2rem; border-bottom: 1px solid var(--line); }
+.site-content-citation:last-child { border-bottom: 0; padding-bottom: 0; }
+.site-content-citation h3,
+.site-content-citation h4 { max-width: 74ch; margin: 0 0 0.85rem; font-size: clamp(1.25rem, 1.8vw, 1.55rem); font-weight: 600; line-height: 1.4; letter-spacing: -0.02em; }
+.site-content-authors { margin-bottom: 0.45rem; font-size: 1.0625rem; }
+.site-content-authors strong { font-weight: 600; }
+.site-content-publication-meta { margin-bottom: 0; color: #626267; font-size: 1.0625rem; }
+.site-content-corresponding { margin: 0.45rem 0 0; color: var(--muted); font-size: 0.94rem; }
+.site-content-status { color: #515154; }
+.site-content-citation-links { display: flex; flex-wrap: wrap; gap: 0.75rem 1.6rem; margin-top: 1rem; }
+.site-content-record-page { padding-block: 2rem 3rem; }
+.site-content-record-nav { display: flex; justify-content: space-between; align-items: center; gap: 1rem; margin-bottom: 4rem; font-size: 0.94rem; }
+.site-content-record-page .site-content-publications { padding-bottom: 4rem; }
+.site-content-record-footer { margin-top: 2rem; }
+.site-content-lightbox {
+  width: min(1100px, calc(100vw - 40px));
+  max-width: none;
+  max-height: calc(100dvh - 40px);
+  padding: 0;
+  border: 0;
+  border-radius: 20px;
+  background: var(--page);
+  color: var(--ink);
+  overscroll-behavior: contain;
+}
+.site-content-lightbox::backdrop { background: rgba(18, 18, 20, 0.76); }
+.site-content-lightbox [hidden] { display: none; }
+.site-content-lightbox-panel { padding: 20px; }
+.site-content-lightbox-top,
+.site-content-lightbox-bottom { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+.site-content-lightbox-top { margin-bottom: 12px; }
+.site-content-lightbox-top p { margin-bottom: 0; font-size: 0.94rem; font-weight: 550; }
+.site-content-lightbox-stage { display: grid; place-items: center; min-height: 160px; background: var(--surface); border-radius: 8px; }
+.site-content-lightbox-image { display: block; max-width: 100%; width: auto; height: auto; max-height: calc(100dvh - 220px); object-fit: contain; }
+.site-content-lightbox-document .site-content-lightbox-image { max-height: calc(100dvh - 270px); }
+.site-content-lightbox-file { margin-top: 10px; text-align: center; }
+.site-content-lightbox button { min-height: 44px; padding: 0.45rem 0.75rem; border: 1px solid var(--line); border-radius: 999px; font: inherit; font-size: 0.9rem; color: var(--ink); background: var(--page); cursor: pointer; white-space: nowrap; }
+.site-content-lightbox button:hover { background: var(--surface); }
+.site-content-lightbox button:focus-visible { outline: 3px solid rgba(0,102,204,0.55); outline-offset: 3px; }
+.site-content-lightbox-bottom { margin-top: 12px; }
+.site-content-photo-counter { margin: 0; color: var(--muted); font-size: 0.875rem; }
+@media (max-width: 980px) {
+  .site-content-event { grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: 2rem; }
+  .site-content-event-title { font-size: 1.8rem; }
+}
+@media (max-width: 720px) {
+  .site-content-publications-heading h1,
+  .site-content-publications-heading h2 { font-size: 2.5rem; }
+  .site-content-event { grid-template-columns: 1fr; gap: 1.75rem; }
+  .site-content-event-title { font-size: 1.5rem; }
+  .site-content-group-title { margin-bottom: 2rem; }
+  .site-content-gallery-main { border-radius: 18px; }
+  .site-content-gallery-thumbnails { gap: 8px; }
+  .site-content-ewshm-gallery { gap: 8px; }
+  .site-content-document-grid { max-width: 430px; }
+  .site-content-authors,
+  .site-content-publication-meta { font-size: 1rem; }
+  .site-content-record-nav { margin-bottom: 3rem; }
+  .site-content-record-nav > a:last-child { font-size: 0.85rem; }
+  .site-content-lightbox { width: calc(100vw - 24px); max-height: calc(100dvh - 24px); border-radius: 14px; }
+  .site-content-lightbox-panel { padding: 12px; }
+  .site-content-lightbox-top { align-items: flex-start; }
+  .site-content-lightbox-top p { max-width: 22ch; font-size: 0.85rem; }
+  .site-content-lightbox button { font-size: 0.8rem; }
+}
+
+/* Batch 04: Dated experience and education records. */
+.site-content-experience { border-bottom: 1px solid var(--line); }
+.site-content-experience-heading { margin-bottom: clamp(3rem, 5vw, 4.5rem); }
+.site-content-experience-heading h2 {
+  margin: 0;
+  font-size: clamp(2.5rem, 4vw, 3.25rem);
+  line-height: 1.12;
+  letter-spacing: -0.04em;
+}
+.site-content-history-group + .site-content-history-group {
+  margin-top: clamp(3.5rem, 6vw, 5.5rem);
+  padding-top: clamp(2.5rem, 4vw, 3.5rem);
+  border-top: 2px solid var(--line);
+}
+.site-content-history-list { margin: 0; padding: 0; list-style: none; }
+.site-content-history-entry {
+  display: grid;
+  grid-template-columns: 210px minmax(0, 1fr);
+  gap: clamp(2rem, 5vw, 4.5rem);
+  padding-block: 2rem;
+  border-top: 1px solid var(--line);
+}
+.site-content-history-entry:first-child { padding-top: 0; border-top: 0; }
+.site-content-history-entry:last-child { padding-bottom: 0; }
+.site-content-history-date { margin: 0; padding-top: 0.25rem; color: var(--muted); font-size: 1rem; line-height: 1.65; }
+.site-content-history-date time { white-space: nowrap; }
+.site-content-history-copy { min-width: 0; }
+.site-content-history-copy h4 { margin: 0 0 0.6rem; font-size: clamp(1.375rem, 2vw, 1.625rem); font-weight: 600; line-height: 1.3; letter-spacing: -0.025em; }
+.site-content-history-organization { margin: 0; color: var(--ink); font-size: 1.125rem; font-weight: 550; line-height: 1.5; }
+.site-content-history-detail { max-width: 76ch; margin: 0.35rem 0 0; color: #626267; font-size: 1rem; line-height: 1.6; }
+.site-content-history-summary { max-width: 78ch; margin: 1rem 0 0; color: #515154; font-size: 1.0625rem; line-height: 1.65; }
+.site-content-history-links { display: flex; flex-wrap: wrap; gap: 0.5rem 1.5rem; margin-top: 0.9rem; }
+@media (max-width: 980px) {
+  .site-content-history-entry { grid-template-columns: 170px minmax(0, 1fr); gap: 2rem; }
+}
+@media (max-width: 720px) {
+  .site-content-experience-heading h2 { font-size: 2.5rem; }
+  .site-content-history-entry { grid-template-columns: minmax(0, 1fr); gap: 0.6rem; padding-block: 1.75rem; }
+  .site-content-history-date { padding-top: 0; font-size: 0.9375rem; }
+  .site-content-history-organization { font-size: 1.0625rem; }
+}
+
+/* Batch 04: Internship media and degree-certificate previews. */
+.site-content-history-with-media {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+  align-items: start;
+  gap: clamp(1.5rem, 3vw, 3rem);
+}
+.site-content-history-description { min-width: 0; }
+.site-content-intern-gallery { display: grid; gap: 10px; min-width: 0; }
+.site-content-intern-t3 { grid-template-columns: minmax(0, 1fr); }
+.site-content-intern-t3 .site-content-gallery-image { aspect-ratio: 2.15; }
+.site-content-intern-chuan { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.site-content-intern-chuan .site-content-gallery-image { aspect-ratio: 3 / 5; }
+.site-content-intern-elements { grid-template-columns: minmax(0, 0.75fr) minmax(0, 1fr); }
+.site-content-intern-elements > .site-content-gallery-image { aspect-ratio: auto; }
+.site-content-intern-model img { object-fit: contain; background: #f5f5f7; }
+.site-content-intern-details { display: grid; gap: 10px; }
+.site-content-intern-details .site-content-gallery-image { aspect-ratio: 1.5; }
+.site-content-intern-details img { object-fit: contain; background: #fff; }
+.site-content-degree-copy { display: grid; grid-template-columns: minmax(0, 1fr) 130px; gap: 2rem; align-items: start; }
+.site-content-degree-document { width: 130px; }
+.site-content-degree-document img { width: 100px; height: auto; }
+.site-content-degree-document > span { font-size: 0.8125rem; }
+.site-content-degree-document small { font-size: 0.75rem; }
+@media (max-width: 1100px) {
+  .site-content-history-with-media { grid-template-columns: minmax(0, 1fr); gap: 1.5rem; }
+  .site-content-intern-gallery { max-width: 560px; }
+  .site-content-intern-t3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .site-content-intern-t3 .site-content-gallery-image { aspect-ratio: 4 / 3; }
+  .site-content-intern-chuan .site-content-gallery-image { aspect-ratio: 3 / 4; }
+}
+@media (max-width: 720px) {
+  .site-content-degree-copy { grid-template-columns: minmax(0, 1fr); gap: 1.25rem; }
+  .site-content-degree-document { display: flex; align-items: center; gap: 0.9rem; width: fit-content; max-width: 100%; }
+  .site-content-degree-document img { width: 66px; }
+  .site-content-degree-document > span { margin: 0; font-size: 0.875rem; }
+  .site-content-degree-document small { font-size: 0.8rem; }
+}
+
+/* Batch 05: Professional qualification and competition recognition. */
+.site-content-awards { border-bottom: 1px solid var(--line); }
+.site-content-awards-heading { margin-bottom: clamp(3rem, 5vw, 4.5rem); }
+.site-content-awards-heading h2 { margin: 0; font-size: clamp(2.5rem, 4vw, 3.25rem); line-height: 1.12; letter-spacing: -0.04em; }
+.site-content-recognition { display: grid; align-items: start; gap: clamp(2rem, 5vw, 5rem); }
+.site-content-recognition + .site-content-recognition { margin-top: clamp(3.5rem, 6vw, 5.5rem); padding-top: clamp(2.5rem, 4vw, 3.5rem); border-top: 2px solid var(--line); }
+.site-content-license-row { grid-template-columns: minmax(0, 1fr) 200px; }
+.site-content-award-row { grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); }
+.site-content-recognition-copy { min-width: 0; max-width: 48rem; }
+.site-content-recognition-copy h3 { margin: 0 0 1rem; font-size: clamp(1.875rem, 3vw, 2.5rem); font-weight: 600; line-height: 1.2; letter-spacing: -0.035em; }
+.site-content-recognition-copy h4 { margin: 1.75rem 0 0.65rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.02em; }
+.site-content-recognition-copy > p:not(.site-content-kicker) { max-width: 60ch; font-size: 1.0625rem; line-height: 1.65; }
+.site-content-recognition-meta { color: var(--muted); }
+.site-content-recognition-copy .site-content-award-result { color: var(--ink); font-size: 1.25rem; font-weight: 600; }
+.site-content-award-result span { color: var(--muted); font-size: 1rem; font-weight: 400; }
+.site-content-license-document { width: 180px; justify-self: end; }
+.site-content-award-document { display: flex; align-items: center; gap: 1rem; margin-top: 1.75rem; width: fit-content; max-width: 100%; }
+.site-content-award-document img { width: 100px; height: auto; }
+.site-content-award-document > span { margin: 0; }
+.site-content-award-visuals { min-width: 0; margin: 0; }
+.site-content-award-gallery { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.site-content-award-gallery .site-content-gallery-image { aspect-ratio: 4 / 5; }
+.site-content-award-gallery img { object-fit: contain; background: #f5f5f7; }
+.site-content-award-gallery .site-content-cathay-rooftop { grid-column: 1 / -1; aspect-ratio: 2.8; }
+.site-content-cathay-rooftop img { object-fit: cover; object-position: 50% 55%; }
+.site-content-award-visuals figcaption { margin-top: 0.85rem; color: var(--muted); font-size: 0.875rem; line-height: 1.5; }
+@media (max-width: 980px) {
+  .site-content-award-row { grid-template-columns: minmax(0, 1fr); gap: 2rem; }
+  .site-content-award-visuals { width: min(100%, 660px); }
+}
+@media (max-width: 720px) {
+  .site-content-awards-heading h2 { font-size: 2.5rem; }
+  .site-content-license-row { grid-template-columns: minmax(0, 1fr); }
+  .site-content-license-document { display: flex; align-items: center; gap: 1rem; width: fit-content; max-width: 100%; justify-self: start; }
+  .site-content-license-document img { width: 100px; height: auto; }
+  .site-content-license-document > span { margin: 0; }
+  .site-content-award-gallery { gap: 8px; }
+}
+
+/* Confirmed research direction, capabilities, and Contact / CV. */
+.site-content-opening .site-content-positioning { margin-bottom: 0.55rem; }
+.site-content-affiliation { margin: 0 0 1.65rem; max-width: 65ch; color: var(--muted); font-size: 1rem; line-height: 1.55; }
+.site-content-capabilities-heading { margin-bottom: clamp(2.75rem, 5vw, 4rem); }
+.site-content-capabilities-heading h2 { margin: 0; font-size: clamp(2.5rem, 4vw, 3.25rem); line-height: 1.12; letter-spacing: -0.04em; }
+.site-content-capability { display: grid; grid-template-columns: minmax(0, 0.75fr) minmax(0, 1.35fr); gap: clamp(2rem, 5vw, 5rem); padding-block: 2rem; border-top: 1px solid var(--line); }
+.site-content-capability:last-child { border-bottom: 1px solid var(--line); }
+.site-content-capability h3 { max-width: 25ch; margin: 0; font-size: clamp(1.375rem, 2vw, 1.625rem); line-height: 1.3; font-weight: 600; letter-spacing: -0.025em; }
+.site-content-capability > div { min-width: 0; }
+.site-content-capability p { max-width: 68ch; margin: 0; color: #515154; font-size: 1.0625rem; line-height: 1.65; }
+.site-content-capability .site-content-capability-tools { margin-top: 0.9rem; color: var(--muted); font-size: 0.875rem; line-height: 1.6; }
+.site-content-contact .site-content-contact-intro { max-width: 62ch; margin: 1.5rem 0 0; color: var(--project-muted); font-size: 1.125rem; line-height: 1.65; }
+.site-content-contact .contact-meta { margin-top: clamp(3rem, 6vw, 5rem); }
+.site-content-cv-download { display: inline-flex; align-items: center; gap: 0.7rem; min-height: 44px; border-bottom: 1px solid rgba(255, 255, 255, 0.4); }
+.site-content-file-type { color: var(--project-muted); font-size: 0.8rem; }
+.site-content-opening .text-action:focus-visible,
+.site-content-contact a:focus-visible { outline: 3px solid #79b8ff; outline-offset: 5px; border-radius: 3px; }
+@media (max-width: 720px) {
+  .site-content-capability { grid-template-columns: minmax(0, 1fr); gap: 0.85rem; padding-block: 1.65rem; }
+  .site-content-capability h3 { max-width: none; font-size: 1.375rem; }
+  .site-content-capability p { font-size: 1rem; }
+  .site-content-contact .site-content-contact-intro { font-size: 1.0625rem; }
+}
+@media (max-width: 600px) {
+  .site-content-affiliation { max-width: 35ch; font-size: 0.9375rem; }
+}
