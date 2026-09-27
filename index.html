@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="/assets/wireframe.css">
   <link rel="stylesheet" href="/assets/crack-prototype.css?v=20260906b">
   <link rel="stylesheet" href="/assets/styles/site-content.css?v=20260925c">
+  <script type="module" src="/assets/scripts/media-preload.js?v=20260927b"></script>
 </head>
 <body>
   <a class="skip-link" href="#main-content">Skip to content</a>
@@ -124,7 +125,7 @@
         <link rel="stylesheet" href="/auto-inspector/composition/app-dashboard.css">
         <link rel="stylesheet" href="/auto-inspector/composition/app-capture.css">
         <link rel="stylesheet" href="/auto-inspector/experience/experience.css">
-        <link rel="stylesheet" href="/auto-inspector/experience/flow.css">
+        <link rel="stylesheet" href="/auto-inspector/experience/flow.css?v=20260927b">
         <div class="project-summary ai-project-heading">
           <div><p class="eyebrow">Featured project · Sinotech R&amp;D</p><h2>Auto Inspector</h2></div>
           <div class="project-intro"><p>An iPad inspection workflow that connects detected defects to the rooms, surfaces and coordinates where they belong.</p><p class="ai-project-meta">Sole developer · 2025–2026</p></div>
@@ -160,7 +161,7 @@
           <p class="ai-reconstruction-caption">Working-App interface reconstruction with recorded room geometry. The moving scan backdrop is reference footage; ceiling layer and projection are illustrative. Anchoring and workflow videos are actual recordings.</p>
         </div>
         <div class="ai-end-actions"><a class="button button-light" href="/auto-inspector/">Technical details <span aria-hidden="true">↗</span></a><a class="ai-view-all" href="#all-projects">View all projects <span aria-hidden="true">↓</span></a></div>
-        <script type="module" src="/auto-inspector/experience/story.js"></script>
+        <script type="module" src="/auto-inspector/experience/story.js?v=20260927b"></script>
       </article>
 
       <article class="project-chapter kd-chapter" id="knowledge-distillation">
@@ -537,8 +538,8 @@
                       <header>Live Camera View</header>
                       <div class="crack-v1-video-space">
                         <div class="crack-feed-square">
-                          <img class="crack-feed-image" src="/assets/images/crack-monitoring/crack-primary.jpg" alt="Concrete surface with a visible crack">
-                          <div class="crack-checkerboard" aria-hidden="true"><img src="/assets/images/crack-monitoring/checkerboard.jpg" alt=""></div>
+                          <img loading="lazy" decoding="async" class="crack-feed-image" src="/assets/images/crack-monitoring/crack-primary.jpg" alt="Concrete surface with a visible crack">
+                          <div class="crack-checkerboard" aria-hidden="true"><img loading="lazy" decoding="async" src="/assets/images/crack-monitoring/checkerboard.jpg" alt=""></div>
                           <canvas class="crack-analysis-layer crack-mask-canvas" width="400" height="400" aria-hidden="true"></canvas>
                           <canvas class="crack-analysis-layer crack-skeleton-canvas" width="400" height="400" aria-hidden="true"></canvas>
                           <canvas class="crack-analysis-layer crack-distance-canvas" width="400" height="400" aria-hidden="true"></canvas>
@@ -584,10 +585,10 @@
                       <section class="crack-v2-wall-view">
                         <h4>Monitoring Wall</h4>
                         <div class="crack-v2-grid">
-                          <figure><figcaption>Camera 01</figcaption><div><img class="crack-v2-checker" src="/assets/images/crack-monitoring/checkerboard.jpg" alt=""><span class="crack-v2-feed"><img src="/assets/images/crack-monitoring/crack-feed-090.png" alt="Actual crack segmentation result with confidence 0.90"></span></div></figure>
-                          <figure><figcaption>Camera 02</figcaption><div><img class="crack-v2-checker" src="/assets/images/crack-monitoring/checkerboard.jpg" alt=""><span class="crack-v2-feed"><img src="/assets/images/crack-monitoring/crack-feed-094.png" alt="Actual crack segmentation result with confidence 0.94"></span></div></figure>
-                          <figure><figcaption>Camera 03</figcaption><div><img class="crack-v2-checker" src="/assets/images/crack-monitoring/checkerboard.jpg" alt=""><span class="crack-v2-feed"><img src="/assets/images/crack-monitoring/crack-feed-087.png" alt="Actual crack segmentation result with confidence 0.87"></span></div></figure>
-                          <figure data-crack-morph-target><figcaption>Camera 04</figcaption><div><img class="crack-v2-checker" src="/assets/images/crack-monitoring/checkerboard.jpg" alt=""><span class="crack-v2-feed"><img src="/assets/images/crack-monitoring/segmentation-reference.png" alt="Actual crack segmentation result with confidence 0.96"></span></div></figure>
+                          <figure><figcaption>Camera 01</figcaption><div><img loading="lazy" decoding="async" class="crack-v2-checker" src="/assets/images/crack-monitoring/checkerboard.jpg" alt=""><span class="crack-v2-feed"><img loading="lazy" decoding="async" src="/assets/images/crack-monitoring/crack-feed-090.png" alt="Actual crack segmentation result with confidence 0.90"></span></div></figure>
+                          <figure><figcaption>Camera 02</figcaption><div><img loading="lazy" decoding="async" class="crack-v2-checker" src="/assets/images/crack-monitoring/checkerboard.jpg" alt=""><span class="crack-v2-feed"><img loading="lazy" decoding="async" src="/assets/images/crack-monitoring/crack-feed-094.png" alt="Actual crack segmentation result with confidence 0.94"></span></div></figure>
+                          <figure><figcaption>Camera 03</figcaption><div><img loading="lazy" decoding="async" class="crack-v2-checker" src="/assets/images/crack-monitoring/checkerboard.jpg" alt=""><span class="crack-v2-feed"><img loading="lazy" decoding="async" src="/assets/images/crack-monitoring/crack-feed-087.png" alt="Actual crack segmentation result with confidence 0.87"></span></div></figure>
+                          <figure data-crack-morph-target><figcaption>Camera 04</figcaption><div><img loading="lazy" decoding="async" class="crack-v2-checker" src="/assets/images/crack-monitoring/checkerboard.jpg" alt=""><span class="crack-v2-feed"><img loading="lazy" decoding="async" src="/assets/images/crack-monitoring/segmentation-reference.png" alt="Actual crack segmentation result with confidence 0.96"></span></div></figure>
                         </div>
                       </section>
                     </main>
@@ -595,7 +596,7 @@
                 </div>
 
                 <div class="crack-morph-feed" aria-hidden="true">
-                  <img src="/assets/images/crack-monitoring/segmentation-reference.png" alt="">
+                  <img loading="lazy" decoding="async" src="/assets/images/crack-monitoring/segmentation-reference.png" alt="">
                 </div>
 
                 <div class="crack-event-panel crack-event-sequence-panel" aria-label="Conceptual visualization of multi-camera event recording">
@@ -785,12 +786,12 @@
                         <div class="lud-ui-image-stage">
                           <img class="lud-ui-overview" src="/assets/images/lud-inspection/overview.webp" alt="A complete lock-up device mounted between bridge components" width="1477" height="1108" loading="lazy">
                           <svg class="lud-ui-deterioration" viewBox="0 0 3840 2160" role="img" aria-label="Field image of a support connection with the original oil leakage, corrosion and coating-loss annotations">
-                            <image href="/assets/images/lud-inspection/deterioration.webp" width="3840" height="2160"></image>
+                            <image data-media-href="/assets/images/lud-inspection/deterioration.webp" width="3840" height="2160"></image>
                             <g class="lud-ui-masks" data-lud-home-regions></g>
                             <g class="lud-ui-surface" data-lud-home-surface></g>
                           </svg>
                           <svg class="lud-ui-pins" viewBox="0 0 4032 3024" role="img" aria-label="Actual close-up photograph with two visible pin centres selected for an illustrative distance measurement">
-                            <image href="/assets/images/lud-inspection/pin-distance.webp" width="4032" height="3024"></image>
+                            <image data-media-href="/assets/images/lud-inspection/pin-distance.webp" width="4032" height="3024"></image>
                             <g class="lud-ui-pin-a"><circle cx="1358" cy="2170" r="78"/><circle cx="1358" cy="2170" r="13"/><path d="M1358 2054V1946M1242 2170H1134M1474 2170H1582M1358 2286V2394"/></g>
                             <g class="lud-ui-pin-b"><circle cx="3300" cy="1740" r="78"/><circle cx="3300" cy="1740" r="13"/><path d="M3300 1624V1516M3184 1740H3076M3416 1740H3524M3300 1856V1964"/></g>
                             <g class="lud-ui-dimension"><path class="lud-ui-dimension-line" d="M1358 2170L3300 1740" pathLength="1"/><path d="M1430 2111L1358 2170L1450 2199M3210 1711L3300 1740L3227 1800"/></g>
@@ -866,7 +867,7 @@
           <div class="lud-static-summary"><span>Field evidence</span><b>→</b><span>Constrained assessment</span><b>→</b><span>Engineer review</span><b>→</b><span>Retrieved case knowledge</span></div>
         </div>
         <div class="lud-actions"><a class="button button-light" href="/lud-inspection/">Technical details <span aria-hidden="true">↗</span></a><a class="lud-view-all" href="#all-projects">View all projects <span aria-hidden="true">↓</span></a></div>
-        <script src="/assets/scripts/lud-home.js?v=20260919-flow" defer></script>
+        <script src="/assets/scripts/lud-home.js?v=20260927b" defer></script>
       </article>
     </section>
 
@@ -1194,7 +1195,7 @@
       link.addEventListener('click', () => mobileMenu.removeAttribute('open'));
     });
   </script>
-  <script src="/scripts/crack-prototype.js?v=20260906b" defer></script>
+  <script src="/scripts/crack-prototype.js?v=20260927b" defer></script>
   <script src="/assets/scripts/site-content.js?v=20260925a" defer></script>
 </body>
 </html>

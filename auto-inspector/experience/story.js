@@ -1,33 +1,51 @@
-import {createPlayer} from './flow-player.js';
-import {createScene} from './flow-scenes.js';
-import {prepareVideo,prioritizeMedia,setForegroundMedia} from '/assets/scripts/media-preload.js';
+import {createPlayer} from './flow-player.js?v=20260927b';
+import {createScene} from './flow-scenes.js?v=20260927b';
+import {prepareVideo, prioritizeMedia, setForegroundMedia, holdMediaDownloads} from '/assets/scripts/media-preload.js?v=20260927b';
+import {imagesReady} from '/assets/scripts/visual-readiness.js?v=20260927b';
 const chapter=document.querySelector('#auto-inspector');
 const reduced=matchMedia('(prefers-reduced-motion: reduce)');
 const rows=[...chapter.querySelectorAll('.ai-scene-section')];
 const players=new Map(),pending=new Map();
-const manifestPromise=fetch('/auto-inspector/assets/experience/home-flow/source-manifest.json').then(r=>{if(!r.ok)throw Error('Media manifest unavailable');return r.json();});
-let navFrame=0,activeIndex=-1;
-async function ensure(index){
+let manifestPromise,navFrame=0,activeIndex=-1;
+const manifest=()=>manifestPromise??=fetch('/auto-inspector/assets/experience/home-flow/source-manifest.json')
+ .then(r=>{if(!r.ok)throw Error('Media manifest unavailable');return r.json();})
+ .catch(error=>{manifestPromise=null;throw error;});
+async function ensure(index,retry=false){
  if(players.has(index))return players.get(index);
  if(pending.has(index))return pending.get(index);
  if(reduced.matches)return null;
  const host=rows[index].querySelector('.ai-visual-stage');
+ if(host.dataset.error&&!retry)return null;
+ host.querySelector('.ai-load-retry')?.remove();delete host.dataset.error;
+ host.dataset.loadingLabel='Preparing scene…';host.classList.add('is-buffering');host.setAttribute('aria-busy','true');
+ const release=holdMediaDownloads();
  const promise=(async()=>{
   try{
-   const config=await createScene(host,index,await manifestPromise);
-   host.querySelectorAll('video').forEach(video=>prepareVideo(video,{urgent:index===1||index===5}));
+   const config=await createScene(host,index,await manifest());
+   await imagesReady(host);
+   // Release the visual lane before waiting for a complete recording.
+   release();
+   await Promise.all([...host.querySelectorAll('video')].map(video=>prepareVideo(video,{urgent:true,retry})));
    const player=createPlayer(host,config);players.set(index,player);
+   host.classList.remove('is-buffering');host.setAttribute('aria-busy','false');
    host.querySelectorAll('canvas').forEach(c=>c.addEventListener('webglcontextlost',()=>{
     player.dispose();players.delete(index);host.classList.remove('is-enhanced');host.querySelector('.ai-experience')?.remove();host.querySelector('.ai-player-controls')?.remove();host.dataset.error='WebGL context lost';
-   }));
-   if(reduced.matches)player.setActive(false);else schedule();
+    offerRetry(host,index);
+   },{once:true}));
+   if(reduced.matches){player.setActive(false);rows[index].classList.add('ai-reduced');if(index===5)host.querySelector('video').controls=true;}
+   else schedule();
    return player;
   }catch(error){
    host.dataset.error=error.message;host.querySelector('.ai-experience')?.remove();
-   // Keep this section's poster; one unavailable GPU view doesn't remove others.
+   host.classList.remove('is-buffering');host.setAttribute('aria-busy','false');offerRetry(host,index);
    console.warn('Auto Inspector static fallback:',error.message);return null;
-  }
+  }finally{release();pending.delete(index);}
  })();pending.set(index,promise);return promise;
+}
+function offerRetry(host,index){
+ if(host.querySelector('.ai-load-retry'))return;
+ const button=document.createElement('button');button.type='button';button.className='ai-load-retry';button.textContent='Retry scene';
+ button.addEventListener('click',()=>ensure(index,true));host.append(button);
 }
 function update(){
  navFrame=0;let best=-1,bestScore=Infinity;
@@ -37,22 +55,20 @@ function update(){
   if(visible<Math.min(r.height*.45,innerHeight*.3))return;
   const score=Math.abs((r.top+r.bottom)/2-innerHeight*.52);if(score<bestScore){best=i;bestScore=score;}
  });
- activeIndex=best;
- setForegroundMedia(best===0||best===1?'/auto-inspector/assets/experience/home-flow/scan-camera.mp4':best===5?'/auto-inspector/assets/experience/home-flow/workflow-full.mp4':null);
- if(best===1)prioritizeMedia('/auto-inspector/assets/experience/home-flow/scan-camera.mp4');
- if(best===3)prioritizeMedia('/auto-inspector/assets/experience/home-flow/anchor-selected.mp4');
- if(best===5)prioritizeMedia('/auto-inspector/assets/experience/home-flow/workflow-full.mp4');
+ if(best!==activeIndex){
+  activeIndex=best;
+  const path=best===0||best===1?'scan-camera':best===3?'anchor-selected':best===5?'workflow-full':null;
+  setForegroundMedia(path?'/auto-inspector/assets/experience/home-flow/'+path+'.mp4':null);
+  if(path)prioritizeMedia('/auto-inspector/assets/experience/home-flow/'+path+'.mp4');
+ }
  for(const [i,player] of players)player.setActive(i===best);
  if(best>=0)ensure(best);
 }
 function schedule(){if(!navFrame)navFrame=requestAnimationFrame(update);}
-const near=new IntersectionObserver(entries=>{
- for(const e of entries)if(e.isIntersecting)ensure(Number(e.target.dataset.scene));
- schedule();
-},{rootMargin:'450px 0px'});
-rows.forEach(r=>near.observe(r));
+const observer=new IntersectionObserver(schedule,{threshold:[0,.3,.5]});
+rows.forEach(row=>observer.observe(row));
 window.addEventListener('scroll',schedule,{passive:true});
-window.addEventListener('resize',schedule,{passive:true});
+window.addEventListener('resize',schedule);
 document.addEventListener('visibilitychange',schedule);
 reduced.addEventListener('change',()=>{
  for(const [i,player] of players){
@@ -60,7 +76,7 @@ reduced.addEventListener('change',()=>{
   rows[i].querySelector('.ai-visual-stage').tabIndex=reduced.matches?-1:0;
   if(i===5)rows[i].querySelector('video').controls=reduced.matches;
  }
- if(!reduced.matches)rows.forEach(r=>r.classList.remove('ai-reduced'));
+ if(!reduced.matches)rows.forEach(row=>row.classList.remove('ai-reduced'));
  schedule();
 });
 chapter.dataset.layout='flow';chapter.dataset.ready='true';schedule();

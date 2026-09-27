@@ -710,7 +710,20 @@
 
   prepareEventWaveform();
   prepareEventSummary();
-  prepareAnalysisLayers();
+  // The original full-resolution reference and canvas work belong to this
+  // chapter, not to the opening / other project animations.
+  let analysisPrepared = false;
+  const prepareWhenNear = () => {
+    if (analysisPrepared) return;
+    analysisPrepared = true;
+    prepareAnalysisLayers();
+  };
+  const near = new IntersectionObserver(entries => {
+    if (entries.some(entry => entry.isIntersecting)) {
+      prepareWhenNear(); near.disconnect();
+    }
+  }, {rootMargin: '900px 0px'});
+  near.observe(story);
   updateFromScroll();
 
   window.addEventListener('scroll', queueUpdate, { passive: true });

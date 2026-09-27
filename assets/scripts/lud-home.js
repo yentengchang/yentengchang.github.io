@@ -11,7 +11,7 @@
   const sceneNames = ['field image', 'segmentation', 'surface measurement', 'pin-to-pin measurement', 'constrained assessment', 'engineer review', 'case storage', 'case retrieval'];
   const status = ['Image ready', 'Regions identified', 'Area measured', 'Pins selected', 'Review required', 'Review completed', 'Record saved', 'Case context loaded'];
   const titles = ['Overview', 'Deterioration', 'Surface area', 'Pin-to-pin distance', 'Deterioration', 'Deterioration', 'Reviewed image', 'Deterioration'];
-  let assetsReady = false;
+  let assetsReady = false, annotationsReady = false;
   let observer;
   let animationFrame = 0;
   const playing = new Map();
@@ -184,6 +184,16 @@
   document.addEventListener('visibilitychange', observeScenes);
   reducedQuery.addEventListener('change', observeScenes);
 
+  // Deferred source photos must be decoded before their overlays animate.
+  const project = story.closest('#lud');
+  const activateWhenReady = () => {
+    if (assetsReady || !annotationsReady || project?.dataset.mediaVisuals !== 'ready') return;
+    assetsReady = true;
+    story.classList.add('lud-playback-ready');
+    observeScenes();
+  };
+  project?.addEventListener('site-visuals-ready', activateWhenReady);
+
   fetch('/assets/images/lud-inspection/deterioration-regions.json').then(response => {
     if (!response.ok) throw new Error('Region asset unavailable');
     return response.json();
@@ -220,8 +230,7 @@
   }).catch(() => {
     story.querySelectorAll('[data-lud-image-title]').forEach(node => { node.textContent = 'Field image · overlay unavailable'; });
   }).finally(() => {
-    assetsReady = true;
-    story.classList.add('lud-playback-ready');
-    observeScenes();
+    annotationsReady = true;
+    activateWhenReady();
   });
 })();

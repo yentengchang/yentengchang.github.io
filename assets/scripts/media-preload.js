@@ -1,193 +1,157 @@
-// Short detail clips are cached in full. The two Home recordings stream
-// natively so playback does not wait for an entire MP4 and Cache Storage write.
-const root='/auto-inspector/assets/';
-const definitions=[
-  ['experience/home-flow/scan-camera.mp4','fc055bafd40a'],
-  ['experience/home-flow/anchor-selected.mp4','52dbbe42b6e3'],
-  ['experience/home-flow/workflow-full.mp4','10c0acca1d98'],
-  ['review/clips/ceiling-reference.mp4','0d86df314dd9'],
-  ['experience/field-studio.mp4','fc291221a5f1'],
-  ['experience/field-multiroom.mp4','f0821439aa03'],
-  ['experience/field-construction.mp4','43a06795b8f7']
-];
-const assets=new Map(definitions.map(([path,hash],order)=>{
-  const url=root+path;
-  let resolve;
-  const ready=new Promise(done=>{resolve=done;});
-  return [url,{url,key:url+'?v='+hash,order,priority:order,status:'queued',ready,resolve,blob:null,controller:null,stream:order===0||order===2,requested:false,videos:new Set()}];
-}));
-const running=new Set();
-const limit=matchMedia('(max-width:720px)').matches?1:2;
-const videoSources=new WeakMap();
-const objectURLs=new WeakMap();
-let cachePromise;
-let foregroundStream=null;
+import {MediaDownloadQueue} from './media-download-queue.js?v=20260927b';
+import {imageReady, imagesReady} from './visual-readiness.js?v=20260927b';
 
-function mediaCache(){
-  if(!cachePromise)cachePromise='caches' in window?caches.open('ytc-recordings-v1').catch(()=>null):Promise.resolve(null);
-  return cachePromise;
-}
-function entryFor(source){
-  const path=new URL(source,location.href).pathname;
-  return assets.get(path);
-}
-function notify(entry){
-  document.dispatchEvent(new CustomEvent('site-media-state',{detail:{url:entry.url,status:entry.status}}));
-}
-async function download(entry){
-  const controller=new AbortController();
-  entry.controller=controller;entry.status='loading';running.add(entry);notify(entry);
-  try{
-    const cache=await mediaCache();
-    if(controller.signal.aborted)throw new DOMException('Interrupted','AbortError');
-    let response=cache?await cache.match(entry.key):null;
-    const fromCache=Boolean(response);
-    if(!response){
-      response=await fetch(entry.key,{signal:controller.signal,priority:entry.priority<0?'high':'low'});
-      if(!response.ok)throw Error('Video download failed: '+response.status);
+const root = '/auto-inspector/assets/';
+const detail = location.pathname.startsWith('/auto-inspector/');
+const definitions = [
+  ['experience/home-flow/scan-camera.mp4', 'fc055bafd40a', 4746018],
+  ['experience/home-flow/anchor-selected.mp4', '52dbbe42b6e3', 980284],
+  ['experience/home-flow/workflow-full.mp4', '10c0acca1d98', 22473340],
+  ['review/clips/ceiling-reference.mp4', '0d86df314dd9', 5109253],
+  ['experience/field-studio.mp4', 'fc291221a5f1', 2488318],
+  ['experience/field-multiroom.mp4', 'f0821439aa03', 2148256],
+  ['experience/field-construction.mp4', '43a06795b8f7', 1118832]
+].map(([path, hash, size], order) => ({url: root + path, key: root + path + '?v=' + hash,
+  size, priority: detail ? (order >= 3 ? order - 3 : order + 4) : order}));
+let cachePromise;
+const mediaCache = () => cachePromise ??= ('caches' in window
+  ? caches.open('ytc-recordings-v1').catch(() => null) : Promise.resolve(null));
+const consumers = new Map(), videoEntries = new WeakMap(), preparing = new WeakMap();
+const queue = new MediaDownloadQueue(definitions, {
+  readCache: async entry => (await (await mediaCache())?.match(entry.key))?.blob(),
+  writeCache: async (entry, blob) => (await mediaCache())?.put(entry.key,
+    new Response(blob, {headers: {'Content-Type': 'video/mp4', 'Content-Length': String(blob.size)}})),
+  onChange: entry => {
+    for (const video of consumers.get(entry.url) || []) {
+      video.dataset.mediaProgress = String(Math.floor(entry.loaded / entry.size * 100));
+      const host = video.closest('.ai-visual-stage') || video.closest('figure');
+      if (host && video.dataset.mediaStatus !== 'ready') {
+        host.dataset.loadingLabel = entry.status === 'failed' ? 'Recording unavailable. Retry.'
+          : 'Loading recording · ' + Math.floor(entry.loaded / entry.size * 100) + '%';
+      }
     }
-    const blob=await response.blob();
-    if(controller.signal.aborted)throw new DOMException('Interrupted','AbortError');
-    if(cache&&!fromCache){
-      try{await cache.put(entry.key,new Response(blob,{headers:{'Content-Type':'video/mp4'}}));}
-      catch{ /* Browser storage may be unavailable or full; keep this visit usable. */ }
-    }
-    if(controller.signal.aborted)throw new DOMException('Interrupted','AbortError');
-    entry.blob=blob;entry.status='ready';entry.resolve(blob);notify(entry);
-  }catch(error){
-    if(error.name==='AbortError')entry.status='queued';
-    else{entry.status='failed';entry.resolve(null);notify(entry);}
-  }finally{
-    entry.controller=null;running.delete(entry);drain();
+    document.dispatchEvent(new CustomEvent('site-media-state', {detail: {
+      url: entry.url, status: entry.status, loaded: entry.loaded, total: entry.size
+    }}));
   }
+});
+function entryFor(source) {
+  try { return queue.entries.get(new URL(source, location.href).pathname); } catch { return null; }
 }
-function drain(){
-  if(foregroundStream)return;
-  while(running.size<limit){
-    const next=[...assets.values()].filter(entry=>!entry.stream&&entry.status==='queued')
-      .sort((a,b)=>a.priority-b.priority||a.order-b.order)[0];
-    if(!next)break;
-    download(next);
-  }
-}
-function activateStream(video,entry){
-  if(video.getAttribute('src'))return;
-  const figure=video.closest('figure');
-  let settled=false;
-  const complete=()=>{
-    if(settled)return;settled=true;
-    video.dataset.mediaStatus='ready';figure?.classList.remove('media-loading');
-    entry.status='ready';entry.resolve(null);notify(entry);
-  };
-  const fail=()=>{
-    if(settled)return;settled=true;
-    video.dataset.mediaStatus='failed';figure?.classList.remove('media-loading');
-    entry.status='failed';entry.resolve(null);notify(entry);
-  };
-  video.addEventListener('loadeddata',complete,{once:true});
-  video.addEventListener('error',fail,{once:true});
-  video.dataset.mediaMode='stream';
-  video.preload='auto';video.src=entry.key;video.load();
-  if(video.readyState>=2)complete();
-}
-export function prioritizeMedia(source){
-  const entry=entryFor(source);
-  if(!entry)return;
-  entry.priority=-100;
-  if(entry.stream){
-    entry.requested=true;
-    if(entry.status!=='ready')entry.status='loading';
-    for(const video of entry.videos)activateStream(video,entry);
-    return;
-  }
-  if(entry.status==='queued'&&running.size>=limit){
-    const lower=[...running].filter(item=>item.priority>entry.priority)
-      .sort((a,b)=>b.priority-a.priority)[0];
-    lower?.controller?.abort();
-  }
-  drain();
-}
-export function setForegroundMedia(source){
-  const entry=source&&entryFor(source);
-  // Do not suspend other downloads before the target scene has made a video.
-  const next=entry?.stream&&[...entry.videos].some(video=>video.isConnected)?entry:null;
-  if(foregroundStream===next)return;
-  foregroundStream=next;
-  if(next){
-    for(const item of running)item.controller?.abort();
-    prioritizeMedia(next.url);
-  }else drain();
-}
-export function prepareVideo(video,{urgent=false}={}){
-  if(videoSources.has(video)){
-    if(urgent)prioritizeMedia(videoSources.get(video));
-    return videoSources.get(video).ready;
-  }
-  const source=video.getAttribute('data-media-src')||video.getAttribute('src')||video.querySelector('source')?.getAttribute('src');
-  const entry=source&&entryFor(source);
-  if(!entry)return Promise.resolve(null);
-  videoSources.set(video,entry);
-  // Preserve the original markup as the no-JS fallback; JS owns the source now.
-  video.removeAttribute('src');
-  video.querySelectorAll('source').forEach(child=>child.removeAttribute('src'));
-  video.preload='none';video.load();video.dataset.mediaStatus='loading';
-  const figure=video.closest('figure');
-  if(figure)figure.classList.add('media-loading');
-  if(entry.stream){
-    entry.videos.add(video);
-    if(video.poster){
-      const poster=document.createElement('img');
-      poster.className='ai-stream-poster';poster.src=video.poster;poster.alt='';poster.setAttribute('aria-hidden','true');
-      video.after(poster);video._streamPoster=poster;
-    }
-    if(urgent)prioritizeMedia(source);
-    else if(entry.requested)activateStream(video,entry);
-    return entry.ready;
-  }
-  if(urgent)prioritizeMedia(source);
-  entry.ready.then(blob=>{
-    if(!video.isConnected)return;
-    if(blob){
-      const url=URL.createObjectURL(blob);
-      objectURLs.set(video,url);video.src=url;video.preload='auto';video.load();
-      const complete=()=>{video.dataset.mediaStatus='ready';figure?.classList.remove('media-loading');};
-      if(video.readyState>=2)complete();else video.addEventListener('loadeddata',complete,{once:true});
-    }else{
-      // Native streaming remains available if storage or the full download fails.
-      video.src=entry.url;video.preload='metadata';video.load();
-      video.dataset.mediaStatus='fallback';figure?.classList.remove('media-loading');
-    }
+export const holdMediaDownloads = () => queue.hold();
+export function prioritizeMedia(source) { const entry = entryFor(source); if (entry) queue.prioritize(entry.url); }
+export function setForegroundMedia(source) { queue.foreground(source ? entryFor(source)?.url : null); }
+
+function decodedVideo(video, source) {
+  return new Promise((resolve, reject) => {
+    let timer;
+    const clean = () => { clearTimeout(timer); video.removeEventListener('loadeddata', loaded); video.removeEventListener('error', failed); };
+    const loaded = () => { clean(); resolve(); };
+    const failed = () => { clean(); reject(Error('Recording could not be decoded')); };
+    video.addEventListener('loadeddata', loaded, {once: true}); video.addEventListener('error', failed, {once: true});
+    timer = setTimeout(failed, 15000);
+    video.src = source; video.preload = 'auto'; video.load();
+    if (video.readyState >= 2) loaded();
   });
-  return entry.ready;
 }
-function prioritizeLocation(){
-  const hash=location.hash;
-  if(hash==='#auto-inspector'||hash==='#ai-scene-2')prioritizeMedia(root+'experience/home-flow/scan-camera.mp4');
-  if(hash==='#ai-scene-4')prioritizeMedia(root+'experience/home-flow/anchor-selected.mp4');
-  if(hash==='#ai-scene-6')prioritizeMedia(root+'experience/home-flow/workflow-full.mp4');
-  if(hash==='#ceiling')prioritizeMedia(root+'review/clips/ceiling-reference.mp4');
-  if(hash==='#field')for(const name of ['field-studio','field-multiroom','field-construction'])prioritizeMedia(root+'experience/'+name+'.mp4');
-}
-function start(){
-  if(location.pathname.startsWith('/auto-inspector/')){
-    for(const entry of assets.values())if(entry.order>=3)entry.priority=entry.order-23;
+export function prepareVideo(video, {urgent = false, retry = false} = {}) {
+  let entry = videoEntries.get(video);
+  if (!entry) {
+    const source = video.dataset.mediaSrc || video.getAttribute('src') || video.querySelector('source')?.getAttribute('src');
+    entry = entryFor(source);
+    if (!entry) return Promise.resolve();
+    videoEntries.set(video, entry);
+    if (!consumers.has(entry.url)) consumers.set(entry.url, new Set());
+    consumers.get(entry.url).add(video);
+    // Original HTML remains the no-JS path; no second native network job.
+    video.removeAttribute('src'); video.querySelectorAll('source').forEach(node => node.removeAttribute('src'));
+    video.preload = 'none'; video.load();
   }
-  document.querySelectorAll('video').forEach(video=>prepareVideo(video));
-  const observer=new IntersectionObserver(entries=>{
-    for(const item of entries)if(item.isIntersecting){
-      const video=item.target;
-      const entry=videoSources.get(video);
-      if(entry)prioritizeMedia(entry.url);
-      observer.unobserve(video);
+  if (urgent) queue.prioritize(entry.url);
+  if (video.dataset.mediaStatus === 'ready') return Promise.resolve(entry.blob);
+  if (retry) { queue.retry(entry.url); preparing.delete(video); }
+  if (preparing.has(video)) return preparing.get(video);
+  video.dataset.mediaStatus = 'loading'; video.dataset.mediaMode = 'complete';
+  video.dataset.mediaProgress = String(Math.floor(entry.loaded / entry.size * 100));
+  const figure = video.closest('figure');
+  figure?.classList.add('media-loading');
+  if (figure) figure.dataset.loadingLabel = 'Loading recording · ' + video.dataset.mediaProgress + '%';
+  const task = queue.ready(entry.url).then(async blob => {
+    entry.objectURL ??= URL.createObjectURL(blob);
+    if (!video.isConnected) return blob;
+    await decodedVideo(video, entry.objectURL);
+    video.dataset.mediaStatus = 'ready'; figure?.classList.remove('media-loading');
+    figure?.querySelector('.media-retry')?.remove(); return blob;
+  }).catch(error => {
+    video.dataset.mediaStatus = 'failed'; figure?.classList.remove('media-loading');
+    if (figure && !figure.querySelector('.media-retry')) {
+      const button = document.createElement('button'); button.type = 'button'; button.className = 'media-retry';
+      button.textContent = 'Retry recording';
+      button.addEventListener('click', () => { button.remove(); prepareVideo(video, {urgent: true, retry: true}).catch(() => {}); });
+      figure.append(button);
     }
-  },{rootMargin:'700px 0px'});
-  document.querySelectorAll('video').forEach(video=>{
-    observer.observe(video);
-    video.addEventListener('pointerdown',()=>prepareVideo(video,{urgent:true}),{passive:true});
-    video.addEventListener('focusin',()=>prepareVideo(video,{urgent:true}));
+    throw error;
   });
-  addEventListener('hashchange',prioritizeLocation);
-  prioritizeLocation();
-  requestAnimationFrame(drain);
+  // Background consumers have no awaiting UI. Explicit awaiters still see failures.
+  task.catch(() => {}); preparing.set(video, task); return task;
 }
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start,{once:true});else start();
+
+function prioritizeLocation() {
+  const map = {'#auto-inspector': 0, '#ai-scene-1': 0, '#ai-scene-2': 0,
+    '#ai-scene-4': 1, '#ai-scene-6': 2, '#ceiling': 3, '#field': 4};
+  const index = map[location.hash];
+  if (index !== undefined) queue.prioritize(definitions[index].url);
+}
+async function start() {
+  document.querySelectorAll('video').forEach(video => {
+    prepareVideo(video);
+    const promote = () => { const entry = videoEntries.get(video); if (entry) queue.prioritize(entry.url); };
+    video.addEventListener('pointerdown', promote, {passive: true}); video.addEventListener('focusin', promote);
+  });
+  const videos = new IntersectionObserver(entries => {
+    const visible = entries.filter(e => e.isIntersecting).sort((a, b) => a.intersectionRatio - b.intersectionRatio);
+    for (const item of visible) {
+      const entry = videoEntries.get(item.target);
+      if (entry) queue.prioritize(entry.url);
+    }
+  }, {rootMargin: '200px 0px'});
+  document.querySelectorAll('video').forEach(video => videos.observe(video));
+
+  // Large imagery belongs near its own project, not ahead of the opening.
+  const visuals = new IntersectionObserver(entries => {
+    for (const item of entries) if (item.isIntersecting) {
+      visuals.unobserve(item.target);
+      const release = queue.hold();
+      const svgImages = [...item.target.querySelectorAll('image[data-media-href]')];
+      const svgTasks = [...new Set(svgImages.map(image => image.dataset.mediaHref))].map(async url => {
+        const image = new Image(); image.src = url;
+        await imageReady(image);
+        [...item.target.querySelectorAll('image[data-media-href]')].filter(node => node.dataset.mediaHref === url)
+          .forEach(node => node.setAttribute('href', url));
+      });
+      Promise.allSettled([imagesReady(item.target), ...svgTasks]).then(results => {
+        if (results.every(result => result.status === 'fulfilled')) {
+          item.target.dataset.mediaVisuals = 'ready';
+          item.target.dispatchEvent(new CustomEvent('site-visuals-ready'));
+        }
+      }).finally(release);
+    }
+  }, {rootMargin: '900px 0px'});
+  document.querySelectorAll('#crack-monitoring, #lud').forEach(project => visuals.observe(project));
+
+  addEventListener('hashchange', prioritizeLocation); prioritizeLocation();
+  addEventListener('offline', () => queue.setOnline(false));
+  addEventListener('online', () => queue.setOnline(true));
+  queue.online = navigator.onLine;
+  // Initial visible imagery has priority over speculative MP4 jobs.
+  const initial = [...document.images].filter(image => {
+    const box = image.getBoundingClientRect();
+    return image.getAttribute('src') && box.width && box.top < innerHeight && box.bottom > 0;
+  });
+  await Promise.allSettled(initial.map(imageReady));
+  await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+  queue.start();
+}
+if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start, {once: true});
+else start();
+if (new URLSearchParams(location.search).has('ai-review')) window.__siteMedia = queue;

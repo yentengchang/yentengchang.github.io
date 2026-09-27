@@ -1,5 +1,4 @@
-import {mountSceneUI} from './ui.js';
-import {makeScene} from './scene.js';
+import {mountSceneUI} from './ui.js?v=20260927b';
 const clamp=x=>Math.min(1,Math.max(0,x));
 const smooth=x=>{x=clamp(x);return x*x*(3-2*x);};
 const range=(x,a,b)=>smooth((x-a)/(b-a));
@@ -12,6 +11,8 @@ export async function createScene(host,index,manifest){
   }
   const ui=mountSceneUI(host,index),q=s=>ui.querySelector(s),all=s=>[...ui.querySelectorAll(s)];
   let mini,ray,model;
+  // The dashboard has no 3D dependency. Load it only for a scene that needs it.
+  const makeScene=index>0?(await import('./scene.js')).makeScene:null;
   if([1,2,3].includes(index))mini=await makeScene(q('.ai-spatial-mini canvas'));
   if(index===3){
     ray=await makeScene(q('.ai-ray-inset canvas'),{raycast:true});

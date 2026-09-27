@@ -2,40 +2,6 @@ const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
 const icon=name=>({play:'<path d="m9 5 11 7-11 7Z"/>',pause:'<path d="M8 5v14M16 5v14" fill="none" stroke="currentColor" stroke-width="4"/>',replay:'<path d="M4 10a8 8 0 1 1 1 8M4 4v6h6" fill="none" stroke="currentColor" stroke-width="2"/>'}[name]);
 const svg=name=>'<svg viewBox="0 0 24 24" aria-hidden="true">'+icon(name)+'</svg>';
 const fmt=t=>Math.floor(t/60)+':'+String(Math.floor(t%60)).padStart(2,'0');
-function bufferedAhead(video,at=video.currentTime){
-  for(let i=0;i<video.buffered.length;i++){
-    if(video.buffered.start(i)<=at+.15&&video.buffered.end(i)>at)
-      return video.buffered.end(i)-at;
-  }
-  return 0;
-}
-function streamCanStart(video,duration,target){
-  if(video.readyState<1)return false;
-  const remaining=Math.max(0,duration-target);
-  const ahead=bufferedAhead(video,target);
-  if(ahead>=remaining-.2)return true;
-  const now=performance.now();
-  if(!video._bufferProbe||Math.abs(video._bufferProbe.target-target)>.25||ahead<video._bufferProbe.initial-.25)
-    video._bufferProbe={target,at:now,initial:ahead,last:ahead,lastGrowthAt:now,lastSeekAt:0};
-  const probe=video._bufferProbe;
-  if(ahead>probe.last+.1){probe.last=ahead;probe.lastGrowthAt=now;}
-  const age=(now-probe.at)/1000;
-  const growth=ahead-probe.initial;
-  if(age>=3&&growth>=.5){
-    const rate=Math.max(0,Math.min(1,growth/age*.85));
-    const required=Math.min(remaining,Math.max(2,remaining*(1-rate)+1));
-    if(ahead>=required&&video.readyState>=3)return true;
-  }
-  // Chromium stops a paused video's preload after roughly 15 seconds. Seek
-  // near the contiguous buffer edge to request the next range while retaining
-  // earlier ranges; the separate poster hides those pre-play seek frames.
-  if(ahead>2&&now-probe.lastGrowthAt>1400&&now-probe.lastSeekAt>1800&&!video.seeking){
-    const edge=target+ahead;
-    const next=Math.min(duration-.2,edge-.75);
-    if(next>video.currentTime+.8){video.currentTime=next;probe.lastSeekAt=now;}
-  }
-  return false;
-}
 export function createPlayer(host,{duration,render,mediaAt=()=>null}){
   let time=0,active=false,paused=false,scrubbing=false,raf=0,last=0,video=null,touchTimer,disposed=false;
   const media=[...host.querySelectorAll('video')];media.forEach(v=>{v.muted=true;v.controls=false;});
@@ -58,28 +24,12 @@ export function createPlayer(host,{duration,render,mediaAt=()=>null}){
     if(seeking)video._desired=clamp(time-spec.start,0,spec.duration);
     if(video._desired!=null&&video.readyState>=1){video.currentTime=Math.min(video._desired,video.duration-.015);video._desired=null;}
     if(!isPlaying()||time>=spec.start+spec.duration){video.pause();host.classList.remove('is-buffering');return;}
-    if(video.dataset.mediaMode==='stream'&&!video._started){
-      const target=clamp(time-spec.start,0,spec.duration);
-      if(!streamCanStart(video,spec.duration,target)){
-        const buffered=Math.floor(bufferedAhead(video,target));
-        host.dataset.loadingLabel=buffered>0?`Preparing video · ${buffered} s buffered`:'Loading recording…';
-        host.classList.add('is-buffering');return;
-      }
-      if(video.seeking||Math.abs(video.currentTime-target)>.1){
-        if(!video.seeking)video.currentTime=target;
-        host.classList.add('is-buffering');return;
-      }
-    }
     if(video.readyState<3){
-      if(video.dataset.mediaMode==='stream'){
-        const buffered=Math.floor(bufferedAhead(video,clamp(time-spec.start,0,spec.duration)));
-        host.dataset.loadingLabel=buffered>0?`Preparing video · ${buffered} s buffered`:'Loading recording…';
-      }
       host.classList.add('is-buffering');return;
     }
     host.classList.remove('is-buffering');
     if(video.paused&&!video.ended&&!video._pendingPlay){
-      video._pendingPlay=true;video.play().then(()=>{video._started=true;video._streamPoster?.remove();video._streamPoster=null;}).catch(e=>{
+      video._pendingPlay=true;video.play().then(()=>{next._started=true;}).catch(e=>{
         if(e.name==='AbortError'||next!==video)return;paused=true;host.classList.add('needs-play');schedule();
       }).finally(()=>{next._pendingPlay=false;});
     }
