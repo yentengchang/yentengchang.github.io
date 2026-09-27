@@ -1,5 +1,5 @@
-// Fetch each original recording in full before playback. The content hashes
-// make cached responses safe to reuse when moving between Home and detail.
+// Short detail clips are cached in full. The two Home recordings stream
+// natively so playback does not wait for an entire MP4 and Cache Storage write.
 const root='/auto-inspector/assets/';
 const definitions=[
   ['experience/home-flow/scan-camera.mp4','fc055bafd40a'],
@@ -14,13 +14,14 @@ const assets=new Map(definitions.map(([path,hash],order)=>{
   const url=root+path;
   let resolve;
   const ready=new Promise(done=>{resolve=done;});
-  return [url,{url,key:url+'?v='+hash,order,priority:order,status:'queued',ready,resolve,blob:null,controller:null}];
+  return [url,{url,key:url+'?v='+hash,order,priority:order,status:'queued',ready,resolve,blob:null,controller:null,stream:order===0||order===2,requested:false,videos:new Set()}];
 }));
 const running=new Set();
 const limit=matchMedia('(max-width:720px)').matches?1:2;
 const videoSources=new WeakMap();
 const objectURLs=new WeakMap();
 let cachePromise;
+let foregroundStream=null;
 
 function mediaCache(){
   if(!cachePromise)cachePromise='caches' in window?caches.open('ytc-recordings-v1').catch(()=>null):Promise.resolve(null);
@@ -61,23 +62,61 @@ async function download(entry){
   }
 }
 function drain(){
+  if(foregroundStream)return;
   while(running.size<limit){
-    const next=[...assets.values()].filter(entry=>entry.status==='queued')
+    const next=[...assets.values()].filter(entry=>!entry.stream&&entry.status==='queued')
       .sort((a,b)=>a.priority-b.priority||a.order-b.order)[0];
     if(!next)break;
     download(next);
   }
 }
+function activateStream(video,entry){
+  if(video.getAttribute('src'))return;
+  const figure=video.closest('figure');
+  let settled=false;
+  const complete=()=>{
+    if(settled)return;settled=true;
+    video.dataset.mediaStatus='ready';figure?.classList.remove('media-loading');
+    entry.status='ready';entry.resolve(null);notify(entry);
+  };
+  const fail=()=>{
+    if(settled)return;settled=true;
+    video.dataset.mediaStatus='failed';figure?.classList.remove('media-loading');
+    entry.status='failed';entry.resolve(null);notify(entry);
+  };
+  video.addEventListener('loadeddata',complete,{once:true});
+  video.addEventListener('error',fail,{once:true});
+  video.dataset.mediaMode='stream';
+  video.preload='auto';video.src=entry.key;video.load();
+  if(video.readyState>=2)complete();
+}
 export function prioritizeMedia(source){
   const entry=entryFor(source);
   if(!entry)return;
   entry.priority=-100;
+  if(entry.stream){
+    entry.requested=true;
+    if(entry.status!=='ready')entry.status='loading';
+    for(const video of entry.videos)activateStream(video,entry);
+    return;
+  }
   if(entry.status==='queued'&&running.size>=limit){
     const lower=[...running].filter(item=>item.priority>entry.priority)
       .sort((a,b)=>b.priority-a.priority)[0];
     lower?.controller?.abort();
   }
   drain();
+}
+export function setForegroundMedia(source){
+  const entry=source&&entryFor(source);
+  // Do not suspend other downloads before the target scene has made a video.
+  const next=entry?.stream&&[...entry.videos].some(video=>video.isConnected)?entry:null;
+  if(foregroundStream===next)return;
+  foregroundStream=next;
+  if(next){
+    for(const item of running)item.controller?.abort();
+    prioritizeMedia(next.url);
+  }else drain();
 }
 export function prepareVideo(video,{urgent=false}={}){
   if(videoSources.has(video)){
@@ -94,6 +133,17 @@ export function prepareVideo(video,{urgent=false}={}){
   video.preload='none';video.load();video.dataset.mediaStatus='loading';
   const figure=video.closest('figure');
   if(figure)figure.classList.add('media-loading');
+  if(entry.stream){
+    entry.videos.add(video);
+    if(video.poster){
+      const poster=document.createElement('img');
+      poster.className='ai-stream-poster';poster.src=video.poster;poster.alt='';poster.setAttribute('aria-hidden','true');
+      video.after(poster);video._streamPoster=poster;
+    }
+    if(urgent)prioritizeMedia(source);
+    else if(entry.requested)activateStream(video,entry);
+    return entry.ready;
+  }
   if(urgent)prioritizeMedia(source);
   entry.ready.then(blob=>{
     if(!video.isConnected)return;

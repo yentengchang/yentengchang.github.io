@@ -13,6 +13,7 @@
 #auto-inspector .ai-plan-fallback img{display:block;width:100%;height:100%;object-fit:contain;border-radius:.45rem}
 #auto-inspector .ai-scene-media:has(.is-enhanced) .ai-plan-fallback{display:none}
 #auto-inspector .ai-flow-video,#auto-inspector .ai-selected-clip,#auto-inspector .ai-anchor-hold{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#111}
+#auto-inspector .ai-stream-poster{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;z-index:1;pointer-events:none}
 #auto-inspector .ai-anchor-hold{opacity:0}
 #auto-inspector .ai-exp-selected{background:#111}
 #auto-inspector .ai-scene-section[data-scene="5"] .ai-visual-stage{aspect-ratio:16/9}
@@ -22,7 +23,7 @@
 @media(hover:hover){#auto-inspector .ai-player:hover .ai-player-controls{opacity:1;pointer-events:auto}}
 #auto-inspector .ai-player:focus-visible .ai-player-controls,#auto-inspector .ai-player:has(button:focus-visible,input:focus-visible) .ai-player-controls,#auto-inspector .ai-player.is-touch-active .ai-player-controls,#auto-inspector .ai-player.needs-play .ai-player-controls{opacity:1;pointer-events:auto}
 #auto-inspector .ai-player-controls button{display:grid;place-items:center;color:#fff;border:0;cursor:pointer;padding:0;font:inherit;background:transparent;position:relative;flex:none}
-#auto-inspector .ai-player.is-buffering::after{content:'Loading recording…';position:absolute;z-index:21;right:1rem;bottom:1rem;padding:.4rem .6rem;border-radius:.2rem;background:#101010cc;color:#fff;font:12px -apple-system,BlinkMacSystemFont,sans-serif;pointer-events:none}
+#auto-inspector .ai-player.is-buffering::after{content:attr(data-loading-label);position:absolute;z-index:21;right:1rem;bottom:1rem;padding:.4rem .6rem;border-radius:.2rem;background:#101010cc;color:#fff;font:12px -apple-system,BlinkMacSystemFont,sans-serif;pointer-events:none}
 #auto-inspector .ai-player-controls button:focus-visible,#auto-inspector .ai-seek:focus-visible{outline:2px solid white;outline-offset:3px}
 #auto-inspector .ai-player-controls button>svg{width:24px;height:24px;fill:currentColor}
 #auto-inspector .ai-player-controls .ai-center-control{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:64px;height:64px;background:#101010aa;border:1px solid #fff4;border-radius:50%;box-shadow:0 3px 20px #0002}
@@ -49,7 +50,7 @@
  #auto-inspector .ai-time{font-size:9px}
  #auto-inspector .ai-transport button{width:28px;height:36px}
 }
-@media(prefers-reduced-motion:reduce){#auto-inspector .ai-player-controls{transition:none}}
+@media(prefers-reduced-motion:reduce){#auto-inspector .ai-player-controls{transition:none}#auto-inspector .ai-stream-poster{display:none}}
 .ai-scene-section.ai-reduced .ai-experience,.ai-scene-section.ai-reduced .ai-player-controls{display:none}
 #auto-inspector .ai-reduced .is-enhanced>.ai-scene-poster{visibility:visible}
 #auto-inspector .ai-reduced .ai-plan-fallback{display:block}
