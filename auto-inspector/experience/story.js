@@ -1,7 +1,7 @@
-import {createPlayer} from './flow-player.js?v=20260927b';
-import {createScene} from './flow-scenes.js?v=20260927b';
-import {prepareVideo, prioritizeMedia, setForegroundMedia, holdMediaDownloads} from '/assets/scripts/media-preload.js?v=20260927b';
-import {imagesReady} from '/assets/scripts/visual-readiness.js?v=20260927b';
+import {createPlayer} from './flow-player.js?v=20260927c';
+import {createScene} from './flow-scenes.js?v=20260927c';
+import {prepareVideo, prioritizeMedia, setForegroundMedia, holdMediaDownloads} from '/assets/scripts/media-preload.js?v=20260927c';
+import {imagesReady} from '/assets/scripts/visual-readiness.js?v=20260927c';
 const chapter=document.querySelector('#auto-inspector');
 const reduced=matchMedia('(prefers-reduced-motion: reduce)');
 const rows=[...chapter.querySelectorAll('.ai-scene-section')];

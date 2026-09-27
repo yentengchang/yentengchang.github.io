@@ -1,4 +1,4 @@
-import {mountSceneUI} from './ui.js?v=20260927b';
+import {mountSceneUI} from './ui.js?v=20260927c';
 const clamp=x=>Math.min(1,Math.max(0,x));
 const smooth=x=>{x=clamp(x);return x*x*(3-2*x);};
 const range=(x,a,b)=>smooth((x-a)/(b-a));

@@ -1,5 +1,5 @@
-import {MediaDownloadQueue} from './media-download-queue.js?v=20260927b';
-import {imageReady, imagesReady} from './visual-readiness.js?v=20260927b';
+import {MediaDownloadQueue} from './media-download-queue.js?v=20260927c';
+import {imageReady, imagesReady} from './visual-readiness.js?v=20260927c';
 
 const root = '/auto-inspector/assets/';
 const detail = location.pathname.startsWith('/auto-inspector/');
