@@ -22,6 +22,7 @@
 @media(hover:hover){#auto-inspector .ai-player:hover .ai-player-controls{opacity:1;pointer-events:auto}}
 #auto-inspector .ai-player:focus-visible .ai-player-controls,#auto-inspector .ai-player:has(button:focus-visible,input:focus-visible) .ai-player-controls,#auto-inspector .ai-player.is-touch-active .ai-player-controls,#auto-inspector .ai-player.needs-play .ai-player-controls{opacity:1;pointer-events:auto}
 #auto-inspector .ai-player-controls button{display:grid;place-items:center;color:#fff;border:0;cursor:pointer;padding:0;font:inherit;background:transparent;position:relative;flex:none}
+#auto-inspector .ai-player.is-buffering::after{content:'Loading recording…';position:absolute;z-index:21;right:1rem;bottom:1rem;padding:.4rem .6rem;border-radius:.2rem;background:#101010cc;color:#fff;font:12px -apple-system,BlinkMacSystemFont,sans-serif;pointer-events:none}
 #auto-inspector .ai-player-controls button:focus-visible,#auto-inspector .ai-seek:focus-visible{outline:2px solid white;outline-offset:3px}
 #auto-inspector .ai-player-controls button>svg{width:24px;height:24px;fill:currentColor}
 #auto-inspector .ai-player-controls .ai-center-control{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:64px;height:64px;background:#101010aa;border:1px solid #fff4;border-radius:50%;box-shadow:0 3px 20px #0002}

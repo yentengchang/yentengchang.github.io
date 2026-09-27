@@ -1,5 +1,6 @@
 import {createPlayer} from './flow-player.js';
 import {createScene} from './flow-scenes.js';
+import {prepareVideo,prioritizeMedia} from '/assets/scripts/media-preload.js';
 const chapter=document.querySelector('#auto-inspector');
 const reduced=matchMedia('(prefers-reduced-motion: reduce)');
 const rows=[...chapter.querySelectorAll('.ai-scene-section')];
@@ -14,6 +15,7 @@ async function ensure(index){
  const promise=(async()=>{
   try{
    const config=await createScene(host,index,await manifestPromise);
+   host.querySelectorAll('video').forEach(video=>prepareVideo(video));
    const player=createPlayer(host,config);players.set(index,player);
    host.querySelectorAll('canvas').forEach(c=>c.addEventListener('webglcontextlost',()=>{
     player.dispose();players.delete(index);host.classList.remove('is-enhanced');host.querySelector('.ai-experience')?.remove();host.querySelector('.ai-player-controls')?.remove();host.dataset.error='WebGL context lost';
@@ -36,6 +38,9 @@ function update(){
   const score=Math.abs((r.top+r.bottom)/2-innerHeight*.52);if(score<bestScore){best=i;bestScore=score;}
  });
  activeIndex=best;
+ if(best===1)prioritizeMedia('/auto-inspector/assets/experience/home-flow/scan-camera.mp4');
+ if(best===3)prioritizeMedia('/auto-inspector/assets/experience/home-flow/anchor-selected.mp4');
+ if(best===5)prioritizeMedia('/auto-inspector/assets/experience/home-flow/workflow-full.mp4');
  for(const [i,player] of players)player.setActive(i===best);
  if(best>=0)ensure(best);
 }

@@ -8,6 +8,8 @@
 .ai-detail-meta{font-size:.85rem;margin-top:2rem;color:#717174}
 .ai-detail figure{margin:0;min-width:0}
 .ai-detail img,.ai-detail video{display:block;width:100%;height:auto;border-radius:.45rem}
+.ai-detail figure.media-loading{position:relative}
+.ai-detail figure.media-loading::after{content:'Loading recording…';position:absolute;top:1rem;right:1rem;padding:.4rem .6rem;border-radius:.2rem;background:#101010cc;color:#fff;font:12px -apple-system,BlinkMacSystemFont,sans-serif;pointer-events:none}
 .ai-detail video{aspect-ratio:1.48;background:#101112;object-fit:contain}
 .ai-detail figcaption{font-size:.77rem;line-height:1.5;color:var(--muted);margin-top:.8rem}
 .ai-detail-cover{margin-top:3.5rem!important;max-width:1000px}
