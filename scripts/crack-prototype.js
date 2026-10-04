@@ -35,9 +35,28 @@
   const eventSummary = story.querySelector('.crack-event-summary');
   const eventSummaryLength = story.querySelector('.home-event-series-length');
   const eventSummaryWidth = story.querySelector('.home-event-series-width');
+  const visualStage = story.querySelector('.crack-visual-stage');
+  const sceneImages = [...visualStage.querySelectorAll('img')];
+  const singleImages = [...v1Window.querySelectorAll('img')];
+  const wallImages = [...v2Window.querySelectorAll('img'), ...morphFeed.querySelectorAll('img')];
+  const photoRecords = new Map(sceneImages.map(image => [image, {
+    image, source: image.getAttribute('src'), ready: false, decoding: false,
+    retries: 0, retryTimer: null, failed: false
+  }]));
+  const photoStatus = document.createElement('div');
+  photoStatus.className = 'crack-photo-status';
+  photoStatus.hidden = true;
+  photoStatus.setAttribute('role', 'status');
+  const photoMessage = document.createElement('span');
+  const photoRetry = document.createElement('button');
+  photoRetry.type = 'button';
+  photoRetry.textContent = 'Retry';
+  photoStatus.append(photoMessage, photoRetry);
+  visualStage.append(photoStatus);
   let activeState = '';
   let frameRequested = false;
   let morphGeometry = null;
+  let photosStarted = false;
 
   const clamp = (value, minimum, maximum) => Math.min(maximum, Math.max(minimum, value));
   const remap = (value, start, end) => clamp((value - start) / (end - start), 0, 1);
@@ -46,6 +65,76 @@
     return t * t * (3 - (2 * t));
   };
   const mix = (start, end, amount) => start + ((end - start) * amount);
+
+  const refreshPhotoReadiness = () => {
+    story.dataset.singleReady = String(singleImages.every(image => photoRecords.get(image).ready));
+    story.dataset.wallReady = String(wallImages.every(image => photoRecords.get(image).ready));
+    // A late decode must update the current frame without requiring another
+    // scroll. Image layout can also change the single-to-wall destination.
+    morphGeometry = null;
+    queueUpdate();
+  };
+
+  const retryPhoto = (record) => {
+    record.ready = false;
+    record.failed = true;
+    refreshPhotoReadiness();
+    if (record.retryTimer || record.retries >= 2) return;
+    const attempt = ++record.retries;
+    record.retryTimer = setTimeout(() => {
+      record.retryTimer = null;
+      if (record.image.complete && record.image.naturalWidth) decodePhoto(record);
+      else {
+        // Only a failed request gets a fresh URL; never restart a slow download.
+        const url = new URL(record.source, location.href);
+        url.searchParams.set('crack-retry', String(attempt));
+        record.image.src = url.href;
+      }
+    }, attempt * 1000);
+  };
+
+  const decodePhoto = async (record) => {
+    if (record.decoding) return;
+    record.decoding = true;
+    try {
+      if (!record.image.complete || !record.image.naturalWidth) throw Error('Camera image unavailable');
+      if (record.image.decode) await record.image.decode();
+      record.ready = true;
+      record.failed = false;
+      record.retries = 0;
+      clearTimeout(record.retryTimer);
+      record.retryTimer = null;
+      refreshPhotoReadiness();
+    } catch {
+      retryPhoto(record);
+    } finally {
+      record.decoding = false;
+    }
+  };
+
+  const preparePhotos = (retryFailed = false) => {
+    if (photosStarted && !retryFailed) return;
+    photosStarted = true;
+    photoRecords.forEach(record => {
+      const image = record.image;
+      // These are animation dependencies, not independent lazy illustrations.
+      // Decode the mounted elements before any fade/scale reveals them.
+      image.decoding = 'sync';
+      image.fetchPriority = 'high';
+      image.loading = 'eager';
+      if (retryFailed && record.failed) record.retries = 0;
+      if (image.complete) {
+        if (image.naturalWidth) decodePhoto(record);
+        else retryPhoto(record);
+      }
+    });
+  };
+
+  photoRecords.forEach(record => {
+    record.image.addEventListener('load', () => decodePhoto(record));
+    record.image.addEventListener('error', () => retryPhoto(record));
+  });
+  photoRetry.addEventListener('click', () => preparePhotos(true));
 
   const activate = (state) => {
     if (!state || state === activeState) return;
@@ -107,6 +196,8 @@
   };
 
   const resetVisuals = () => {
+    photoStatus.hidden = true;
+    story.querySelector('.crack-log-waiting').style.opacity = '';
     if (v1Window) {
       v1Window.style.opacity = '1';
       v1Window.style.transform = 'none';
@@ -336,6 +427,31 @@
   const updateVisualProgress = (state, progress) => {
     const motionProgress = remap(progress, 0, 0.74);
     resetVisuals();
+    const needsWall = ['wall', 'event', 'event-history'].includes(state);
+    const waitingForSingle = story.dataset.singleReady !== 'true';
+    const waitingForWall = needsWall && story.dataset.wallReady !== 'true';
+    if (waitingForSingle || waitingForWall) {
+      // Keep the last meaningful single-camera result, never reveal black
+      // camera tiles or a black moving image while their bytes/decode are pending.
+      if (waitingForSingle) v1Window.style.opacity = '0';
+      else if (waitingForWall) {
+        updateAnalysis('width', 1);
+        story.querySelector('.crack-log-waiting').style.opacity = '0';
+        [logScale, logDetection, logLength, logWidth].forEach(entry => {
+          entry.style.opacity = '1';
+          entry.style.transform = 'none';
+        });
+      }
+      const required = waitingForSingle ? singleImages : wallImages;
+      const failed = required.some(image => {
+        const record = photoRecords.get(image);
+        return record.failed && record.retries >= 2 && !record.retryTimer;
+      });
+      photoMessage.textContent = failed ? 'Camera images unavailable.' : 'Loading camera images…';
+      photoRetry.hidden = !failed;
+      photoStatus.hidden = false;
+      return;
+    }
     updateAnalysis(state, motionProgress);
     if (state === 'wall') updateWallTransition(motionProgress);
     if (state === 'event') updateEventSequence(motionProgress);
@@ -344,6 +460,8 @@
 
   const updateFromScroll = () => {
     frameRequested = false;
+    const storyRect = story.getBoundingClientRect();
+    if (storyRect.top < innerHeight + 900 && storyRect.bottom > -900) preparePhotos();
     const shellRect = shell.getBoundingClientRect();
     const stickyTop = Number.parseFloat(getComputedStyle(stage).top) || 0;
     const travel = Math.max(1, shell.offsetHeight - stage.offsetHeight);
@@ -674,15 +792,18 @@
   });
   window.addEventListener('pageshow', () => {
     restoreAnalysisLayers();
+    if (photosStarted) preparePhotos(true);
     morphGeometry = null;
     queueUpdate();
   });
   document.addEventListener('visibilitychange', () => {
     if (document.visibilityState === 'visible') {
       restoreAnalysisLayers();
+      if (photosStarted) preparePhotos(true);
       queueUpdate();
     }
   });
+  window.addEventListener('online', () => { if (photosStarted) preparePhotos(true); });
   updateFromScroll();
 
   window.addEventListener('scroll', queueUpdate, { passive: true });

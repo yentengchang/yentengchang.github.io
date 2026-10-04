@@ -699,6 +699,13 @@
   overflow: hidden;
 }
 
+/* A stable image box through lazy loading, decoding and scaled wall transitions. */
+.crack-v2-feed > img {
+  position: absolute;
+  inset: 0;
+  display: block;
+}
+
 .crack-v2-feed i,
 .crack-v2-detail-media i {
   position: absolute;
@@ -1361,6 +1368,34 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  display: block;
+}
+
+.crack-photo-status {
+  position: absolute;
+  z-index: 30;
+  left: 50%;
+  bottom: 0.8rem;
+  transform: translateX(-50%);
+  width: max-content;
+  max-width: calc(100% - 1.5rem);
+  padding: 0.45rem 0.7rem;
+  border: 1px solid #505050;
+  border-radius: 0.25rem;
+  background: #222;
+  color: #e0e0e0;
+  font: 0.82rem/1.4 Arial, Helvetica, sans-serif;
+}
+
+.crack-photo-status button {
+  margin-left: 0.6rem;
+  border: 0;
+  padding: 0;
+  background: none;
+  color: #93c9ef;
+  font: inherit;
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 .crack-event-panel {
