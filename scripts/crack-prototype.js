@@ -51,6 +51,9 @@
     if (!state || state === activeState) return;
     activeState = state;
     story.dataset.state = state;
+    // Re-entering a step must also recover an evicted canvas bitmap (including
+    // browsers that do not dispatch 2D context restoration events).
+    restoreAnalysisLayers();
     const copyState = state === 'event-history' ? 'event' : state;
 
     if (state === 'wall') morphGeometry = null;
@@ -349,6 +352,7 @@
     const index = Math.min(stateNames.length - 1, Math.floor(scaledProgress));
     const stateProgress = progress === 1 ? 1 : scaledProgress - index;
     activate(stateNames[index]);
+    if (story.dataset.analysisReady !== 'true') restoreAnalysisLayers();
     updateVisualProgress(stateNames[index], stateProgress);
   };
 
@@ -363,24 +367,6 @@
     const g = clamp(1.5 - Math.abs((4 * value) - 2), 0, 1);
     const b = clamp(1.5 - Math.abs((4 * value) - 1), 0, 1);
     return [Math.round(r * 255), Math.round(g * 255), Math.round(b * 255)];
-  };
-
-  const getClusters = (positions) => {
-    if (!positions.length) return [];
-    const clusters = [];
-    let cluster = [positions[0]];
-
-    for (let index = 1; index < positions.length; index += 1) {
-      if (positions[index] - positions[index - 1] <= 2) {
-        cluster.push(positions[index]);
-      } else {
-        clusters.push(cluster);
-        cluster = [positions[index]];
-      }
-    }
-
-    clusters.push(cluster);
-    return clusters;
   };
 
   const prepareEventWaveform = () => {
@@ -508,222 +494,195 @@
     eventSummaryWidth.setAttribute('d', toPath(widthValues, widthY));
   };
 
-  const prepareAnalysisLayers = () => {
-    const maskCanvas = story.querySelector('.crack-mask-canvas');
-    const skeletonCanvas = story.querySelector('.crack-skeleton-canvas');
-    const distanceCanvas = story.querySelector('.crack-distance-canvas');
-    const scanCanvas = story.querySelector('.crack-width-scan-canvas');
-    const maxCanvas = story.querySelector('.crack-width-max-canvas');
-    if (!maskCanvas || !skeletonCanvas || !distanceCanvas || !scanCanvas || !maxCanvas) return;
+  // The accepted 400×400 reference geometry, compiled once from the original
+  // segmentation screenshot. Keep this with the renderer: no image download,
+  // decode or pixel-readback dependency is needed to initialize the walkthrough.
+  // Entries are [left, right, center] in the original canvas coordinate system.
+  const analysisRows = [
+    null, null, null, [277,286,281.5], [277,286,281.5], [277,287,282], [277,287,282], [277,287,282],
+    [277,288,282.5], [278,289,283.5], [279,289,284], [279,290,284.5], [280,290,285], [280,291,285.5], [281,292,286.5], [281,292,286.5],
+    [282,301,291.5], [284,301,292.5], [284,301,292.5], [285,301,293], [286,301,293.5], [286,301,293.5], [287,301,294], [287,301,294],
+    [288,301,294.5], [288,301,294.5], [289,301,295], [289,301,295], [289,301,295], [289,301,295], [288,301,294.5], [286,301,293.5],
+    [284,301,292.5], [284,301,292.5], [281,301,291], [280,301,290.5], [279,300,289.5], [277,298,287.5], [276,297,286.5], [275,293,284],
+    [273,291,282], [272,289,280.5], [270,289,279.5], [269,288,278.5], [268,287,277.5], [267,284,275.5], [267,283,275], [266,282,274],
+    [266,282,274], [265,281,273], [265,281,273], [264,280,272], [264,279,271.5], [264,279,271.5], [264,279,271.5], [264,279,271.5],
+    [263,279,271], [263,279,271], [263,278,270.5], [263,277,270], [263,277,270], [263,277,270], [263,277,270], [262,276,269],
+    [262,276,269], [262,275,268.5], [262,274,268], [262,273,267.5], [262,273,267.5], [261,272,266.5], [260,272,266], [260,272,266],
+    [260,272,266], [260,272,266], [260,272,266], [260,272,266], [260,272,266], [260,272,266], [260,272,266], [260,272,266],
+    [260,272,266], [260,272,266], [260,272,266], [260,272,266], [260,272,266], [260,272,266], [260,272,266], [260,272,266],
+    [260,272,266], [260,272,266], [260,273,266.5], [260,274,267], [260,274,267], [260,274,267], [260,273,266.5], [260,272,266],
+    [260,272,266], [260,272,266], [259,272,265.5], [259,272,265.5], [259,272,265.5], [258,272,265], [258,271,264.5], [258,270,264],
+    [257,270,263.5], [257,270,263.5], [255,269,262], [255,268,261.5], [255,267,261], [254,267,260.5], [254,266,260], [253,266,259.5],
+    [252,265,258.5], [252,265,258.5], [252,264,258], [252,264,258], [251,264,257.5], [251,263,257], [251,263,257], [251,263,257],
+    [250,262,256], [249,261,255], [249,261,255], [248,260,254], [247,260,253.5], [247,259,253], [246,259,252.5], [245,258,251.5],
+    [244,258,251], [244,257,250.5], [244,257,250.5], [242,256,249], [242,255,248.5], [241,254,247.5], [241,253,247], [241,252,246.5],
+    [240,251,245.5], [239,251,245], [239,250,244.5], [238,249,243.5], [238,249,243.5], [237,248,242.5], [237,247,242], [237,247,242],
+    [236,247,241.5], [235,246,240.5], [235,246,240.5], [234,245,239.5], [234,244,239], [233,243,238], [232,243,237.5], [231,243,237],
+    [230,241,235.5], [229,240,234.5], [229,240,234.5], [228,240,234], [227,239,233], [227,238,232.5], [226,238,232], [225,237,231],
+    [225,236,230.5], [224,235,229.5], [223,235,229], [222,234,228], [222,233,227.5], [221,232,226.5], [220,231,225.5], [218,230,224],
+    [217,230,223.5], [216,230,223], [215,229,222], [215,228,221.5], [215,227,221], [213,226,219.5], [212,225,218.5], [211,224,217.5],
+    [211,223,217], [210,222,216], [209,221,215], [209,220,214.5], [208,219,213.5], [207,218,212.5], [207,218,212.5], [206,217,211.5],
+    [205,216,210.5], [204,216,210], [204,215,209.5], [203,214,208.5], [201,213,207], [200,212,206], [199,211,205], [198,210,204],
+    [197,209,203], [195,208,201.5], [193,207,200], [190,206,198], [188,205,196.5], [184,204,194], [183,203,193], [180,202,191],
+    [177,201,189], [176,200,188], [175,198,186.5], [174,197,185.5], [173,194,183.5], [172,193,182.5], [171,189,180], [170,187,178.5],
+    [170,183,176.5], [170,182,176], [169,181,175], [168,178,173], [168,178,173], [167,177,172], [166,176,171], [165,176,170.5],
+    [164,175,169.5], [164,175,169.5], [163,174,168.5], [163,173,168], [162,172,167], [161,172,166.5], [160,171,165.5], [160,171,165.5],
+    [159,169,164], [159,169,164], [158,169,163.5], [157,168,162.5], [156,168,162], [155,167,161], [154,166,160], [152,166,159],
+    [149,165,157], [142,165,153.5], [140,163,151.5], [137,161,149], [136,160,148], [135,159,147], [134,158,146], [133,156,144.5],
+    [133,155,144], [133,152,142.5], [131,151,141], [130,149,139.5], [130,148,139], [128,146,137], [128,144,136], [127,144,135.5],
+    [126,143,134.5], [124,142,133], [124,141,132.5], [123,140,131.5], [122,139,130.5], [121,136,128.5], [120,136,128], [119,134,126.5],
+    [116,132,124], [115,131,123], [113,129,121], [111,128,119.5], [109,127,118], [105,125,115], [104,123,113.5], [101,120,110.5],
+    [99,119,109], [98,117,107.5], [97,116,106.5], [96,115,105.5], [96,112,104], [95,109,102], [94,106,100], [93,104,98.5],
+    [93,104,98.5], [92,104,98], [91,103,97], [91,102,96.5], [91,101,96], [90,100,95], [90,100,95], [90,100,95],
+    [89,100,94.5], [89,100,94.5], [89,100,94.5], [89,99,94], [88,99,93.5], [88,99,93.5], [88,99,93.5], [88,99,93.5],
+    [88,99,93.5], [87,98,92.5], [87,98,92.5], [87,97,92], [86,97,91.5], [86,96,91], [85,96,90.5], [85,95,90],
+    [84,94,89], [84,94,89], [83,94,88.5], [83,93,88], [83,92,87.5], [82,92,87], [81,91,86], [81,90,85.5],
+    [80,90,85], [80,90,85], [79,89,84], [79,89,84], [79,89,84], [78,88,83], [78,88,83], [77,88,82.5],
+    [77,87,82], [77,87,82], [77,87,82], [76,87,81.5], [76,87,81.5], [76,86,81], [76,86,81], [76,86,81],
+    [75,86,80.5], [75,86,80.5], [75,86,80.5], [75,86,80.5], [75,86,80.5], [75,86,80.5], [75,86,80.5], [75,86,80.5],
+    [74,85,79.5], [74,84,79], [74,84,79], [74,84,79], [74,84,79], [73,83,78], [72,83,77.5], [72,83,77.5],
+    [72,83,77.5], [71,82,76.5], [71,81,76], [70,80,75], [70,80,75], [70,80,75], [70,79,74.5], [70,79,74.5],
+    [70,79,74.5], [70,79,74.5], [69,79,74], [69,79,74], [69,79,74], [69,78,73.5], [69,77,73], [68,77,72.5],
+    [67,77,72], [67,77,72], [67,76,71.5], [67,76,71.5], [66,75,70.5], [65,75,70], [65,74,69.5], [64,73,68.5],
+    [64,73,68.5], [63,72,67.5], [63,72,67.5], [62,71,66.5], [61,70,65.5], [60,70,65], [59,69,64], [59,69,64],
+    [58,68,63], [57,68,62.5], [57,67,62], [57,67,62], [57,66,61.5], [57,66,61.5], [57,66,61.5], [57,65,61],
+    [57,65,61], [57,65,61], [57,65,61], [57,65,61], [57,65,61], [57,65,61], [57,65,61], [57,65,61],
+    [57,65,61], [57,65,61], [57,65,61], [57,65,61], [57,65,61], [57,65,61], [57,65,61], [57,65,61],
+    [57,64,60.5], [57,64,60.5], [57,63,60], [57,63,60], [57,64,60.5], null, null, null
+  ];
 
+  const prepareAnalysisLayers = () => {
+    const canvases = [maskCanvas, skeletonCanvas, distanceCanvas, scanCanvas, maxCanvas];
+    if (canvases.some(canvas => !canvas)) return false;
+    const contexts = canvases.map(canvas => canvas.getContext('2d'));
+    if (contexts.some(context => !context || context.isContextLost?.())) return false;
+    const [maskContext, skeletonContext, distanceContext, scanContext, maxContext] = contexts;
     const width = maskCanvas.width;
     const height = maskCanvas.height;
-    const source = new Image();
+    const rows = analysisRows.map(row => row && ({ left: row[0], right: row[1], center: row[2] }));
 
-    source.addEventListener('load', () => {
-      const scratch = document.createElement('canvas');
-      scratch.width = width;
-      scratch.height = height;
-      const scratchContext = scratch.getContext('2d', { willReadFrequently: true });
+    const maskImage = maskContext.createImageData(width, height);
+    const distanceImage = distanceContext.createImageData(width, height);
 
-      /*
-       * The reference is the actual v1 result screenshot supplied for this project.
-       * Its camera image occupies x=22..897 and y=40..915 in the 924×932 capture.
-       */
-      scratchContext.drawImage(source, 22, 40, 875, 875, 0, 0, width, height);
-      const sourcePixels = scratchContext.getImageData(0, 0, width, height).data;
-      const bluePixelsByRow = Array.from({ length: height }, () => []);
-      const columnCounts = new Uint16Array(width);
-      const rowCounts = new Uint16Array(height);
+    rows.forEach((row, y) => {
+      if (!row) return;
+      const left = clamp(Math.floor(row.left) - 1, 0, width - 1);
+      const right = clamp(Math.ceil(row.right) + 1, 0, width - 1);
+      const halfWidth = Math.max(1, (right - left) / 2);
 
-      for (let y = 0; y < height; y += 1) {
-        for (let x = 0; x < width; x += 1) {
-          const offset = ((y * width) + x) * 4;
-          const red = sourcePixels[offset];
-          const green = sourcePixels[offset + 1];
-          const blue = sourcePixels[offset + 2];
-          const isSegmentationBlue = blue > 105 && blue - red > 28 && blue - green > 16;
+      for (let x = left; x <= right; x += 1) {
+        const offset = ((y * width) + x) * 4;
+        maskImage.data[offset] = 22;
+        maskImage.data[offset + 1] = 70;
+        maskImage.data[offset + 2] = 255;
+        maskImage.data[offset + 3] = 212;
 
-          if (isSegmentationBlue) {
-            bluePixelsByRow[y].push(x);
-            columnCounts[x] += 1;
-            rowCounts[y] += 1;
-          }
-        }
-      }
-
-      const straightColumns = new Set();
-      const straightRows = new Set();
-      columnCounts.forEach((count, x) => {
-        if (count > height * 0.48) straightColumns.add(x);
-      });
-      rowCounts.forEach((count, y) => {
-        if (count > width * 0.48) straightRows.add(y);
-      });
-
-      const rows = Array.from({ length: height }, () => null);
-      let previousCenter = null;
-
-      for (let y = height - 1; y >= 0; y -= 1) {
-        const cleaned = bluePixelsByRow[y].filter((x) => {
-          if (straightRows.has(y)) return false;
-          if ([...straightColumns].some((column) => Math.abs(column - x) <= 2)) return false;
-          if (y < 17 && x < 240) return false;
-          return true;
-        });
-        const clusters = getClusters(cleaned).filter((cluster) => cluster.length >= 2);
-        if (!clusters.length) continue;
-
-        const ranked = clusters
-          .map((cluster) => {
-            const left = cluster[0];
-            const right = cluster[cluster.length - 1];
-            const center = (left + right) / 2;
-            const continuity = previousCenter === null ? 0 : Math.abs(center - previousCenter);
-            return { left, right, center, score: cluster.length - (continuity * 1.4) };
-          })
-          .sort((a, b) => b.score - a.score);
-
-        const selected = previousCenter === null
-          ? ranked.sort((a, b) => b.right - b.left - (a.right - a.left))[0]
-          : ranked.find((candidate) => Math.abs(candidate.center - previousCenter) < 34) || ranked[0];
-
-        rows[y] = selected;
-        previousCenter = selected.center;
-      }
-
-      let previousKnown = null;
-      for (let y = 0; y < height; y += 1) {
-        if (rows[y]) {
-          previousKnown = y;
-          continue;
-        }
-
-        let nextKnown = y + 1;
-        while (nextKnown < height && !rows[nextKnown]) nextKnown += 1;
-        if (previousKnown === null || nextKnown >= height || nextKnown - previousKnown > 16) continue;
-
-        const ratio = (y - previousKnown) / (nextKnown - previousKnown);
-        rows[y] = {
-          left: rows[previousKnown].left + ((rows[nextKnown].left - rows[previousKnown].left) * ratio),
-          right: rows[previousKnown].right + ((rows[nextKnown].right - rows[previousKnown].right) * ratio),
-          center: rows[previousKnown].center + ((rows[nextKnown].center - rows[previousKnown].center) * ratio)
-        };
-      }
-
-      const maskContext = maskCanvas.getContext('2d');
-      const maskImage = maskContext.createImageData(width, height);
-      const distanceContext = distanceCanvas.getContext('2d');
-      const distanceImage = distanceContext.createImageData(width, height);
-
-      rows.forEach((row, y) => {
-        if (!row) return;
-        const left = clamp(Math.floor(row.left) - 1, 0, width - 1);
-        const right = clamp(Math.ceil(row.right) + 1, 0, width - 1);
-        const halfWidth = Math.max(1, (right - left) / 2);
-
-        for (let x = left; x <= right; x += 1) {
-          const offset = ((y * width) + x) * 4;
-          maskImage.data[offset] = 22;
-          maskImage.data[offset + 1] = 70;
-          maskImage.data[offset + 2] = 255;
-          maskImage.data[offset + 3] = 212;
-
-          const normalizedDistance = clamp(Math.min(x - left, right - x) / halfWidth, 0, 1);
-          const [red, green, blue] = jet(normalizedDistance);
-          distanceImage.data[offset] = red;
-          distanceImage.data[offset + 1] = green;
-          distanceImage.data[offset + 2] = blue;
-          distanceImage.data[offset + 3] = 230;
-        }
-      });
-
-      maskContext.putImageData(maskImage, 0, 0);
-      distanceContext.putImageData(distanceImage, 0, 0);
-
-      const skeletonContext = skeletonCanvas.getContext('2d');
-      skeletonContext.clearRect(0, 0, width, height);
-      skeletonContext.beginPath();
-      let started = false;
-      rows.forEach((row, y) => {
-        if (!row) {
-          started = false;
-          return;
-        }
-        if (!started) {
-          skeletonContext.moveTo(row.center, y);
-          started = true;
-        } else {
-          skeletonContext.lineTo(row.center, y);
-        }
-      });
-      skeletonContext.strokeStyle = 'rgba(255, 218, 221, 0.98)';
-      skeletonContext.lineWidth = 2;
-      skeletonContext.lineJoin = 'round';
-      skeletonContext.lineCap = 'round';
-      skeletonContext.stroke();
-
-      const candidates = [];
-      for (let y = 14; y < height - 14; y += 13) {
-        const row = rows[y];
-        if (!row) continue;
-        const left = clamp(row.left - 1, 0, width - 1);
-        const right = clamp(row.right + 1, 0, width - 1);
-        candidates.push({ left, right, y, width: right - left });
-      }
-
-      const scanContext = scanCanvas.getContext('2d');
-      scanContext.clearRect(0, 0, width, height);
-      scanContext.strokeStyle = 'rgba(255, 255, 255, 0.86)';
-      scanContext.lineWidth = 1;
-      candidates.forEach((candidate) => {
-        scanContext.beginPath();
-        scanContext.moveTo(candidate.left, candidate.y);
-        scanContext.lineTo(candidate.right, candidate.y);
-        scanContext.stroke();
-      });
-
-      const widest = candidates.reduce((current, candidate) => (
-        !current || candidate.width > current.width ? candidate : current
-      ), null);
-
-      if (widest) {
-        const maxContext = maxCanvas.getContext('2d');
-        maxContext.clearRect(0, 0, width, height);
-        maxContext.strokeStyle = '#ffd45a';
-        maxContext.fillStyle = '#ffd45a';
-        maxContext.lineWidth = 3;
-        maxContext.beginPath();
-        maxContext.moveTo(widest.left, widest.y);
-        maxContext.lineTo(widest.right, widest.y);
-        maxContext.stroke();
-        [widest.left, widest.right].forEach((x) => {
-          maxContext.beginPath();
-          maxContext.arc(x, widest.y, 3, 0, Math.PI * 2);
-          maxContext.fill();
-        });
+        const normalizedDistance = clamp(Math.min(x - left, right - x) / halfWidth, 0, 1);
+        const [red, green, blue] = jet(normalizedDistance);
+        distanceImage.data[offset] = red;
+        distanceImage.data[offset + 1] = green;
+        distanceImage.data[offset + 2] = blue;
+        distanceImage.data[offset + 3] = 230;
       }
     });
 
-    source.src = '/assets/images/crack-monitoring/segmentation-reference.png';
+    maskContext.putImageData(maskImage, 0, 0);
+    distanceContext.putImageData(distanceImage, 0, 0);
+
+    skeletonContext.clearRect(0, 0, width, height);
+    skeletonContext.beginPath();
+    let started = false;
+    rows.forEach((row, y) => {
+      if (!row) {
+        started = false;
+        return;
+      }
+      if (!started) {
+        skeletonContext.moveTo(row.center, y);
+        started = true;
+      } else {
+        skeletonContext.lineTo(row.center, y);
+      }
+    });
+    skeletonContext.strokeStyle = 'rgba(255, 218, 221, 0.98)';
+    skeletonContext.lineWidth = 2;
+    skeletonContext.lineJoin = 'round';
+    skeletonContext.lineCap = 'round';
+    skeletonContext.stroke();
+
+    const candidates = [];
+    for (let y = 14; y < height - 14; y += 13) {
+      const row = rows[y];
+      if (!row) continue;
+      const left = clamp(row.left - 1, 0, width - 1);
+      const right = clamp(row.right + 1, 0, width - 1);
+      candidates.push({ left, right, y, width: right - left });
+    }
+
+    scanContext.clearRect(0, 0, width, height);
+    scanContext.strokeStyle = 'rgba(255, 255, 255, 0.86)';
+    scanContext.lineWidth = 1;
+    candidates.forEach((candidate) => {
+      scanContext.beginPath();
+      scanContext.moveTo(candidate.left, candidate.y);
+      scanContext.lineTo(candidate.right, candidate.y);
+      scanContext.stroke();
+    });
+
+    const widest = candidates.reduce((current, candidate) => (
+      !current || candidate.width > current.width ? candidate : current
+    ), null);
+
+    if (widest) {
+      maxContext.clearRect(0, 0, width, height);
+      maxContext.strokeStyle = '#ffd45a';
+      maxContext.fillStyle = '#ffd45a';
+      maxContext.lineWidth = 3;
+      maxContext.beginPath();
+      maxContext.moveTo(widest.left, widest.y);
+      maxContext.lineTo(widest.right, widest.y);
+      maxContext.stroke();
+      [widest.left, widest.right].forEach((x) => {
+        maxContext.beginPath();
+        maxContext.arc(x, widest.y, 3, 0, Math.PI * 2);
+        maxContext.fill();
+      });
+    }
+    return true;
+  };
+
+  const restoreAnalysisLayers = () => {
+    // A restored 2D context contains an empty bitmap. Do not cache a successful
+    // initialization forever; also repaint after navigation / tab restoration.
+    try {
+      story.dataset.analysisReady = String(prepareAnalysisLayers());
+    } catch {
+      // Context loss during painting must not stop the scroll / recovery hooks.
+      story.dataset.analysisReady = 'false';
+    }
   };
 
   prepareEventWaveform();
   prepareEventSummary();
-  // The original full-resolution reference and canvas work belong to this
-  // chapter, not to the opening / other project animations.
-  let analysisPrepared = false;
-  const prepareWhenNear = () => {
-    if (analysisPrepared) return;
-    analysisPrepared = true;
-    prepareAnalysisLayers();
-  };
-  const near = new IntersectionObserver(entries => {
-    if (entries.some(entry => entry.isIntersecting)) {
-      prepareWhenNear(); near.disconnect();
+  [maskCanvas, skeletonCanvas, distanceCanvas, scanCanvas, maxCanvas].forEach(canvas => {
+    if (!canvas) return;
+    canvas.addEventListener('contextlost', () => { story.dataset.analysisReady = 'false'; });
+    canvas.addEventListener('contextrestored', () => {
+      restoreAnalysisLayers();
+      queueUpdate();
+    });
+  });
+  window.addEventListener('pageshow', () => {
+    restoreAnalysisLayers();
+    morphGeometry = null;
+    queueUpdate();
+  });
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') {
+      restoreAnalysisLayers();
+      queueUpdate();
     }
-  }, {rootMargin: '900px 0px'});
-  near.observe(story);
+  });
   updateFromScroll();
 
   window.addEventListener('scroll', queueUpdate, { passive: true });
