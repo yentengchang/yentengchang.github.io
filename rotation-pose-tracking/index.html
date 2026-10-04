@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en" class="rpt-document">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A compact technical contribution by Yen-Teng Chang: ArUco marker placement, experiment recording, pose tracking, and synchronized motion histories for a rotating isolation mechanism.">
+  <title>Rotation Pose Tracking | Yen-Teng Chang</title>
+  <link rel="stylesheet" href="/assets/wireframe.css">
+  <link rel="stylesheet" href="/assets/styles/rotation-pose-tracking.css?v=20261004e">
+  <script src="/assets/scripts/rotation-pose-mechanism.js?v=20261004e" defer></script>
+  <script src="/assets/scripts/rotation-pose-tracking.js?v=20261004e" defer></script>
+</head>
+<body class="rpt-page">
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <header class="site-header">
+    <a class="site-name" href="/#top">Yen-Teng Chang</a>
+    <nav class="desktop-nav" aria-label="Primary navigation">
+      <a href="/#projects">Projects</a><a href="/#publications">Publications</a><a href="/#experience">Experience</a><a href="/#awards">Awards</a><a href="/#contact">Contact</a>
+    </nav>
+    <a class="header-cv" href="/#cv">CV <span aria-hidden="true">↗</span></a>
+    <details class="mobile-menu"><summary aria-label="Open navigation">Menu</summary><nav aria-label="Mobile navigation"><a href="/#projects">Projects</a><a href="/#publications">Publications</a><a href="/#experience">Experience</a><a href="/#awards">Awards</a><a href="/#contact">Contact</a></nav></details>
+  </header>
+  <main id="main-content">
+    <section class="rpt-hero rpt-shell" aria-labelledby="rpt-title">
+      <a class="rpt-back" href="/#all-projects"><span aria-hidden="true">←</span> All projects</a>
+      <p class="rpt-kicker">Technical contribution</p>
+      <div class="rpt-intro">
+        <h1 id="rpt-title">Rotation Pose<br>Tracking</h1>
+        <div><p class="rpt-lead">Turning recorded motion into pose histories.</p><p>I helped a labmate track the motion of a rotating isolation mechanism: placing ArUco markers, recording the experiment, running computer-vision pose tracking, and visualizing the results.</p></div>
+      </div>
+    </section>
+
+    <section class="rpt-device rpt-shell" aria-labelledby="rpt-device-title">
+      <div class="rpt-device-copy"><p class="rpt-kicker">About the device</p><h2 id="rpt-device-title">A sliding platform.<br>Two rotating disks.</h2><p>The upper platform rides on rollers above two horizontal disks. L-shaped slots beneath the platform engage vertical pins positioned away from the disks’ rotation axes.</p><p>Relative sideways movement brings a pin against a slot wall, turning its disk. In the opposite direction, the other pin–slot pair engages. Accelerating or decelerating the disks requires torque, producing an inertial response through the linkage.</p></div>
+      <figure class="rpt-motion rpt-mechanism rpt-assembly" data-rpt-mechanism>
+        <div class="rpt-motion-heading"><span>Inside the mechanism</span><span>Reconstructed view</span></div>
+        <div class="rpt-assembly-views" data-rpt-assembly-views hidden><div role="group" aria-label="Mechanism view"><button type="button" data-rpt-assembly-view="assembly" aria-pressed="true">Assembly</button><button type="button" data-rpt-assembly-view="detail" aria-pressed="false">Pin &amp; slot</button></div><label data-rpt-cutaway-label><input type="checkbox" data-rpt-cutaway checked> Reveal linkage</label></div>
+        <div class="rpt-assembly-scene" data-rpt-assembly-scene><img src="/assets/images/rotation-pose-tracking/mechanism-assembly.svg" alt="Reconstructed assembly with an upper platform on rollers, two horizontal disks, eccentric vertical pins, and L-shaped slots beneath the translucent platform." width="900" height="560"></div>
+        <ul class="rpt-assembly-legend" aria-label="Mechanism components"><li><i class="rpt-key-platform" aria-hidden="true"></i>Upper platform &amp; rollers</li><li><i class="rpt-key-slot" aria-hidden="true"></i>L-shaped slots</li><li><i class="rpt-key-pin" aria-hidden="true"></i>Disk pins</li><li><i class="rpt-key-disk" aria-hidden="true"></i>Disks &amp; centre axes</li></ul>
+        <div class="rpt-mechanism-story"><strong data-rpt-mechanism-stage>Platform and linkage</strong><p data-rpt-mechanism-explanation>The translucent platform reveals the slots and disk pins beneath it.</p></div>
+        <div class="rpt-motion-controls" data-rpt-mechanism-controls hidden><button type="button" data-rpt-mechanism-play aria-pressed="false">Play mechanism</button><label><span class="rpt-sr-only">Mechanism demonstration progress</span><input type="range" min="0" max="1" step="0.001" value="0" data-rpt-mechanism-seek aria-label="Mechanism demonstration progress"></label></div>
+        <figcaption>Mechanism reconstruction from the experiment images. Dimensions and motion are illustrative; a translucent platform reveals the linkage.</figcaption>
+      </figure>
+    </section>
+
+    <section class="rpt-observation" aria-labelledby="rpt-observation-title">
+      <div class="rpt-shell">
+        <div class="rpt-section-heading"><div><p class="rpt-kicker">Recording &amp; results</p><h2 id="rpt-observation-title">One recording. One time axis.</h2></div><p>Watch the mechanism alongside its estimated rotation and translation. Play, pause, or scrub to examine the same instant in all three views.</p></div>
+        <figure class="rpt-evidence">
+          <div class="rpt-player" data-rpt-player>
+            <div class="rpt-recording-label"><span>TCU052E · 180 gal · Right view</span><span class="rpt-tag">Recorded experiment</span></div>
+            <div class="rpt-video-wrap">
+              <video id="rpt-video" controls playsinline preload="metadata" poster="/assets/images/rotation-pose-tracking/poster.webp" aria-label="Annotated recording of the rotating isolation mechanism">
+                <source src="/assets/video/rotation-pose-tracking/tracking.mp4" type="video/mp4">
+                <p><a href="/assets/video/rotation-pose-tracking/tracking.mp4">Download the recording</a>.</p>
+              </video>
+              <button type="button" class="rpt-video-play" data-rpt-video-play aria-controls="rpt-video" hidden>Play recording</button>
+            </div>
+            <div class="rpt-plots">
+              <section class="rpt-plot" data-rpt-plot="RZ" aria-labelledby="rpt-rz-title"><div class="rpt-plot-heading"><h3 id="rpt-rz-title">RZ <span>Rotation</span></h3><output data-rpt-value="RZ" aria-label="Current RZ rotation">— °</output></div><div class="rpt-chart"><img src="/assets/images/rotation-pose-tracking/plot_RZ.png" alt="Full RZ rotation history in degrees, with visible marker count on the secondary axis." width="3000" height="1500"></div></section>
+              <section class="rpt-plot" data-rpt-plot="X" aria-labelledby="rpt-x-title"><div class="rpt-plot-heading"><h3 id="rpt-x-title">X <span>Displacement</span></h3><output data-rpt-value="X" aria-label="Current X displacement">— mm</output></div><div class="rpt-chart"><img src="/assets/images/rotation-pose-tracking/plot_X.png" alt="Full X translation history in millimetres, with visible marker count on the secondary axis." width="3000" height="1500"></div></section>
+            </div>
+            <div class="rpt-controls" data-rpt-controls hidden>
+              <div class="rpt-control-top"><button type="button" class="rpt-play" data-rpt-play aria-controls="rpt-video">Play</button><button type="button" data-rpt-replay aria-controls="rpt-video">Replay</button><label class="rpt-speed">Speed <select data-rpt-speed aria-label="Playback speed"><option value="0.25">0.25×</option><option value="0.5">0.5×</option><option value="1" selected>1×</option><option value="2">2×</option></select></label><button type="button" data-rpt-fullscreen hidden>Full screen</button><span class="rpt-time" data-rpt-time>0:00.00 / 1:49.49</span></div>
+              <label class="rpt-scrubber"><span class="rpt-sr-only">Seek through the recording</span><input type="range" min="0" max="109.491486" step="0.01" value="0" data-rpt-seek aria-label="Recording time"></label>
+              <div class="rpt-control-bottom"><span class="rpt-legend"><i aria-hidden="true"></i> Visible marker count <output data-rpt-count>4</output></span><span data-rpt-status role="status">Ready to play</span></div>
+            </div>
+          </div>
+          <figcaption>Curves are redrawn from the experiment’s result CSV. The cursor follows the recording time; chart gaps retain missing samples. The recording keeps its original tracking overlays.</figcaption>
+        </figure>
+        <noscript><p class="rpt-note">The recording and original plots remain available. Enable JavaScript to synchronize the chart cursors.</p></noscript>
+        <p class="rpt-note" data-rpt-load-note hidden></p>
+      </div>
+    </section>
+
+    <section class="rpt-method rpt-shell" aria-labelledby="rpt-method-title">
+      <div class="rpt-section-heading"><div><p class="rpt-kicker">Tracking method</p><h2 id="rpt-method-title">Known geometry.<br>Frame-by-frame pose.</h2></div><p>Four markers define a board on the disk. Their image corners, together with camera calibration and the measured geometry, provide the inputs for pose estimation.</p></div>
+      <div class="rpt-method-grid">
+        <figure class="rpt-geometry">
+          <svg viewBox="0 0 520 420" role="img" aria-labelledby="rpt-geometry-title rpt-geometry-desc">
+            <title id="rpt-geometry-title">Marker geometry on the rotating disk</title><desc id="rpt-geometry-desc">Four marker centres lie at 0, 90, 180, and 270 degrees around the disk centre. Radius R is 225 millimetres and marker edge L is 40 millimetres in the selected configuration. Diagram not to scale.</desc>
+            <circle cx="260" cy="210" r="158" fill="#fff" stroke="#d8d8dc" stroke-width="2"/><circle cx="260" cy="210" r="120" fill="none" stroke="#d8d8dc" stroke-dasharray="4 6"/>
+            <path d="M260 65V355M115 210H405" fill="none" stroke="#e7e7eb" stroke-width="1.5"/>
+            <path d="M260 210H355" fill="none" stroke="#0066cc" stroke-width="2"/><circle cx="260" cy="210" r="4" fill="#0066cc"/>
+            <g fill="#1d1d1f"><rect x="363" y="193" width="34" height="34" rx="1"/><rect x="243" y="73" width="34" height="34" rx="1"/><rect x="123" y="193" width="34" height="34" rx="1"/><rect x="243" y="313" width="34" height="34" rx="1"/></g>
+            <g fill="none" stroke="#fff" stroke-width="2"><rect x="369" y="199" width="22" height="22"/><rect x="249" y="79" width="22" height="22"/><rect x="129" y="199" width="22" height="22"/><rect x="249" y="319" width="22" height="22"/></g>
+            <g fill="#6e6e73" font-size="15" text-anchor="middle"><text x="424" y="215">0°</text><text x="260" y="49">90°</text><text x="95" y="215">180°</text><text x="260" y="383">270°</text></g>
+            <g fill="#0066cc" font-size="15"><text x="292" y="195">R = 225 mm</text></g><path d="M363 236H397M363 232V240M397 232V240" stroke="#6e6e73" fill="none"/><text x="380" y="263" fill="#6e6e73" text-anchor="middle" font-size="14">L = 40 mm</text><text x="260" y="242" fill="#6e6e73" text-anchor="middle" font-size="14">Disk centre</text>
+          </svg>
+          <figcaption>Marker-centre layout used by the tracker. Schematic, not to scale; squares indicate marker positions.</figcaption>
+        </figure>
+        <ol class="rpt-steps">
+          <li><span>01</span><div><h3>Calibrate the camera</h3><p>ChArUco observations establish the camera matrix and lens-distortion parameters.</p></div></li>
+          <li><span>02</span><div><h3>Match marker corners</h3><p>Detect ArUco IDs and associate their image corners with the disk’s known marker geometry.</p></div></li>
+          <li><span>03</span><div><h3>Estimate relative motion</h3><p>Solve the board pose, then express translation and rotation relative to a reference frame.</p></div></li>
+          <li><span>04</span><div><h3>Inspect the histories</h3><p>Export six pose channels and marker counts to CSV, then plot them against recording time.</p></div></li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="rpt-output" aria-labelledby="rpt-output-title"><div class="rpt-shell rpt-output-grid"><div><p class="rpt-kicker">Output</p><h2 id="rpt-output-title">A record you can inspect.</h2><p>The CSV contains X, Y, Z, RX, RY, RZ, and the number of visible markers for each frame. Here, RZ describes relative rotation about the disk normal; X follows the principal horizontal translation direction estimated from the trajectory.</p><p class="rpt-note">These are vision-based pose estimates. Marker count provides context for visibility; it is not an accuracy score.</p></div><div class="rpt-downloads"><a href="data/results.csv" download><span><strong>Result CSV</strong><small>Full six-DOF record · TCU052E_180gal_Right</small></span><span aria-hidden="true">↓</span></a><a href="/assets/images/rotation-pose-tracking/plot_RZ.png" download><span><strong>Original RZ plot</strong><small>Rotation history and marker count</small></span><span aria-hidden="true">↓</span></a><a href="/assets/images/rotation-pose-tracking/plot_X.png" download><span><strong>Original X plot</strong><small>Translation history and marker count</small></span><span aria-hidden="true">↓</span></a></div></div></section>
+    <footer class="rpt-footer rpt-shell"><a href="/#all-projects">View all projects <span aria-hidden="true">↗</span></a><span>Yen-Teng Chang</span></footer>
+  </main>
+</body>
+</html>

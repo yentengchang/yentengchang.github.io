@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Yen-Teng Chang's operations automation for scheduled monitoring-file backups to a research NAS and email alerts for missing or late data.">
+  <title>Monitoring Data Automation | Yen-Teng Chang</title>
+  <link rel="stylesheet" href="/assets/wireframe.css">
+  <link rel="stylesheet" href="/assets/styles/monitoring-data-automation.css?v=20261004a">
+</head>
+<body class="mda-page">
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <header class="site-header">
+    <a class="site-name" href="/#top">Yen-Teng Chang</a>
+    <nav class="desktop-nav" aria-label="Primary navigation">
+      <a href="/#projects">Projects</a>
+      <a href="/#publications">Publications</a>
+      <a href="/#experience">Experience</a>
+      <a href="/#awards">Awards</a>
+      <a href="/#contact">Contact</a>
+    </nav>
+    <a class="header-cv" href="/#cv">CV <span aria-hidden="true">↗</span></a>
+    <details class="mobile-menu">
+      <summary aria-label="Open navigation">Menu</summary>
+      <nav aria-label="Mobile navigation">
+        <a href="/#projects">Projects</a>
+        <a href="/#publications">Publications</a>
+        <a href="/#experience">Experience</a>
+        <a href="/#awards">Awards</a>
+        <a href="/#contact">Contact</a>
+      </nav>
+    </details>
+  </header>
+  <main id="main-content" class="mda-shell">
+    <section class="mda-intro" aria-labelledby="mda-title">
+      <a class="mda-back" href="/#all-projects"><span aria-hidden="true">←</span> Projects &amp; Technical Work</a>
+      <p class="mda-kicker">Operations automation</p>
+      <h1 id="mda-title">Monitoring Data<br>Automation</h1>
+      <p class="mda-lead">Scheduled backups.<br>Exceptions brought to attention.</p>
+      <p class="mda-summary">New monitoring files are transferred from a remote computer to a research NAS over SSH/SCP. Missing or late data trigger an email notification.</p>
+    </section>
+
+    <section class="mda-workflow" aria-labelledby="mda-workflow-title">
+      <div class="mda-section-heading">
+        <h2 id="mda-workflow-title">From source to backup.</h2>
+        <p>Routine transfers follow a scheduled workflow; exceptions take a separate notification path.</p>
+      </div>
+      <figure class="mda-process" aria-describedby="mda-caption">
+        <ol class="mda-steps" aria-label="Backup workflow">
+          <li class="mda-step">
+            <p class="mda-step-label">Source</p>
+            <svg class="mda-icon" viewBox="0 0 48 48" aria-hidden="true"><path d="M10 8h19l9 9v23H10zM29 8v10h9M17 26h14M17 32h10"/></svg>
+            <h3>Remote station</h3>
+            <p>Monitoring files in a designated source folder.</p>
+          </li>
+          <li class="mda-step mda-check">
+            <p class="mda-step-label">Scheduled check</p>
+            <svg class="mda-icon" viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="16"/><path d="M24 14v11l7 4"/></svg>
+            <h3>Check for new data</h3>
+            <p>Check file availability and whether expected data are late.</p>
+          </li>
+          <li class="mda-step">
+            <p class="mda-step-label">Transfer</p>
+            <svg class="mda-icon" viewBox="0 0 48 48" aria-hidden="true"><path d="M8 16h31m-7-7 7 7-7 7M40 32H9m7-7-7 7 7 7"/></svg>
+            <h3>Copy to research NAS</h3>
+            <p>Transfer the new files using SSH/SCP.</p>
+          </li>
+          <li class="mda-step mda-verify">
+            <p class="mda-step-label">Verify</p>
+            <svg class="mda-icon" viewBox="0 0 48 48" aria-hidden="true"><rect x="8" y="8" width="32" height="32" rx="6"/><path d="m15 24 6 6 13-13"/></svg>
+            <h3>Check transfer results</h3>
+            <p>Inspect command outcomes for transfer errors.</p>
+            <span class="mda-outcome">Normal path · Files backed up</span>
+          </li>
+        </ol>
+        <div class="mda-exceptions">
+          <div class="mda-exception-sources" aria-label="Conditions that trigger an alert">
+            <p><span class="mda-branch-dot" aria-hidden="true"></span> Scheduled check <span aria-hidden="true">→</span> Missing or late data</p>
+            <p><span class="mda-branch-dot" aria-hidden="true"></span> Verify <span aria-hidden="true">→</span> Transfer error</p>
+          </div>
+          <div class="mda-alert">
+            <svg class="mda-alert-icon" viewBox="0 0 48 48" aria-hidden="true"><rect x="6" y="11" width="36" height="26" rx="4"/><path d="m7 13 17 14 17-14"/></svg>
+            <div><p class="mda-step-label">Alert · Exception path</p><h3>Email notification</h3><p>Bring missing data, delays, or transfer errors to attention.</p></div>
+          </div>
+        </div>
+        <figcaption id="mda-caption">Process visualization · Neutral labels represent the backup and notification workflow.</figcaption>
+      </figure>
+    </section>
+
+    <section class="mda-contribution" aria-labelledby="mda-contribution-title">
+      <div><p class="mda-kicker">Technical contribution</p><h2 id="mda-contribution-title">Connecting the routine tasks.</h2></div>
+      <dl class="mda-tools">
+        <div><dt>Batch + SSH/SCP</dt><dd>Coordinate file checks, remote transfers, and command-result handling.</dd></div>
+        <div><dt>File naming</dt><dd>Rename MATLAB data files as part of the file-handling workflow.</dd></div>
+        <div><dt>PowerShell</dt><dd>Send email notifications when the workflow detects an exception.</dd></div>
+      </dl>
+    </section>
+    <footer class="mda-footer"><span>Yen-Teng Chang</span><a class="mda-text-link" href="/#all-projects">View all projects <span aria-hidden="true">↗</span></a></footer>
+  </main>
+</body>
+</html>

@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Yen-Teng Chang’s engineering workflow automation: translating supplier reinforcement drawings into crew-oriented field sheets with AutoLISP, alongside Excel-based material preparation.">
+  <title>Drawing Automation | Yen-Teng Chang</title>
+  <link rel="stylesheet" href="/assets/wireframe.css">
+  <link rel="stylesheet" href="/assets/styles/drawing-automation.css">
+  <script src="/assets/scripts/drawing-automation.js" defer></script>
+</head>
+<body class="da-page">
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <header class="site-header">
+    <a class="site-name" href="/#top">Yen-Teng Chang</a>
+    <nav class="desktop-nav" aria-label="Primary navigation"><a href="/#projects">Projects</a><a href="/#publications">Publications</a><a href="/#experience">Experience</a><a href="/#awards">Awards</a><a href="/#contact">Contact</a></nav>
+    <a class="header-cv" href="/#cv">CV <span aria-hidden="true">↗</span></a>
+    <details class="mobile-menu"><summary aria-label="Open navigation">Menu</summary><nav aria-label="Mobile navigation"><a href="/#projects">Projects</a><a href="/#publications">Publications</a><a href="/#experience">Experience</a><a href="/#awards">Awards</a><a href="/#contact">Contact</a></nav></details>
+  </header>
+  <main id="main-content">
+    <section class="da-hero da-shell" aria-labelledby="da-title">
+      <a class="da-back" href="/#all-projects">← All projects</a>
+      <p class="da-kicker">Workflow automation</p>
+      <h1 id="da-title">Drawing Automation</h1>
+      <p class="da-lead">From reinforcement drawings<br class="da-desktop-break"> to field-ready instructions.</p>
+      <p class="da-intro">I automated repetitive drafting and spreadsheet work during my engineering internship, translating supplier information into the drawings and material records used by the construction team.</p>
+      <dl class="da-facts">
+        <div><dt>Context</dt><dd>Chuan Gao · 2023–2024</dd></div>
+        <div><dt>Tools</dt><dd>AutoLISP · Excel VBA</dd></div>
+        <div><dt>Outcome</dt><dd>Tools remained in production use</dd></div>
+      </dl>
+    </section>
+
+    <section class="da-source da-shell" aria-labelledby="da-source-title">
+      <div class="da-source-copy">
+        <p class="da-kicker">01 / The input</p>
+        <h2 id="da-source-title">Detailed drawings.<br>Repeated translation.</h2>
+        <p>Supplier reinforcement drawings carry bar marks, sizes, shapes, lengths and quantities. The crew needs another view: where to work, which bars to place, and how to assemble each beam or column.</p>
+        <p>The automation reorganized that information around the crew’s drawing conventions, reducing repeated manual redrafting.</p>
+      </div>
+      <figure class="da-source-figure">
+        <div class="da-source-image"><img src="/assets/images/drawing-automation/supplier-beam-detail.webp" width="1600" height="1022" alt="Cropped supplier beam reinforcement drawing with plan, upper and lower bar groups, and stirrup schedules"></div>
+        <figcaption>Supplied reference drawing · beam reinforcement detail. Technical content cropped from PDF page 15; this is an input reference.</figcaption>
+      </figure>
+    </section>
+
+    <section class="da-process" aria-labelledby="da-process-title">
+      <div class="da-shell">
+        <div class="da-section-heading">
+          <div><p class="da-kicker">02 / The translation</p><h2 id="da-process-title">Keep the data.<br>Change how it is read.</h2></div>
+          <p>The workflow identified information in supplier drawings, organized it as structured data, then used AutoLISP to draw it in a format familiar to the crew.</p>
+        </div>
+        <div class="da-walkthrough" data-da-walkthrough data-da-state="3">
+          <div class="da-process-controls da-js-only" aria-label="Illustrative workflow controls">
+            <div class="da-steps" role="group" aria-label="Workflow steps">
+              <button type="button" data-da-step="0" aria-pressed="false"><span>1</span>Read</button>
+              <button type="button" data-da-step="1" aria-pressed="false"><span>2</span>Structure</button>
+              <button type="button" data-da-step="2" aria-pressed="false"><span>3</span>Translate</button>
+              <button type="button" data-da-step="3" aria-pressed="true"><span>4</span>Draw</button>
+            </div>
+            <div class="da-playback"><button type="button" data-da-play>Play</button><button type="button" data-da-replay>Replay <span aria-hidden="true">↻</span></button></div>
+          </div>
+          <div class="da-process-grid">
+            <div class="da-stage da-stage-source">
+              <p class="da-stage-label">Supplier notation</p>
+              <img src="/assets/images/drawing-automation/supplier-bar-group.webp" width="447" height="217" loading="lazy" alt="Source bar group B35: 10-D25, cutting length 7810 millimetres, shape A2 with segment lengths 350 and 7460 millimetres">
+              <div class="da-source-notation"><strong>B35</strong><span>10–D25</span><span>L = 7810 mm</span></div>
+              <p class="da-stage-note">Read the bar group and its associated dimensions.</p>
+            </div>
+            <div class="da-stage da-stage-record">
+              <p class="da-stage-label">Structured record</p>
+              <pre aria-label="Illustrative JSON record for bar group B35"><code>{
+  <span>"bar_mark"</span>: "B35",
+  <span>"quantity"</span>: <b>10</b>,
+  <span>"source_size"</span>: <b>"D25"</b>,
+  <span>"cut_length_mm"</span>: <b>7810</b>,
+  <span>"shape"</span>: "A2",
+  <span>"segments_mm"</span>: [350, 7460]
+}</code></pre>
+              <p class="da-stage-note">Separate the attributes before placing the drawing elements.</p>
+            </div>
+            <div class="da-stage da-stage-drawing">
+              <p class="da-stage-label">Crew-facing notation</p>
+              <div class="da-bar-paper">
+                <div class="da-paper-heading"><strong>B35</strong><span>Bar group</span></div>
+                <p class="da-bar-callout">10 × <strong>#8</strong></p>
+                <svg viewBox="0 0 280 92" role="img" aria-label="Schematic bent-bar shape with one short leg and a longer straight segment">
+                  <path class="da-bar-base" d="M32 28V65H250"/>
+                  <path class="da-bar-trace" d="M32 28V65H250"/>
+                  <path class="da-bar-dimension" d="M32 80H250M32 75V85M250 75V85"/>
+                  <text x="141" y="55" text-anchor="middle">Shape A2</text>
+                </svg>
+                <div class="da-cut-length"><span>Cut length</span><strong>781 cm</strong></div>
+              </div>
+              <p class="da-stage-note"><span class="da-size-mapping">D25 → #8</span> · Convert the notation and place the labels.</p>
+            </div>
+          </div>
+          <p class="da-state-description" data-da-description>AutoLISP places the bar geometry and annotations using the crew’s drawing layout.</p>
+          <p class="da-sr-only" data-da-announcement role="status" aria-live="polite"></p>
+        </div>
+        <p class="da-caption">Illustrative workflow. B35 values are transcribed from the supplied drawing; the JSON record and crew layout are reconstructed. Bar shape is schematic, not to scale.</p>
+        <div class="da-rules">
+          <div><h3>Match the member</h3><p>Keep the floor, member ID and bar mark distinct. A grouped quantity must not become a per-member quantity.</p></div>
+          <div><h3>Use the crew’s language</h3><p>Show # bar sizes, bar counts, stirrup forms and spacing, with lap, hook and coupler details where required.</p></div>
+          <div><h3>Carry the engineering detail</h3><p>Lap lengths, hooks and connection locations come from the project drawings and approved requirements.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="da-outputs da-shell" aria-labelledby="da-outputs-title">
+      <div class="da-section-heading">
+        <div><p class="da-kicker">03 / The output</p><h2 id="da-outputs-title">A location plan.<br>A sheet for each member.</h2></div>
+        <p>The plan tells the crew where to work. Individual beam and column sheets bring the reinforcement instructions together, rather than leaving them scattered across the supplier drawing.</p>
+      </div>
+      <figure class="da-sheet-set">
+        <div class="da-sheet-grid">
+          <div class="da-location-sheet">
+            <div class="da-sheet-title"><span>Location plan</span><strong>Find the member</strong></div>
+            <svg viewBox="0 0 270 220" role="img" aria-label="Illustrative floor plan with a selected beam and a column located at its end">
+              <g class="da-plan-grid"><path d="M34 35H237M34 107H237M34 179H237M34 35V179M135 35V179M237 35V179"/></g>
+              <g class="da-plan-columns"><rect x="27" y="28" width="14" height="14"/><rect x="128" y="28" width="14" height="14"/><rect x="230" y="28" width="14" height="14"/><rect x="27" y="100" width="14" height="14"/><rect x="128" y="100" width="14" height="14"/><rect x="230" y="100" width="14" height="14"/><rect x="27" y="172" width="14" height="14"/><rect x="128" y="172" width="14" height="14"/><rect x="230" y="172" width="14" height="14"/></g>
+              <path class="da-plan-selected" d="M42 107H128"/>
+              <rect class="da-plan-selected-column" x="126" y="98" width="18" height="18"/>
+              <text x="85" y="91" text-anchor="middle">Beam</text><path class="da-leader" d="M147 113L170 135H225"/><text x="180" y="155">Column</text>
+            </svg>
+            <p>Floor + member ID</p>
+          </div>
+          <div class="da-beam-sheet">
+            <div class="da-sheet-title"><span>Individual beam</span><strong>Place the reinforcement</strong></div>
+            <svg viewBox="0 0 460 220" role="img" aria-label="Reconstructed beam sheet showing main-bar groups, lap location, end hooks and a separate stirrup instruction band">
+              <rect class="da-concrete" x="22" y="46" width="416" height="117"/>
+              <g class="da-rebar"><path d="M34 88V61H190V80M225 80V61H426V88M34 119H255M190 132H337M288 119H426V146"/></g>
+              <g class="da-leader"><path d="M64 50V28H123M426 80V28H332M226 144V167"/></g>
+              <text x="79" y="22">Count × # size</text><text x="334" y="22">End hook</text>
+              <text x="72" y="105">Main bars</text><text x="226" y="190" text-anchor="middle">Lap location + length</text>
+              <path class="da-lap-bracket" d="M190 149V154H255V149"/>
+            </svg>
+            <p>Stirrup shape · count · spacing</p>
+          </div>
+          <div class="da-column-sheet">
+            <div class="da-sheet-title"><span>Individual column</span><strong>Show the connections</strong></div>
+            <svg viewBox="0 0 230 220" role="img" aria-label="Reconstructed column sheet showing main bars and couplers, alongside a schematic tied cross section">
+              <g class="da-rebar"><path d="M42 35H65V102M65 117V190H42M83 35H106V102M106 117V190H83"/></g>
+              <g class="da-couplers"><rect x="58" y="102" width="14" height="15" rx="1"/><rect x="99" y="102" width="14" height="15" rx="1"/></g>
+              <path class="da-leader" d="M112 111H155"/><text x="120" y="132">Couplers</text>
+              <rect class="da-concrete" x="151" y="33" width="62" height="62"/><rect class="da-stirrup" x="162" y="44" width="40" height="40"/>
+              <g class="da-rebar-dots"><circle cx="162" cy="44" r="3"/><circle cx="182" cy="44" r="3"/><circle cx="202" cy="44" r="3"/><circle cx="162" cy="64" r="3"/><circle cx="202" cy="64" r="3"/><circle cx="162" cy="84" r="3"/><circle cx="182" cy="84" r="3"/><circle cx="202" cy="84" r="3"/></g>
+              <text x="182" y="24" text-anchor="middle">Section</text>
+            </svg>
+            <p>Main bars · ties · joints</p>
+          </div>
+        </div>
+        <figcaption>Reconstructed drawing layouts based on recollection. Schematic geometry shows the information arrangement, not an issued construction drawing.</figcaption>
+      </figure>
+
+      <div class="da-materials">
+        <div class="da-materials-copy"><p class="da-kicker">Alongside the drawings</p><h3>Turn dimensions<br>into material quantities.</h3><p>Spreadsheet work organized dimensions and counts into material lists and pricing preparation. This supplied steel-mesh workbook shows the quantity calculation: specification lookup, weight totals, loss allowance and standard-panel demand.</p></div>
+        <figure class="da-materials-figure">
+          <div class="da-materials-paper">
+            <div class="da-materials-title"><strong>Steel-mesh quantity example</strong><span>13 mm · 150 × 150 mm spacing</span></div>
+            <table><caption class="da-sr-only">Two steel-mesh entries from the supplied workbook’s 4F M1 lowered-floor sheet</caption><thead><tr><th scope="col">Panel size</th><th scope="col">Count</th><th scope="col">kg / panel</th><th scope="col">Total · t</th></tr></thead><tbody><tr><th scope="row">4.0 × 2.4 m</th><td>26</td><td>133.344</td><td>3.466944</td></tr><tr><th scope="row">3.0 × 2.4 m</th><td>2</td><td>100.008</td><td>0.200016</td></tr></tbody></table>
+            <div class="da-quantity-flow"><div><span>Net weight</span><strong>3.667 <small>t</small></strong></div><b aria-hidden="true">→</b><div><span>Loss allowance</span><strong>5 <small>%</small></strong></div><b aria-hidden="true">→</b><div><span>Standard panels</span><strong>29</strong></div></div>
+            <p class="da-quantity-note">3.66696 t ÷ 0.95 ÷ 0.133344 t per standard panel, rounded up.<br>Standard panel: 4.0 × 2.4 m.</p>
+          </div>
+          <figcaption>Actual workbook values · a separate 4F steel-mesh example. Mass-based procurement estimate; the supplied sheet covers quantities, not unit prices.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="da-close da-shell" aria-labelledby="da-role-title">
+      <div><p class="da-kicker">My contribution</p><h2 id="da-role-title">Automate the repeated work.<br>Keep the engineering intent.</h2><p>I developed AutoLISP and Excel VBA tools for drafting and spreadsheet tasks during my site engineering internship. The tools remained in production use after the internship.</p><p class="da-caption">The workflow and layouts here are reconstructed from supplied reference drawings, a workbook and recollection. Original scripts and generated CAD files are currently unavailable.</p></div>
+      <a class="da-end-link" href="/#all-projects">View all projects <span aria-hidden="true">↗</span></a>
+    </section>
+  </main>
+  <footer class="site-footer"><span>Yen-Teng Chang</span><nav aria-label="Footer navigation"><a href="/#projects">Projects</a><a href="/#publications">Publications</a><a href="/#contact">Contact</a></nav><span>© 2026</span></footer>
+</body>
+</html>

@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Guide field inspection with a planned route and clear face statuses to address missed or repeated checks. Concept demonstration; field testing pending.">
+  <title>3D-Assisted Field Defect Logging | Yen-Teng Chang</title>
+  <link rel="stylesheet" href="/assets/wireframe.css">
+  <link rel="stylesheet" href="/assets/styles/3d-assisted-field-defect-logging.css">
+  <script src="/assets/scripts/3d-assisted-field-defect-logging.js" defer></script>
+</head>
+<body class="df-page">
+  <a class="skip-link" href="#df-main">Skip to content</a>
+  <header class="site-header">
+    <a class="site-name" href="/#top">Yen-Teng Chang</a>
+    <nav class="desktop-nav" aria-label="Primary navigation">
+      <a href="/#projects">Projects</a><a href="/#publications">Publications</a><a href="/#experience">Experience</a><a href="/#awards">Awards</a><a href="/#contact">Contact</a>
+    </nav>
+    <a class="header-cv" href="/#cv">CV <span aria-hidden="true">↗</span></a>
+    <details class="mobile-menu"><summary aria-label="Open navigation">Menu</summary><nav aria-label="Mobile navigation"><a href="/#projects">Projects</a><a href="/#publications">Publications</a><a href="/#experience">Experience</a><a href="/#awards">Awards</a><a href="/#contact">Contact</a></nav></details>
+  </header>
+  <main id="df-main">
+    <section class="df-shell df-hero" aria-labelledby="df-title">
+      <a class="df-back" href="/#all-projects">← All projects &amp; technical work</a>
+      <p class="df-kicker df-proposal">Concept proposal</p>
+      <h1 id="df-title">3D-Assisted Field<br>Defect Logging</h1>
+      <p class="df-lead">Without a planned route and clear cues, areas can be missed or checked twice. Use the 3D model to guide and track inspection.</p>
+    </section>
+
+    <section class="df-shell df-problem" aria-labelledby="df-problem-title">
+      <div class="df-problem-copy">
+        <p class="df-kicker">The field problem</p>
+        <h2 id="df-problem-title">Plan the route.<br>Track what’s checked.</h2>
+        <p>A planned route shows where to inspect next. Face-by-face status keeps completed, unchecked and obscured areas visible.</p>
+      </div>
+      <figure class="df-field-figure">
+        <div class="df-field-photo"><img src="/assets/images/3d-assisted-field-defect-logging/field-context.jpg" width="1800" height="1350" alt="Repeated arched steel roof members above an indoor tennis court, viewed from the ground." decoding="async"></div>
+        <figcaption>Steel roof · Ground-level inspection view</figcaption>
+      </figure>
+    </section>
+
+    <section class="df-workflow" id="df-workflow" aria-labelledby="df-workflow-title">
+      <div class="df-shell">
+        <div class="df-heading-row"><div><p class="df-kicker">Field workflow</p><h2 id="df-workflow-title">Observe. Locate.<br>Record on the spot.</h2></div><p>Follow the route. Check each face. Mark findings as you go.</p></div>
+        <div class="df-steps df-interactive" role="group" aria-label="Explore the field workflow illustration">
+          <button type="button" data-df-step="0" aria-pressed="true"><span>1</span> Observe</button>
+          <button type="button" data-df-step="1" aria-pressed="false"><span>2</span> Select</button>
+          <button type="button" data-df-step="2" aria-pressed="false"><span>3</span> Mark</button>
+          <button type="button" data-df-step="3" aria-pressed="false"><span>4</span> Record</button>
+          <button type="button" data-df-step="4" aria-pressed="false"><span>5</span> Review</button>
+        </div>
+        <div class="df-stage">
+          <div class="df-model-column">
+            <div class="df-model-top"><span>Interactive illustration</span><span class="df-model-selection" data-df-selection>R02 · South face</span></div>
+            <div class="df-model" data-df-model><img src="/assets/visuals/3d-assisted-field-defect-logging/model-review.svg" width="800" height="520" alt="Simplified arched structural model with a highlighted rib, an illustrative V2 marker and ground observation route."></div>
+            <div class="df-model-tools df-interactive" role="group" aria-label="Model view controls">
+              <button type="button" data-df-view="left" aria-label="Rotate model left">↶</button><button type="button" data-df-view="right" aria-label="Rotate model right">↷</button>
+              <button type="button" data-df-view="in" aria-label="Zoom in">+</button><button type="button" data-df-view="out" aria-label="Zoom out">−</button>
+              <button type="button" data-df-view="reset">Reset view</button><button type="button" data-df-isolate aria-pressed="false">Isolate member</button>
+            </div>
+            <p class="df-model-hint df-interactive">Drag to rotate. Shift-drag to pan. Arrow keys rotate; + / − zoom.</p>
+            <p class="df-model-caption">Simplified geometry and illustrative locations.</p>
+          </div>
+          <div class="df-stage-copy">
+            <p class="df-kicker" data-df-step-label>Example record</p>
+            <h3 data-df-step-title>Review before moving on.</h3>
+            <p data-df-step-copy>See which faces are checked, unchecked or obscured before moving on.</p>
+            <div class="df-example-controls df-interactive">
+              <label>Component <select data-df-component><option value="1">R01</option><option value="2" selected>R02</option><option value="3">R03</option></select></label>
+              <label>Inspection face <select data-df-face><option>South face</option><option>North face</option></select></label>
+              <label>Section <select data-df-section><option value="upper">Upper section</option><option value="middle" selected>Middle section</option><option value="lower">Lower section</option></select></label>
+            </div>
+            <div class="df-record" data-df-record>
+              <div class="df-record-header"><span>Example record</span><span data-df-category-label>V2</span></div>
+              <dl><div><dt>Location</dt><dd data-df-location>R02 · South face · Middle section</dd></div><div><dt>Photo</dt><dd>Optional clear photo</dd></div><div><dt>Notes</dt><dd>Text or voice</dd></div><div><dt>Observation limits</dt><dd>Visibility or image limits</dd></div></dl>
+              <div class="df-categories df-interactive" role="group" aria-label="Example visual category"><button type="button" data-df-grade-choice="V1" aria-pressed="false">V1</button><button type="button" data-df-grade-choice="V2" aria-pressed="true">V2</button><button type="button" data-df-grade-choice="V3" aria-pressed="false">V3</button></div>
+              <button type="button" class="df-marker-toggle df-interactive" data-df-marker>Remove example marker</button>
+            </div>
+            <p class="df-small" data-df-criteria>V1–V3: visual categories; criteria pending.</p>
+            <div class="df-step-navigation df-interactive"><button type="button" data-df-previous>← Previous</button><button type="button" data-df-next>Next step →</button></div>
+            <p class="df-sr-only" data-df-announcement aria-live="polite" aria-atomic="true"></p>
+          </div>
+        </div>
+        <ol class="df-static-steps">
+          <li><strong>Observe each face.</strong> Follow the planned route and check each face.</li>
+          <li><strong>Select the component.</strong> Identify the member and face, isolating it if needed.</li>
+          <li><strong>Mark the location.</strong> Select a section, then place or revise the marker.</li>
+          <li><strong>Record the observation.</strong> Choose V1–V3 and add optional photos or notes.</li>
+          <li><strong>Review face status.</strong> Check completed, unchecked and obscured areas before moving on.</li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="df-shell df-records" aria-labelledby="df-records-title">
+      <div class="df-heading-row"><div><p class="df-kicker">Inspection records</p><h2 id="df-records-title">Track defects.<br>Track coverage.</h2></div><p>See what’s checked, what’s left and what needs another look.</p></div>
+      <ul class="df-status-list" aria-label="Inspection face statuses">
+        <li><span class="df-dot df-dot-open"></span>Not inspected</li><li><span class="df-dot df-dot-clear"></span>Inspected, no visible finding</li><li><span class="df-dot df-dot-v1"></span>V1</li><li><span class="df-dot df-dot-v2"></span>V2</li><li><span class="df-dot df-dot-v3"></span>V3</li><li><span class="df-dot df-dot-limited"></span>Obscured / Needs confirmation</li>
+      </ul>
+      <div class="df-output-row"><h3>Outputs</h3><p>Location records, optional photos, face statuses, 2D / 3D views and observation limits.</p></div>
+    </section>
+
+    <section class="df-validation" aria-labelledby="df-validation-title"><div class="df-shell">
+      <div class="df-heading-row"><div><p class="df-kicker">Next step</p><h2 id="df-validation-title">Check it in the field.</h2></div><p>Test one work area, from observation to review.</p></div>
+      <dl class="df-questions">
+        <div><dt>Visibility &amp; distinction</dt><dd>Can ground observations distinguish V1 from V2?</dd></div>
+        <div><dt>Finding the same location</dt><dd>Can an inspector return to the marked location?</dd></div>
+        <div><dt>Coverage &amp; limitations</dt><dd>Do the route and face statuses help prevent missed or repeated checks?</dd></div>
+        <div><dt>Field interaction</dt><dd>Can the full workflow be completed on a tablet?</dd></div>
+      </dl>
+      <p class="df-source-note">Concept demonstration · Field testing pending.</p>
+      <a class="df-return" href="/#all-projects">View all projects &amp; technical work <span aria-hidden="true">↗</span></a>
+    </div></section>
+  </main>
+</body>
+</html>
